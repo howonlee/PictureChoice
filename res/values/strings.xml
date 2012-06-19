@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Welcome to the experimental apparatus.</string>
+    <string name="app_name">PictureChoice</string>
+    <string name="block_title">Screen here</string>
+    <string name="break_title">Take a break</string>
+    <string name="block_button_label">Press</string>
+
+</resources>
