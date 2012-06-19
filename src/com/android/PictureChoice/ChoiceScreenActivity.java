@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class ChoiceScreenActivity extends Activity {
+	int numTrials = 100;
 	Button toBreak;
 	@Override
 	public void onCreate(Bundle savedInstanceState){

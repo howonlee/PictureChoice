@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/break_title" />
+        android:text="@string/break_msg" />
 	<Button 
         android:id="@+id/button_to_block"
         android:layout_width="fill_parent"

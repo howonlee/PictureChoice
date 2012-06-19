@@ -3,8 +3,10 @@
 
     <string name="hello">Welcome to the experimental apparatus.</string>
     <string name="app_name">PictureChoice</string>
-    <string name="block_title">Screen here</string>
-    <string name="break_title">Take a break</string>
+    <string name="block_title">Block # screen</string>
+    <string name="break_title">Break screen</string>
+    <string name="choice_title">Choosing screen</string>
+    <string name="break_msg">Take a break</string>
     <string name="block_button_label">Press</string>
 
 </resources>
