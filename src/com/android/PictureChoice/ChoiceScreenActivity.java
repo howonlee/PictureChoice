@@ -15,9 +15,9 @@ public class ChoiceScreenActivity extends Activity {
 	int minTime = 50;
 	int maxTime = 200;
 	int maskTime = 50; 
-	
+
 	private Handler mHandler = new Handler();
-	
+
 	ImageView pic;
 	ImageView mask;
 	Button toBreak;
@@ -25,43 +25,53 @@ public class ChoiceScreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
-        toBreak = (Button) findViewById(R.id.button_to_break);
-        toBreak.setOnClickListener(new OnClickListener(){
-        	public void onClick(View view){
-        		startActivity(new Intent("com.android.BREAKSHOW"));
-        	}
-        });
-        
-        pic = (ImageView) findViewById(R.id.picture);
-        pic.setAnimation(null);
-        mask = (ImageView) findViewById(R.id.mask);
-        mask.setAnimation(null);
-        doTrial();
+		toBreak = (Button) findViewById(R.id.button_to_break);
+		toBreak.setOnClickListener(new OnClickListener(){
+			public void onClick(View view){
+				startActivity(new Intent("com.android.BREAKSHOW"));
+			}
+		});
+
+		pic = (ImageView) findViewById(R.id.picture);
+		pic.setAnimation(null);
+		mask = (ImageView) findViewById(R.id.mask);
+		mask.setAnimation(null);
+		doTrial();
 	}
-	
+
 	private void doTrial(){
-		final Runnable postRunnable = new Runnable(){
+		final Runnable firstRunnable = new Runnable(){
 			public void run(){
 				pic.setVisibility(ImageView.INVISIBLE);
 				mask.setVisibility(ImageView.VISIBLE);
 			}
 		};
+		final Runnable secondRunnable = new Runnable(){
+			public void run(){
+				mask.setVisibility(ImageView.INVISIBLE);
+				toBreak.setVisibility(ImageView.VISIBLE);
+			}
+		};
 		Runnable threadRunnable = new Runnable(){
 			public void run(){
-				int i = 0;
-				while (i <= 1) {
-					try {
-						Thread.sleep(1200);
-						/*
-						 * This is astoundingly bad
-						 * I mean, incredibly crappy
-						 */
-					} catch (InterruptedException e){
-						e.printStackTrace();
-					}
-					i++;
+				//mask waits
+				try {
+					Thread.sleep(1200);
+					/*
+					 * This is astoundingly bad
+					 * I mean, incredibly crappy
+					 */
+				} catch (InterruptedException e){
+					e.printStackTrace();
 				}
-				mHandler.post(postRunnable);
+				mHandler.post(firstRunnable);
+				try {
+					Thread.sleep(1200);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+				mHandler.post(secondRunnable);
+
 			}
 		};
 		new Thread(threadRunnable).start();

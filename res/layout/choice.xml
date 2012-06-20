@@ -7,7 +7,8 @@
         android:id="@+id/button_to_break"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/block_button_label" />
+        android:text="@string/block_button_label"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/picture"
