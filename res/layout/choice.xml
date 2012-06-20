@@ -14,6 +14,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher"
-        android:contentDescription="@string/pic_label" />
+        android:contentDescription="@string/pic_label"
+        android:visibility="visible" />
+    <ImageView 
+        android:id="@+id/mask"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="@string/mask_label"
+        android:visibility="invisible" />
 
 </FrameLayout>

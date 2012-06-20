@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -20,6 +19,7 @@ public class ChoiceScreenActivity extends Activity {
 	private Handler mHandler = new Handler();
 	
 	ImageView pic;
+	ImageView mask;
 	Button toBreak;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -33,33 +33,37 @@ public class ChoiceScreenActivity extends Activity {
         });
         
         pic = (ImageView) findViewById(R.id.picture);
+        pic.setAnimation(null);
+        mask = (ImageView) findViewById(R.id.mask);
+        mask.setAnimation(null);
         doTrial();
 	}
 	
 	private void doTrial(){
-		new Thread(
-				new Runnable(){
-					public void run(){
-						int i = 0;
-						while (i <= 1) {
-							try {
-								Thread.sleep(1200);
-								/*
-								 * This is astoundingly bad
-								 * I mean, incredibly crappy
-								 */
-							} catch (InterruptedException e){
-								e.printStackTrace();
-							}
-							i++;
-						}
-						mHandler.post(new Runnable(){
-							public void run(){
-								pic.setVisibility(ImageView.INVISIBLE);
-							}
-						});
+		final Runnable postRunnable = new Runnable(){
+			public void run(){
+				pic.setVisibility(ImageView.INVISIBLE);
+				mask.setVisibility(ImageView.VISIBLE);
+			}
+		};
+		Runnable threadRunnable = new Runnable(){
+			public void run(){
+				int i = 0;
+				while (i <= 1) {
+					try {
+						Thread.sleep(1200);
+						/*
+						 * This is astoundingly bad
+						 * I mean, incredibly crappy
+						 */
+					} catch (InterruptedException e){
+						e.printStackTrace();
 					}
+					i++;
 				}
-				).start();
+				mHandler.post(postRunnable);
+			}
+		};
+		new Thread(threadRunnable).start();
 	}
 }
