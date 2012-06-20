@@ -25,7 +25,6 @@ public class ChoiceScreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         toBreak = (Button) findViewById(R.id.button_to_break);
         toBreak.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
@@ -44,7 +43,11 @@ public class ChoiceScreenActivity extends Activity {
 						int i = 0;
 						while (i <= 1) {
 							try {
-								Thread.sleep(50);
+								Thread.sleep(1200);
+								/*
+								 * This is astoundingly bad
+								 * I mean, incredibly crappy
+								 */
 							} catch (InterruptedException e){
 								e.printStackTrace();
 							}

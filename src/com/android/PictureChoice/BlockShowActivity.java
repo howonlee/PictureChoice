@@ -14,7 +14,6 @@ public class BlockShowActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.block);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		toChoice = (Button) findViewById(R.id.button_to_choice);
 		toChoice.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
