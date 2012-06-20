@@ -8,5 +8,6 @@
     <string name="choice_title">Choosing screen</string>
     <string name="break_msg">Take a break</string>
     <string name="block_button_label">Press</string>
+    <string name="pic_label">Experimental Picture</string>
 
 </resources>

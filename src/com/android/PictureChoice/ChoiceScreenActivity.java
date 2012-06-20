@@ -3,22 +3,60 @@ package com.android.PictureChoice;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class ChoiceScreenActivity extends Activity {
 	int numTrials = 100;
+	//all time units in milliseconds
+	int minTime = 50;
+	int maxTime = 200;
+	int maskTime = 50; 
+	
+	private Handler mHandler = new Handler();
+	
+	ImageView pic;
 	Button toBreak;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         toBreak = (Button) findViewById(R.id.button_to_break);
         toBreak.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		startActivity(new Intent("com.android.BREAKSHOW"));
         	}
         });
+        
+        pic = (ImageView) findViewById(R.id.picture);
+        doTrial();
+	}
+	
+	private void doTrial(){
+		new Thread(
+				new Runnable(){
+					public void run(){
+						int i = 0;
+						while (i <= 1) {
+							try {
+								Thread.sleep(50);
+							} catch (InterruptedException e){
+								e.printStackTrace();
+							}
+							i++;
+						}
+						mHandler.post(new Runnable(){
+							public void run(){
+								pic.setVisibility(ImageView.INVISIBLE);
+							}
+						});
+					}
+				}
+				).start();
 	}
 }

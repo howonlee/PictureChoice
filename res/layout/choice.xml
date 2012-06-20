@@ -9,4 +9,11 @@
         android:layout_height="wrap_content"
         android:text="@string/block_button_label" />
 
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="@string/pic_label" />
+
 </FrameLayout>
