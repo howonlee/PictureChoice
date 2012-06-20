@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-	<Button 
+    <Button
         android:id="@+id/button_to_break"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/block_button_label" />
-</LinearLayout>
+
+</FrameLayout>
