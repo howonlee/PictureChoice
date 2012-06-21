@@ -27,10 +27,10 @@ public class BreakScreenActivity extends Activity {
         });
         currentBlock = GlobalVar.getInstance().getBlockNum();
         if (currentBlock == totalBlocks){
-        	breakMsg.setText("@string/ok_done");
+        	breakMsg.setText("OK, you're done");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
-        			finish();
+        			//I want to kill stuff here now
         		}
         	});
         }
