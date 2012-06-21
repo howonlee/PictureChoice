@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -114,5 +115,21 @@ public class ChoiceScreenActivity extends Activity {
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
 		startActivity(new Intent("com.android.BREAKSHOW"));
+	}
+	
+
+	@Override
+	public void onBackPressed(){
+		//do nothing
+	}
+	
+	@Override
+	public boolean onSearchRequested(){
+		return false;
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		return true; //so no keys will work
 	}
 }

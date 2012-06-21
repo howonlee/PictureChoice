@@ -3,6 +3,7 @@ package com.android.PictureChoice;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,5 +28,20 @@ public class BlockShowActivity extends Activity {
 		String tempStr = "" + (temp + 1); //hacky
 		blockNum.setText(tempStr);
 		GlobalVar.getInstance().setBlockNum((temp + 1));
+	}
+	
+	@Override
+	public void onBackPressed(){
+		//do nothing
+	}
+	
+	@Override
+	public boolean onSearchRequested(){
+		return false;
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		return true; //so no keys will work
 	}
 }
