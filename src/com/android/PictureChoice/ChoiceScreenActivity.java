@@ -10,70 +10,115 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class ChoiceScreenActivity extends Activity {
-	int numTrials = 100;
+	final int numTrials = 5;
+	int trialCount = 0;
 	//all time units in milliseconds
-	int minTime = 50;
-	int maxTime = 200;
-	int maskTime = 50; 
+	final int minTime = 50;
+	final int maxTime = 200;
+	final int maskTime = 50;
+	
+	//used for cycling visibility
+	private int visState = 0;
 
 	private Handler mHandler = new Handler();
 
-	ImageView pic;
-	ImageView mask;
-	Button toBreak;
+	ImageView pic, mask;
+	Button choice1, choice2, toBreak;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
+		//find all the views
 		toBreak = (Button) findViewById(R.id.button_to_break);
+		pic = (ImageView) findViewById(R.id.picture);
+		mask = (ImageView) findViewById(R.id.mask);
+		choice1 = (Button) findViewById(R.id.choice1);
+		choice2 = (Button) findViewById(R.id.choice2);
+
+		pic.setAnimation(null);
+		mask.setAnimation(null);
 		toBreak.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				startActivity(new Intent("com.android.BREAKSHOW"));
 			}
 		});
-
-		pic = (ImageView) findViewById(R.id.picture);
-		pic.setAnimation(null);
-		mask = (ImageView) findViewById(R.id.mask);
-		mask.setAnimation(null);
+		choice1.setOnClickListener(new OnClickListener(){
+			public void onClick(View view){
+				trialCount++;
+				if (trialCount == numTrials){
+					showToBreak();
+				} else {
+					doTrial();
+				}
+			}
+		});
+		choice2.setOnClickListener(new OnClickListener(){
+			public void onClick(View view){
+				trialCount++;
+				if (trialCount == numTrials){
+					showToBreak();
+				} else {
+					doTrial();
+				}
+			}
+		});
 		doTrial();
 	}
 
 	private void doTrial(){
-		final Runnable firstRunnable = new Runnable(){
+		final Runnable cycleVis = new Runnable(){
 			public void run(){
-				pic.setVisibility(ImageView.INVISIBLE);
-				mask.setVisibility(ImageView.VISIBLE);
-			}
-		};
-		final Runnable secondRunnable = new Runnable(){
-			public void run(){
-				mask.setVisibility(ImageView.INVISIBLE);
-				toBreak.setVisibility(ImageView.VISIBLE);
+				cycleVisibility();
 			}
 		};
 		Runnable threadRunnable = new Runnable(){
 			public void run(){
 				//mask waits
+				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(1200);
-					/*
-					 * This is astoundingly bad
-					 * I mean, incredibly crappy
-					 */
+					Thread.sleep(1200);//astoundingly bad
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
-				mHandler.post(firstRunnable);
+				mHandler.post(cycleVis);
 				try {
 					Thread.sleep(1200);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
-				mHandler.post(secondRunnable);
+				mHandler.post(cycleVis);
 
 			}
 		};
 		new Thread(threadRunnable).start();
+	}
+
+	private void cycleVisibility(){
+		switch(visState){
+		case 0: 
+			pic.setVisibility(ImageView.VISIBLE);
+			choice1.setVisibility(ImageView.INVISIBLE);
+			choice2.setVisibility(ImageView.INVISIBLE);
+			break;
+		case 1:
+			pic.setVisibility(ImageView.INVISIBLE);
+			mask.setVisibility(ImageView.VISIBLE);
+			break;
+		case 2: 
+			mask.setVisibility(ImageView.INVISIBLE);
+			choice1.setVisibility(ImageView.VISIBLE);
+			choice2.setVisibility(ImageView.VISIBLE);
+			break;
+		}
+		visState++;
+		if (visState >= 3) {
+			visState = 0;
+		}
+	}
+	
+	private void showToBreak(){
+		choice1.setVisibility(View.INVISIBLE);
+		choice2.setVisibility(View.INVISIBLE);
+		toBreak.setVisibility(View.VISIBLE);
 	}
 }

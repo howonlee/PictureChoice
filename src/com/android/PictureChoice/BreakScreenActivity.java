@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class BreakScreenActivity extends Activity {
+	
 	Button toBlock;
 	@Override
 	public void onCreate(Bundle savedInstanceState){

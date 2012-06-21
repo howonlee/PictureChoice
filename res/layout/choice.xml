@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+
     <Button
         android:id="@+id/button_to_break"
         android:layout_width="fill_parent"
@@ -10,19 +11,42 @@
         android:text="@string/block_button_label"
         android:visibility="invisible" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0" >
+
+        <Button
+            android:id="@+id/choice1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/choice1_label"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/choice2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/choice2_label"
+            android:visibility="invisible" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
         android:contentDescription="@string/pic_label"
-        android:visibility="visible" />
-    <ImageView 
+        android:src="@drawable/ic_launcher"
+        android:visibility="invisible" />
+
+    <ImageView
         android:id="@+id/mask"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/ic_launcher"
         android:contentDescription="@string/mask_label"
+        android:src="@drawable/ic_launcher"
         android:visibility="invisible" />
 
 </FrameLayout>
