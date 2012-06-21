@@ -30,7 +30,8 @@ public class BreakScreenActivity extends Activity {
         	breakMsg.setText("OK, you're done");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
-        			//I want to kill stuff here now
+        			moveTaskToBack(true);
+        			//you can't terminate an app in android; this is sad
         		}
         	});
         }
