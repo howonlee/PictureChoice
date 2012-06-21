@@ -23,13 +23,12 @@ public class ChoiceScreenActivity extends Activity {
 	private Handler mHandler = new Handler();
 
 	ImageView pic, mask;
-	Button choice1, choice2, toBreak;
+	Button choice1, choice2;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
 		//find all the views
-		toBreak = (Button) findViewById(R.id.button_to_break);
 		pic = (ImageView) findViewById(R.id.picture);
 		mask = (ImageView) findViewById(R.id.mask);
 		choice1 = (Button) findViewById(R.id.choice1);
@@ -37,16 +36,11 @@ public class ChoiceScreenActivity extends Activity {
 
 		pic.setAnimation(null);
 		mask.setAnimation(null);
-		toBreak.setOnClickListener(new OnClickListener(){
-			public void onClick(View view){
-				startActivity(new Intent("com.android.BREAKSHOW"));
-			}
-		});
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				trialCount++;
 				if (trialCount == numTrials){
-					showToBreak();
+					goToBreak();
 				} else {
 					doTrial();
 				}
@@ -56,7 +50,7 @@ public class ChoiceScreenActivity extends Activity {
 			public void onClick(View view){
 				trialCount++;
 				if (trialCount == numTrials){
-					showToBreak();
+					goToBreak();
 				} else {
 					doTrial();
 				}
@@ -116,9 +110,9 @@ public class ChoiceScreenActivity extends Activity {
 		}
 	}
 	
-	private void showToBreak(){
+	private void goToBreak(){
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
-		toBreak.setVisibility(View.VISIBLE);
+		startActivity(new Intent("com.android.BREAKSHOW"));
 	}
 }

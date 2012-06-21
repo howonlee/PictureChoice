@@ -4,13 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button_to_break"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/block_button_label"
-        android:visibility="invisible" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
