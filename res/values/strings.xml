@@ -13,5 +13,6 @@
     <string name="pic_label">Experimental Picture</string>
     <string name="mask_label">Mask</string>
     <string name="temp_label">0</string>
+    <string name="ok_done">OK, you\'re done</string>
 
 </resources>
