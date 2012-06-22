@@ -14,7 +14,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,7 +24,7 @@
             android:name=".BlockShowActivity"
             android:label="@string/block_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="com.android.BLOCKSHOW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -34,7 +34,7 @@
             android:name=".BreakScreenActivity"
             android:label="@string/break_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="com.android.BREAKSHOW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -44,7 +44,7 @@
             android:name=".ChoiceScreenActivity"
             android:label="@string/choice_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="com.android.CHOICESHOW" />
                 <category android:name="android.intent.category.DEFAULT" />
