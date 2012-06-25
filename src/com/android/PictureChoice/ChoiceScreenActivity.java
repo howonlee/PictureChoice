@@ -16,13 +16,11 @@ import android.widget.ImageView;
 public class ChoiceScreenActivity extends Activity {
 	final int numTrials = 5; //number of trials per block
 	int trialCount = 0;
-	//0 for yes, 1 for no. replace with enum?
-	int category = 0;
+	int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
-	final int minTime = 50; //minimum picture-showing time
-	final int maxTime = 500; //maximum picture-showing time
-	final int maskTime = 500; //mask-showing time
-	final int initWait = 500;
+	final int MIN_TIME = 50; //minimum picture-showing time
+	final int MAX_TIME = 500; //maximum picture-showing time
+	final int MASK_TIME = 500; //mask-showing time
 	Random generator = new Random();
 	
 	//state of the visibility state machine
@@ -81,14 +79,14 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					int picLength = minTime + generator.nextInt((maxTime - minTime));
+					int picLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
 					Thread.sleep(picLength);//astoundingly bad
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(maskTime);
+					Thread.sleep(MASK_TIME);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
@@ -164,10 +162,8 @@ public class ChoiceScreenActivity extends Activity {
 				resId = cat2.remove(generator.nextInt(cat2.size()));
 			} else { initCategories(); }
 		}
-		//the latency should not matter because pic is
-		//invisible at this time
 		if (resId != 0){
-			pic.setImageResource(resId);
+			pic.setImageResource(resId);//lag problem
 		}
 	}
 	
