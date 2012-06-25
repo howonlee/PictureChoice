@@ -1,5 +1,6 @@
 package com.android.PictureChoice;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
@@ -15,15 +16,19 @@ import android.widget.ImageView;
 public class ChoiceScreenActivity extends Activity {
 	final int numTrials = 5; //number of trials per block
 	int trialCount = 0;
+	//0 for yes, 1 for no. replace with enum?
+	int category = 0;
 	//all time units in milliseconds
 	final int minTime = 50; //minimum picture-showing time
 	final int maxTime = 500; //maximum picture-showing time
-	final int maskTime = 50; //mask-showing time
-	
+	final int maskTime = 500; //mask-showing time
+	final int initWait = 500;
 	Random generator = new Random();
-	//used for cycling visibility
+	
+	//state of the visibility state machine
 	private int visState = 0;
-
+	ArrayList<Integer> cat1 = new ArrayList<Integer>();
+	ArrayList<Integer> cat2 = new ArrayList<Integer>();	
 	private Handler mHandler = new Handler();
 
 	ImageView pic, mask;
@@ -38,6 +43,7 @@ public class ChoiceScreenActivity extends Activity {
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
 
+		initCategories();
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		choice1.setOnClickListener(new OnClickListener(){
@@ -60,6 +66,7 @@ public class ChoiceScreenActivity extends Activity {
 				}
 			}
 		});
+		updatePic();
 		doTrial();
 	}
 
@@ -106,6 +113,7 @@ public class ChoiceScreenActivity extends Activity {
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
+			updatePic();
 			mask.setVisibility(ImageView.VISIBLE);
 			break;
 		case 2: 
@@ -126,7 +134,42 @@ public class ChoiceScreenActivity extends Activity {
 		startActivity(new Intent("com.android.BREAKSHOW"));
 	}
 	
-
+	private void initCategories(){
+		//use ArrayList for categories since you can remove stuff
+		cat1.clear();
+		cat1.add(R.drawable.animal1);
+		cat1.add(R.drawable.animal2);
+		cat1.add(R.drawable.animal3);
+		cat1.add(R.drawable.animal4);
+		cat1.add(R.drawable.animal5);
+		
+		cat2.clear();
+		cat2.add(R.drawable.noanimal1);
+		cat2.add(R.drawable.noanimal2);
+		cat2.add(R.drawable.noanimal3);
+		cat2.add(R.drawable.noanimal4);
+		cat2.add(R.drawable.noanimal5);
+	}
+	
+	private void updatePic(){
+		category = generator.nextInt(2);//range 0 to 1
+		Integer resId = 0;
+		if (category == 0){
+			if (!cat1.isEmpty()){
+				resId = cat1.remove(generator.nextInt(cat1.size()));
+			} else { initCategories(); }
+		} else if (category == 1){
+			if (!cat2.isEmpty()){
+				resId = cat2.remove(generator.nextInt(cat2.size()));
+			} else { initCategories(); }
+		}
+		//the latency should not matter because pic is
+		//invisible at this time
+		if (resId != 0){
+			pic.setImageResource(resId);
+		}
+	}
+	
 	@Override
 	public void onBackPressed(){
 		//do nothing
