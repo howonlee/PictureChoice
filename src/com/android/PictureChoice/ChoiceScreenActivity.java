@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class ChoiceScreenActivity extends Activity {
-	final int numTrials = 5;
+	final int numTrials = 5; //number of trials per block
 	int trialCount = 0;
 	//all time units in milliseconds
-	final int minTime = 50;
-	final int maxTime = 200;
-	final int maskTime = 50;
+	final int minTime = 50; //minimum picture-showing time
+	final int maxTime = 200; //maximum picture-showing time
+	final int maskTime = 50; //mask-showing time
 	
 	//used for cycling visibility
 	private int visState = 0;

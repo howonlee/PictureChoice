@@ -25,7 +25,7 @@ public class BlockShowActivity extends Activity {
 
 		blockNum = (TextView) findViewById(R.id.blockNumView);
 		int temp = GlobalVar.getInstance().getBlockNum();
-		String tempStr = "" + (temp + 1); //hacky
+		String tempStr = "" + (temp + 1);
 		blockNum.setText(tempStr);
 		GlobalVar.getInstance().setBlockNum((temp + 1));
 	}
