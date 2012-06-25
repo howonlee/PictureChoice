@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Welcome to the experimental apparatus.</string>
+    <string name="hello">Welcome to the experimental apparatus.\n
+        Do not press the HOME button for the duration of the experiment.\n
+        Press "YES" if there is an animal in the picture.\n
+        (People count as animals.)\n
+        Press "NO" if there is no animal in the picture.</string>
     <string name="app_name">PictureChoice</string>
     <string name="block_title">Block #:</string>
     <string name="break_title">Break screen</string>
