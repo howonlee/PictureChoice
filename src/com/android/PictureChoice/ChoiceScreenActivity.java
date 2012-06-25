@@ -1,5 +1,7 @@
 package com.android.PictureChoice;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +17,10 @@ public class ChoiceScreenActivity extends Activity {
 	int trialCount = 0;
 	//all time units in milliseconds
 	final int minTime = 50; //minimum picture-showing time
-	final int maxTime = 200; //maximum picture-showing time
+	final int maxTime = 500; //maximum picture-showing time
 	final int maskTime = 50; //mask-showing time
 	
+	Random generator = new Random();
 	//used for cycling visibility
 	private int visState = 0;
 
@@ -71,13 +74,14 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(1200);//astoundingly bad
+					int picLength = minTime + generator.nextInt((maxTime - minTime));
+					Thread.sleep(picLength);//astoundingly bad
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(1200);
+					Thread.sleep(maskTime);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
@@ -88,6 +92,11 @@ public class ChoiceScreenActivity extends Activity {
 		new Thread(threadRunnable).start();
 	}
 
+	/*
+	 * cycleVisibility()
+	 * This is basically a state machine to cycle through
+	 * the possible visibilities
+	 */
 	private void cycleVisibility(){
 		switch(visState){
 		case 0: 
