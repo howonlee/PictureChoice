@@ -20,6 +20,7 @@ public class BlockShowActivity extends Activity {
 		toChoice.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				startActivity(new Intent("com.android.CHOICESHOW"));
+				overridePendingTransition(0,0); //remove animation
 			}
 		});
 

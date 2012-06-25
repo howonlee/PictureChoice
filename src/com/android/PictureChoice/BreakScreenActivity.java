@@ -24,6 +24,7 @@ public class BreakScreenActivity extends Activity {
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		startActivity(new Intent("com.android.BLOCKSHOW"));
+        		overridePendingTransition(0,0); //remove animation
         	}
         });
         currentBlock = GlobalVar.getInstance().getBlockNum();

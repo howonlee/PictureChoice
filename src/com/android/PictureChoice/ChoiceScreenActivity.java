@@ -132,6 +132,7 @@ public class ChoiceScreenActivity extends Activity {
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
 		startActivity(new Intent("com.android.BREAKSHOW"));
+		overridePendingTransition(0,0); //remove animation
 	}
 	
 	private void initCategories(){
