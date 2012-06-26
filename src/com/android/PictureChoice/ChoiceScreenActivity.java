@@ -1,5 +1,7 @@
 package com.android.PictureChoice;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,20 +16,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class ChoiceScreenActivity extends Activity {
-	final int numTrials = 5; //number of trials per block
-	int trialCount = 0;
-	int category = 0; //0 for category 1, 1 for cat 2
+	private final int numTrials = 5; //number of trials per block
+	private int trialCount = 0;
+	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
-	final int MIN_TIME = 50; //minimum picture-showing time
-	final int MAX_TIME = 500; //maximum picture-showing time
-	final int MASK_TIME = 500; //mask-showing time
-	Random generator = new Random();
+	private final int MIN_TIME = 50; //minimum picture-showing time
+	private final int MAX_TIME = 500; //maximum picture-showing time
+	private final int MASK_TIME = 500; //mask-showing time
+	private String urlString = new String("http://localhost:8888/show");
+	private Random generator = new Random();
 	
 	//state of the visibility state machine
 	private int visState = 0;
-	ArrayList<Integer> cat1 = new ArrayList<Integer>();
-	ArrayList<Integer> cat2 = new ArrayList<Integer>();	
+	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
+	private ArrayList<Integer> cat2 = new ArrayList<Integer>();	
 	private Handler mHandler = new Handler();
+	private PostDataTask uploadTask = new PostDataTask();
+	private URL url;
 
 	ImageView pic, mask;
 	Button choice1, choice2;
@@ -40,6 +45,11 @@ public class ChoiceScreenActivity extends Activity {
 		mask = (ImageView) findViewById(R.id.mask);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
+		try{
+			url = new URL(urlString);
+		} catch (MalformedURLException ex){
+			throw new RuntimeException(ex);
+		}
 
 		initCategories();
 		pic.setAnimation(null);
@@ -112,6 +122,8 @@ public class ChoiceScreenActivity extends Activity {
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
 			updatePic();
+			uploadTask = new PostDataTask();
+			uploadTask.execute(url);
 			mask.setVisibility(ImageView.VISIBLE);
 			break;
 		case 2: 

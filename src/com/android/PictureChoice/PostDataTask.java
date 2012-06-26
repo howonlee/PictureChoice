@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -26,7 +25,7 @@ public class PostDataTask extends AsyncTask<URL, Integer, Long> {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
 			nameValPairs.add(new BasicNameValuePair("time", Long.toString(System.currentTimeMillis())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
-			HttpResponse response = httpclient.execute(httppost);
+			httpclient.execute(httppost);
 		} catch (ClientProtocolException e){
 		} catch (IOException e){
 		}
