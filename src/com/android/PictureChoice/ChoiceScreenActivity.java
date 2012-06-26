@@ -23,7 +23,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MIN_TIME = 50; //minimum picture-showing time
 	private final int MAX_TIME = 500; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
-	private String urlString = new String("http://localhost:8888/show");
+	private String urlString = new String("http://www.google.com/");
 	private Random generator = new Random();
 	
 	//state of the visibility state machine
