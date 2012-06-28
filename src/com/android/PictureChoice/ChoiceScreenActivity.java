@@ -20,10 +20,10 @@ public class ChoiceScreenActivity extends Activity {
 	private int trialCount = 0;
 	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
-	private final int MIN_TIME = 50; //minimum picture-showing time
+	private final int MIN_TIME = 499; //minimum picture-showing time
 	private final int MAX_TIME = 500; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
-	private String urlString = new String("http://www.google.com/");
+	private String urlString = "http://www.google.com/";
 	private Random generator = new Random();
 	
 	//state of the visibility state machine
@@ -121,13 +121,14 @@ public class ChoiceScreenActivity extends Activity {
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
-			updatePic();
-			uploadTask = new PostDataTask();
-			uploadTask.execute(url);
 			mask.setVisibility(ImageView.VISIBLE);
 			break;
 		case 2: 
 			mask.setVisibility(ImageView.INVISIBLE);
+			updatePic();
+			uploadTask = new PostDataTask();//one of two main inefficiencies
+			uploadTask.execute(url);
+			System.gc();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
