@@ -3,10 +3,13 @@ package com.android.PictureChoice;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -161,23 +164,38 @@ public class ChoiceScreenActivity extends Activity {
 		cat2.add(R.drawable.noanimal3);
 		cat2.add(R.drawable.noanimal4);
 		cat2.add(R.drawable.noanimal5);
+		
+		Collections.shuffle(cat1);
+		Collections.shuffle(cat2);
 	}
 
 	private void updatePic(){
 		category = generator.nextInt(2);//range 0 to 1
 		Integer resId = 0;
+		//category arraylists are shuffled, so just take the next
 		if (category == 0){
 			if (!cat1.isEmpty()){
-				resId = cat1.remove(generator.nextInt(cat1.size()));
+				resId = cat1.remove(0);
 			} else { initCategories(); }
 		} else if (category == 1){
 			if (!cat2.isEmpty()){
-				resId = cat2.remove(generator.nextInt(cat2.size()));
+				resId = cat2.remove(0);
 			} else { initCategories(); }
 		}
+		//now that we've chosen resId...
 		if (resId != 0){
-			BitmapWorkerTask task = new BitmapWorkerTask(pic, this);
-			task.execute(resId);
+			final String imageKey = String.valueOf(resId);
+			final Bitmap bitmap = GlobalVar.getInstance().getBitmapFromMemCache(imageKey);
+			if (bitmap != null){
+				pic.setImageBitmap(bitmap);
+			} else {
+				BitmapWorkerTask task = new BitmapWorkerTask(pic, this);
+				task.execute(resId);
+			}
+			String cat1Id = String.valueOf(cat1.get(0));
+			String cat2Id = String.valueOf(cat2.get(0));
+			GlobalVar.getInstance().addBitmapToMemoryCache(cat1Id, BitmapFactory.decodeResource(getResources(), cat1.get(0)));
+			GlobalVar.getInstance().addBitmapToMemoryCache(cat2Id, BitmapFactory.decodeResource(getResources(), cat2.get(0)));
 		}
 	}
 

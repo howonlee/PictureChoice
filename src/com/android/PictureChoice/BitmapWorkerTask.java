@@ -27,6 +27,9 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Integer, Bitmap> {
 	protected void onPostExecute(Bitmap bitmap){
 		if (imageViewReference != null && bitmap != null){
 			final ImageView imageView = imageViewReference.get();
+			//no need to add the bitmap to cache because of
+			//the way we're using this thing
+			//that is, we won't get any cache hits for anything we add here
 			if (imageView != null){
 				imageView.setImageBitmap(bitmap);
 			}
