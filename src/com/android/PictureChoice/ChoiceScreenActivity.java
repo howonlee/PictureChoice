@@ -181,7 +181,7 @@ public class ChoiceScreenActivity extends Activity {
 		} else if (category == 1){
 			resId = chooseResId(1, cat2);
 		}
-		Log.w("length of arraylists 1 and 2", cat1.size() + " " + cat2.size());
+		Log.d("length of arraylists 1 and 2", cat1.size() + " " + cat2.size());
 		//now that we've chosen resId...
 		if (resId != 0){
 			final String imageKey = String.valueOf(resId);
@@ -189,8 +189,8 @@ public class ChoiceScreenActivity extends Activity {
 			if (bitmap != null){
 				pic.setImageBitmap(bitmap);
 			} else {
-				BitmapWorkerTask task = new BitmapWorkerTask(pic, this);
-				task.execute(resId);
+				pic.setImageResource(resId);
+				Log.d("We set this wrong!", "");
 			}
 			storeInCache(cat1.get(0));
 			storeInCache(cat2.get(0));
