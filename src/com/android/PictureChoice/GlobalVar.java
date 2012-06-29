@@ -1,16 +1,25 @@
 package com.android.PictureChoice;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.LruCache;
 
 /**
  * Singleton global variable holder
- * This holds a global variable.
- * I commit this sin to make counting the experiment blocks
- * more bearable
+ * This holds global variables.
+ * that is, it holds:
+ * 1. block number
+ * 2. a cache for images
+ * I commit this sin to make counting this crud more bearable
  * @author Howon
  *
  */
 class GlobalVar extends Application {
+	private int blockNum = 0;
+	private LruCache<String, Bitmap> imageCache;
+	
 	public int getBlockNum(){
 		return blockNum;
 	}
@@ -19,7 +28,27 @@ class GlobalVar extends Application {
 		this.blockNum = blockNum;
 	}
 	
-	private int blockNum = 0;
+	public void initCache(){
+		final int memClass = ((ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		final int cacheSize = 1024 * 1024 * memClass / 8;
+		imageCache = new LruCache<String, Bitmap>(cacheSize){
+			@Override
+			protected int sizeOf(String key, Bitmap bitmap){
+				return bitmap.getByteCount();
+			}
+		};
+	}
+	
+	public void addBitmapToMemoryCache(String key, Bitmap bitmap){
+		if (getBitmapFromMemCache(key) == null){
+			imageCache.put(key, bitmap);
+		}
+	}
+	
+	public Bitmap getBitmapFromMemCache(String key){
+		return imageCache.get(key);
+	}
+	
 	private static GlobalVar instance;
 	static {
 		instance = new GlobalVar();

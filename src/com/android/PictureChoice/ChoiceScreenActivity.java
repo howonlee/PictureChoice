@@ -25,7 +25,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MASK_TIME = 500; //mask-showing time
 	private String urlString = "http://www.google.com/";
 	private Random generator = new Random();
-	
+
 	//state of the visibility state machine
 	private int visState = 0;
 	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
@@ -138,14 +138,14 @@ public class ChoiceScreenActivity extends Activity {
 			visState = 0;
 		}
 	}
-	
+
 	private void goToBreak(){
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
 		startActivity(new Intent("com.android.BREAKSHOW"));
 		overridePendingTransition(0,0); //remove animation
 	}
-	
+
 	private void initCategories(){
 		//use ArrayList for categories since you can remove stuff
 		cat1.clear();
@@ -154,7 +154,7 @@ public class ChoiceScreenActivity extends Activity {
 		cat1.add(R.drawable.animal3);
 		cat1.add(R.drawable.animal4);
 		cat1.add(R.drawable.animal5);
-		
+
 		cat2.clear();
 		cat2.add(R.drawable.noanimal1);
 		cat2.add(R.drawable.noanimal2);
@@ -162,7 +162,7 @@ public class ChoiceScreenActivity extends Activity {
 		cat2.add(R.drawable.noanimal4);
 		cat2.add(R.drawable.noanimal5);
 	}
-	
+
 	private void updatePic(){
 		category = generator.nextInt(2);//range 0 to 1
 		Integer resId = 0;
@@ -176,20 +176,21 @@ public class ChoiceScreenActivity extends Activity {
 			} else { initCategories(); }
 		}
 		if (resId != 0){
-			pic.setImageResource(resId);//lag problem
+			BitmapWorkerTask task = new BitmapWorkerTask(pic, this);
+			task.execute(resId);
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed(){
 		//do nothing
 	}
-	
+
 	@Override
 	public boolean onSearchRequested(){
 		return false;
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
