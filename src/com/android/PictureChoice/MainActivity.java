@@ -22,6 +22,7 @@ public class MainActivity extends Activity {
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
         });
+        GlobalVar.getInstance().initCache();
     }
     
 	@Override

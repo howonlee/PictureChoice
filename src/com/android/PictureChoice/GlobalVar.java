@@ -29,7 +29,7 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCache(){
-		final int memClass = ((ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		final int memClass = 16; //call it this for now
 		final int cacheSize = 1024 * 1024 * memClass / 8;
 		imageCache = new LruCache<String, Bitmap>(cacheSize){
 			@Override

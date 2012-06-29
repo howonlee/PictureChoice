@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,6 +58,8 @@ public class ChoiceScreenActivity extends Activity {
 		initCategories();
 		pic.setAnimation(null);
 		mask.setAnimation(null);
+		choice1.setAnimation(null);
+		choice2.setAnimation(null);
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				trialCount++;
@@ -174,14 +177,11 @@ public class ChoiceScreenActivity extends Activity {
 		Integer resId = 0;
 		//category arraylists are shuffled, so just take the next
 		if (category == 0){
-			if (!cat1.isEmpty()){
-				resId = cat1.remove(0);
-			} else { initCategories(); }
+			resId = chooseResId(0, cat1);
 		} else if (category == 1){
-			if (!cat2.isEmpty()){
-				resId = cat2.remove(0);
-			} else { initCategories(); }
+			resId = chooseResId(1, cat2);
 		}
+		Log.w("length of arraylists 1 and 2", cat1.size() + " " + cat2.size());
 		//now that we've chosen resId...
 		if (resId != 0){
 			final String imageKey = String.valueOf(resId);
@@ -192,11 +192,25 @@ public class ChoiceScreenActivity extends Activity {
 				BitmapWorkerTask task = new BitmapWorkerTask(pic, this);
 				task.execute(resId);
 			}
-			String cat1Id = String.valueOf(cat1.get(0));
-			String cat2Id = String.valueOf(cat2.get(0));
-			GlobalVar.getInstance().addBitmapToMemoryCache(cat1Id, BitmapFactory.decodeResource(getResources(), cat1.get(0)));
-			GlobalVar.getInstance().addBitmapToMemoryCache(cat2Id, BitmapFactory.decodeResource(getResources(), cat2.get(0)));
+			storeInCache(cat1.get(0));
+			storeInCache(cat2.get(0));
 		}
+	}
+	
+	private void storeInCache(int resId){
+		String id = String.valueOf(resId);
+		GlobalVar.getInstance().addBitmapToMemoryCache(id, BitmapFactory.decodeResource(getResources(), resId));
+	}
+	
+	private Integer chooseResId(int category, ArrayList<Integer> catList){
+		Integer resId = 0;
+		if (!catList.isEmpty()){
+			resId = catList.remove(0);
+		} else {
+			initCategories();
+			return chooseResId(category, catList);
+		}
+		return resId;
 	}
 
 	@Override
