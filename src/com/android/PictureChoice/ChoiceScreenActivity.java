@@ -192,8 +192,16 @@ public class ChoiceScreenActivity extends Activity {
 				pic.setImageResource(resId);
 				Log.d("We set this wrong!", "");
 			}
-			storeInCache(cat1.get(0));
-			storeInCache(cat2.get(0));
+			if (!cat1.isEmpty()){
+				storeInCache(cat1.get(0));
+			} else {
+				initCategories();
+			}
+			if (!cat2.isEmpty()){
+				storeInCache(cat2.get(0));
+			} else {
+				initCategories();
+			}
 		}
 	}
 	
