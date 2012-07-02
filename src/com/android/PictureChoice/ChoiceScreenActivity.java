@@ -83,7 +83,7 @@ public class ChoiceScreenActivity extends Activity {
 		updatePic();
 		doTrial();
 	}
-
+	
 	private void doTrial(){
 		final Runnable cycleVis = new Runnable(){
 			public void run(){
@@ -121,6 +121,7 @@ public class ChoiceScreenActivity extends Activity {
 	private void cycleVisibility(){
 		switch(visState){
 		case 0: 
+			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
