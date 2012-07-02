@@ -1,9 +1,9 @@
 package com.android.PictureChoice;
 
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.PowerManager;
 import android.util.LruCache;
 
 /**
@@ -19,6 +19,8 @@ import android.util.LruCache;
 class GlobalVar extends Application {
 	private int blockNum = 0;
 	private LruCache<String, Bitmap> imageCache;
+	private PowerManager pm;
+	private PowerManager.WakeLock wl;
 	
 	public int getBlockNum(){
 		return blockNum;
@@ -47,6 +49,20 @@ class GlobalVar extends Application {
 	
 	public Bitmap getBitmapFromMemCache(String key){
 		return imageCache.get(key);
+	}
+	
+	/*
+	 * wakeAcquire
+	 * only call this once.
+	 */
+	public void wakeAcquire(){
+		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "Full Wake");
+		wl.acquire();
+	}
+	
+	public void wakeRelease(){
+		wl.release();
 	}
 	
 	private static GlobalVar instance;

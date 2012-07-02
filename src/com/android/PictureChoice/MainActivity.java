@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
         	}
         });
         GlobalVar.getInstance().initCache();
+        GlobalVar.getInstance().wakeAcquire();
     }
     
 	@Override
