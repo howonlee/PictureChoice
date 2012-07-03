@@ -30,6 +30,8 @@ public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("time_end", Long.toString(choice.getEndTime())));
 			nameValPairs.add(new BasicNameValuePair("block_id", Integer.toString(choice.getBlockId())));
 			nameValPairs.add(new BasicNameValuePair("choice_made", Integer.toString(choice.getChoiceMade())));
+			nameValPairs.add(new BasicNameValuePair("mask_begin", Long.toString(choice.getMaskBeginTime())));
+			nameValPairs.add(new BasicNameValuePair("mask_end", Long.toString(choice.getMaskEndTime())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
 			Log.d("an http try", EntityUtils.toString(response.getEntity()));

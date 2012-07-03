@@ -10,13 +10,18 @@ public class TrialChoice {
 	private final long endTime;
 	private final int blockId;
 	private final int choiceMade;
+	private final long maskBeginTime;
+	private final long maskEndTime;
 	
-	public TrialChoice(int picId, long beginTime, long endTime, int blockId, int choiceMade){
+	public TrialChoice(int picId, long beginTime, long endTime, int blockId, int choiceMade,
+			long maskBeginTime, long maskEndTime){
 		this.picId = picId;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.blockId = blockId;
 		this.choiceMade = choiceMade;
+		this.maskBeginTime = maskBeginTime;
+		this.maskEndTime = maskEndTime;
 	}
 	
 	public int getPicId(){
@@ -33,6 +38,12 @@ public class TrialChoice {
 	}
 	public int getChoiceMade(){
 		return choiceMade;
+	}
+	public long getMaskBeginTime(){
+		return maskBeginTime;
+	}
+	public long getMaskEndTime(){
+		return maskEndTime;
 	}
 
 }

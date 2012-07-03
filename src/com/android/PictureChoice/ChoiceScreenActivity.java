@@ -31,6 +31,8 @@ public class ChoiceScreenActivity extends Activity {
 	private int currPicId = -1;
 	private long currBeginTime;
 	private long currEndTime;
+	private long currMaskBeginTime;
+	private long currMaskEndTime;
 	//no current block number, no currChoice
 
 	//state of the visibility state machine
@@ -59,7 +61,9 @@ public class ChoiceScreenActivity extends Activity {
 		choice2.setAnimation(null);
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, GlobalVar.getInstance().getBlockNum(), 0);
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
+						GlobalVar.getInstance().getBlockNum(), 0,
+						currMaskBeginTime, currMaskEndTime);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
@@ -73,8 +77,9 @@ public class ChoiceScreenActivity extends Activity {
 		});
 		choice2.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, GlobalVar.getInstance().getBlockNum(), 1);
-				uploadTask = new PostTrialTask();//one of two main inefficiencies
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
+						GlobalVar.getInstance().getBlockNum(), 1,
+						currMaskBeginTime, currMaskEndTime);				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
 				trialCount++;
@@ -136,9 +141,11 @@ public class ChoiceScreenActivity extends Activity {
 			pic.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
 			currEndTime = System.nanoTime();
+			currMaskBeginTime = System.nanoTime(); //redundant, yes
 			break;
 		case 2: 
 			mask.setVisibility(ImageView.INVISIBLE);
+			currMaskEndTime = System.nanoTime();
 			updatePic();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
