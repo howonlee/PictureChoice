@@ -1,7 +1,5 @@
 package com.android.PictureChoice;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -27,16 +25,20 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MIN_TIME = 499; //minimum picture-showing time
 	private final int MAX_TIME = 500; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
-	private String urlString = "http://www.stanford.edu/group/pdplab/cgi-bin/mobileexpscript.php";
 	private Random generator = new Random();
+	
+	//data for posting
+	private int currPicId = -1;
+	private long currBeginTime;
+	private long currEndTime;
+	//no current block number, no currChoice
 
 	//state of the visibility state machine
 	private int visState = 0;
 	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
-	private ArrayList<Integer> cat2 = new ArrayList<Integer>();	
+	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
 	private Handler mHandler = new Handler();
 	private PostTrialTask uploadTask = new PostTrialTask();
-	private URL url;
 
 	ImageView pic, mask;
 	Button choice1, choice2;
@@ -49,11 +51,6 @@ public class ChoiceScreenActivity extends Activity {
 		mask = (ImageView) findViewById(R.id.mask);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		try{
-			url = new URL(urlString);
-		} catch (MalformedURLException ex){
-			throw new RuntimeException(ex);
-		}
 
 		initCategories();
 		pic.setAnimation(null);
@@ -62,6 +59,10 @@ public class ChoiceScreenActivity extends Activity {
 		choice2.setAnimation(null);
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, GlobalVar.getInstance().getBlockNum(), 0);
+				uploadTask = new PostTrialTask();//one of two main inefficiencies
+				uploadTask.execute(choice);
+				System.gc();
 				trialCount++;
 				if (trialCount == numTrials){
 					goToBreak();
@@ -72,6 +73,10 @@ public class ChoiceScreenActivity extends Activity {
 		});
 		choice2.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, GlobalVar.getInstance().getBlockNum(), 1);
+				uploadTask = new PostTrialTask();//one of two main inefficiencies
+				uploadTask.execute(choice);
+				System.gc();
 				trialCount++;
 				if (trialCount == numTrials){
 					goToBreak();
@@ -125,17 +130,16 @@ public class ChoiceScreenActivity extends Activity {
 			pic.setVisibility(ImageView.VISIBLE);
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
+			currBeginTime = System.nanoTime();
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
+			currEndTime = System.nanoTime();
 			break;
 		case 2: 
 			mask.setVisibility(ImageView.INVISIBLE);
 			updatePic();
-			uploadTask = new PostTrialTask();//one of two main inefficiencies
-			uploadTask.execute(url);
-			System.gc();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
@@ -179,8 +183,12 @@ public class ChoiceScreenActivity extends Activity {
 		//category arraylists are shuffled, so just take the next
 		if (category == 0){
 			resId = chooseResId(0, cat1);
+			currPicId = ((resId - R.drawable.animal1) * 4) + 1;
+			Log.d("currPicId is", Integer.toString(currPicId));
 		} else if (category == 1){
 			resId = chooseResId(1, cat2);
+			currPicId = ((resId - R.drawable.noanimal1)* 4) + 3;
+			Log.d("currPicId is", Integer.toString(currPicId));
 		}
 		Log.d("length of arraylists 1 and 2", cat1.size() + " " + cat2.size());
 		//now that we've chosen resId...

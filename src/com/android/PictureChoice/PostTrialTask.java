@@ -1,6 +1,5 @@
 package com.android.PictureChoice;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,20 +15,21 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PostTrialTask extends AsyncTask<URL, Integer, Long> {
+public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 
+	private String urlString = "http://www.stanford.edu/group/pdplab/cgi-bin/mobiletrialscript.php";
 	@Override
-	protected Long doInBackground(URL... params) {
-		java.sql.Time time = new java.sql.Time(500000);
-		String name = "bob";
-		Integer random = 42;
+	protected Long doInBackground(TrialChoice... params) {
+		TrialChoice choice = params[0];
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(params[0].toString());
+		HttpPost httppost = new HttpPost(urlString);
 		try {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
-			nameValPairs.add(new BasicNameValuePair("time", time.toString()));
-			nameValPairs.add(new BasicNameValuePair("name", name));
-			nameValPairs.add(new BasicNameValuePair("random", random.toString()));
+			nameValPairs.add(new BasicNameValuePair("pic_id", Integer.toString(choice.getPicId())));
+			nameValPairs.add(new BasicNameValuePair("time_begin", Long.toString(choice.getBeginTime())));
+			nameValPairs.add(new BasicNameValuePair("time_end", Long.toString(choice.getEndTime())));
+			nameValPairs.add(new BasicNameValuePair("block_id", Integer.toString(choice.getBlockId())));
+			nameValPairs.add(new BasicNameValuePair("choice_made", Integer.toString(choice.getChoiceMade())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
 			Log.d("an http try", EntityUtils.toString(response.getEntity()));
