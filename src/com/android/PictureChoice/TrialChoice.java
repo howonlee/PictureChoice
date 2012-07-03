@@ -1,7 +1,8 @@
 package com.android.PictureChoice;
 
 /**
- * Gives the choice of a trial made by somebody
+ * Is the choice of a trial.
+ * (for encapsulating data to be sent to the server)
  * @author Howon
  */
 public class TrialChoice {
