@@ -16,15 +16,20 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PostDataTask extends AsyncTask<URL, Integer, Long> {
+public class PostTrialTask extends AsyncTask<URL, Integer, Long> {
 
 	@Override
 	protected Long doInBackground(URL... params) {
+		java.sql.Time time = new java.sql.Time(500000);
+		String name = "bob";
+		Integer random = 42;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(params[0].toString());
 		try {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
-			nameValPairs.add(new BasicNameValuePair("time", Long.toString(System.currentTimeMillis())));
+			nameValPairs.add(new BasicNameValuePair("time", time.toString()));
+			nameValPairs.add(new BasicNameValuePair("name", name));
+			nameValPairs.add(new BasicNameValuePair("random", random.toString()));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
 			Log.d("an http try", EntityUtils.toString(response.getEntity()));
