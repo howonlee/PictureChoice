@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
         postTask.execute(session);
         try {
         	GlobalVar.getInstance().setExpId(postTask.get());
+        	Log.d("expId set here", postTask.get().toString());
         } catch (Exception e){ //for the postTask
         	e.printStackTrace(); 
         	//should probably explode and cry like a baby here

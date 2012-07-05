@@ -30,7 +30,8 @@ public class PostSessionTask extends AsyncTask<Session, Integer, Integer> {
 			nameValPairs.add(new BasicNameValuePair("serial", session.getSerial()));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
-			Log.d("an http try", EntityUtils.toString(response.getEntity()));
+			//Log.d("an http try", EntityUtils.toString(response.getEntity()));
+				//this log consumes the content, hilariously
 			toReturn = Integer.valueOf(EntityUtils.toString(response.getEntity()));
 		} catch (Exception e){
 			e.printStackTrace();
