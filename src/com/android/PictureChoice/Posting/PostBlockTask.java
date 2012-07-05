@@ -32,6 +32,7 @@ public class PostBlockTask extends AsyncTask<Block, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("break_time_end", Long.toString(block.getBreakEndTime())));
 			nameValPairs.add(new BasicNameValuePair("interruption", Boolean.toString(block.getInterrupted())));
 			nameValPairs.add(new BasicNameValuePair("exp_id", Integer.toString(block.getExpId())));
+			nameValPairs.add(new BasicNameValuePair("block_num", Integer.toString(block.getBlockNum())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
 			Log.d("an http try", EntityUtils.toString(response.getEntity()));

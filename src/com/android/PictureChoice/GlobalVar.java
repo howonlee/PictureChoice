@@ -19,6 +19,11 @@ class GlobalVar extends Application {
 	private int blockNum = 0;
 	private LruCache<String, Bitmap> imageCache;
 
+	//block posting data
+	private long time_begin;
+	private long time_end;
+	private long break_time_begin;
+	private long break_time_end;
 	
 	public int getExpId(){
 		return exp_id;
@@ -35,6 +40,12 @@ class GlobalVar extends Application {
 	public void setBlockNum(int blockNum){
 		this.blockNum = blockNum;
 	}
+	//here's a lot of setters for the block data
+	//and one getter, returning a Block object
+	public void setBeginTime(long beginTime){
+		time_begin = beginTime;
+	}
+	
 	
 	public void initCache(){
 		final int memClass = 16; //call it this for now

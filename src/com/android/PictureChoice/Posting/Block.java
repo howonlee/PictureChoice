@@ -13,15 +13,17 @@ public class Block {
 	private final long breakEndTime;
 	private final boolean interrupted;
 	private final int expId;
+	private final int blockNum;//redundant, but sent anyways
 	
 	public Block(long beginTime, long endTime, long breakBeginTime,
-			long breakEndTime, boolean interrupted, int expId){
+			long breakEndTime, boolean interrupted, int expId, int blockNum){
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.breakBeginTime = breakBeginTime;
 		this.breakEndTime = breakEndTime;
 		this.interrupted = interrupted;
 		this.expId = expId;
+		this.blockNum = blockNum;
 	}
 
 	public long getBeginTime() {
@@ -46,6 +48,10 @@ public class Block {
 
 	public int getExpId() {
 		return expId;
+	}
+	
+	public int getBlockNum(){
+		return blockNum;
 	}
 	
 }

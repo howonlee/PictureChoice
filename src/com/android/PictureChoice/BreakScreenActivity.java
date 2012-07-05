@@ -23,6 +23,7 @@ public class BreakScreenActivity extends Activity {
         breakMsg = (TextView) findViewById(R.id.break_msg);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
+        		sendBlockPost();
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         		overridePendingTransition(0,0); //remove animation
         	}
@@ -32,11 +33,16 @@ public class BreakScreenActivity extends Activity {
         	breakMsg.setText("OK, you're done");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
+        			sendBlockPost();
         			moveTaskToBack(true);
         			//you can't terminate an app in android; this is sad
         		}
         	});
         }
+	}
+	
+	private void sendBlockPost(){
+		
 	}
 	
 
