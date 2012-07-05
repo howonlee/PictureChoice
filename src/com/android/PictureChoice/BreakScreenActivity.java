@@ -46,7 +46,7 @@ public class BreakScreenActivity extends Activity {
 	}
 	
 	private void sendBlockPost(){
-		GlobalVar.getInstance().setBreakBeginTime(System.nanoTime());
+		GlobalVar.getInstance().setBreakEndTime(System.nanoTime());
 		//hopefully, this is a valid block object
 		Block block = GlobalVar.getInstance().getBlock();
 		PostBlockTask blockTask = new PostBlockTask();
