@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import com.android.PictureChoice.Posting.PostTrialTask;
+import com.android.PictureChoice.Posting.TrialChoice;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;

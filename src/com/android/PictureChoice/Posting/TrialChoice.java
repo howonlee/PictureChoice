@@ -1,4 +1,4 @@
-package com.android.PictureChoice;
+package com.android.PictureChoice.Posting;
 
 /**
  * Is the choice of a trial.

@@ -1,4 +1,4 @@
-package com.android.PictureChoice;
+package com.android.PictureChoice.Posting;
 
 /**
  * For encapsulating the data of a block to send to the server.

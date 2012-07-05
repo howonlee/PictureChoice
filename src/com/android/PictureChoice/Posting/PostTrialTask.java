@@ -1,4 +1,4 @@
-package com.android.PictureChoice;
+package com.android.PictureChoice.Posting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
 
 import android.os.AsyncTask;
 import android.util.Log;
