@@ -9,13 +9,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.PictureChoice.Posting.PostSessionTask;
 import com.android.PictureChoice.Posting.Session;
+import com.android.PictureChoice.Posting.VersionTask;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
 	
+	final int APP_VERSION = 1;
 	PostSessionTask postTask;
 	Session session;
 	Button toBlock;
@@ -38,6 +41,20 @@ public class MainActivity extends Activity {
         } catch (Exception e){ //for the postTask
         	e.printStackTrace(); 
         	//should probably explode and cry like a baby here
+        }
+        
+        VersionTask versionTask = new VersionTask();
+        versionTask.execute(APP_VERSION);
+        try {
+        	if (!versionTask.get()){
+        		//wrong app version
+    			Toast toast = Toast.makeText(getApplicationContext(), "Wrong app version", Toast.LENGTH_LONG);
+    			toast.show();
+    			moveTaskToBack(true);
+        	}
+        } catch (Exception e){
+        	e.printStackTrace();
+        	//again, cry and let loose the dogs of war
         }
         GlobalVar.getInstance().initCache();
     }
