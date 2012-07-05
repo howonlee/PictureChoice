@@ -77,12 +77,14 @@ class GlobalVar extends Application {
 	}
 	
 	public void addBitmapToMemoryCache(String key, Bitmap bitmap){
+		if (key.equals("0")) { return; }
 		if (getBitmapFromMemCache(key) == null){
 			imageCache.put(key, bitmap);
 		}
 	}
 	
 	public Bitmap getBitmapFromMemCache(String key){
+		if (key.equals("0")) { return null; }
 		return imageCache.get(key);
 	}
 	
