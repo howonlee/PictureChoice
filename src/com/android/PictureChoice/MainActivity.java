@@ -34,7 +34,8 @@ public class MainActivity extends Activity {
         try {
         	GlobalVar.getInstance().setExpId(postTask.get());
         } catch (Exception e){ //for the postTask
-        	e.printStackTrace();
+        	e.printStackTrace(); 
+        	//should probably explode and cry like a baby here
         }
         GlobalVar.getInstance().initCache();
     }
