@@ -4,11 +4,13 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
+import com.android.PictureChoice.Posting.Block;
+
 /**
  * Singleton global variable holder
  * This holds global variables.
  * that is, it holds:
- * 1. block number
+ * 1. block information
  * 2. a cache for images
  * I commit this sin to make counting this crud more bearable
  * @author Howon
@@ -46,6 +48,22 @@ class GlobalVar extends Application {
 		time_begin = beginTime;
 	}
 	
+	public void setEndTime(long endTime){
+		time_end = endTime;
+	}
+	
+	public void setBreakBeginTime(long breakBeginTime){
+		break_time_begin = breakBeginTime;
+	}
+	
+	public void setBreakEndTime(long breakEndTime){
+		break_time_end = breakEndTime;
+	}
+	
+	public Block getBlock(){
+		return new Block(time_begin, time_end, break_time_begin,
+			break_time_end, false, exp_id, blockNum);
+	}
 	
 	public void initCache(){
 		final int memClass = 16; //call it this for now

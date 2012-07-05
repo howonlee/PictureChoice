@@ -9,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.PictureChoice.Posting.Block;
+import com.android.PictureChoice.Posting.PostBlockTask;
+
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
 	final int totalBlocks = 2;
@@ -21,6 +24,7 @@ public class BreakScreenActivity extends Activity {
 		setContentView(R.layout.breakscreen);
         toBlock = (Button) findViewById(R.id.button_to_block);
         breakMsg = (TextView) findViewById(R.id.break_msg);
+		GlobalVar.getInstance().setBreakBeginTime(System.nanoTime());
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		sendBlockPost();
@@ -42,7 +46,11 @@ public class BreakScreenActivity extends Activity {
 	}
 	
 	private void sendBlockPost(){
-		
+		GlobalVar.getInstance().setBreakBeginTime(System.nanoTime());
+		//hopefully, this is a valid block object
+		Block block = GlobalVar.getInstance().getBlock();
+		PostBlockTask blockTask = new PostBlockTask();
+		blockTask.execute(block);
 	}
 	
 

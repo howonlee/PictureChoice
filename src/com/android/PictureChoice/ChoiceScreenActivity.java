@@ -62,6 +62,7 @@ public class ChoiceScreenActivity extends Activity {
 		mask.setAnimation(null);
 		choice1.setAnimation(null);
 		choice2.setAnimation(null);
+		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
@@ -164,6 +165,7 @@ public class ChoiceScreenActivity extends Activity {
 	private void goToBreak(){
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
+		GlobalVar.getInstance().setEndTime(System.nanoTime());
 		startActivity(new Intent("com.android.BREAKSHOW"));
 		overridePendingTransition(0,0); //remove animation
 	}
