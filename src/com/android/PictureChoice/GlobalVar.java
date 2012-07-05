@@ -15,22 +15,10 @@ import android.util.LruCache;
  *
  */
 class GlobalVar extends Application {
-	private boolean interrupted = false;
 	private int exp_id = -1;
 	private int blockNum = 0;
 	private LruCache<String, Bitmap> imageCache;
-	
-	public void wasInterrupted(){
-		interrupted = true;
-	}
-	
-	public void resetInterruption(){
-		interrupted = false;
-	}
-	
-	public boolean getInterrupted(){
-		return interrupted;
-	}
+
 	
 	public int getExpId(){
 		return exp_id;
