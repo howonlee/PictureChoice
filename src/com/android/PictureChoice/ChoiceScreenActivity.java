@@ -82,7 +82,8 @@ public class ChoiceScreenActivity extends Activity {
 			public void onClick(View view){
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
 						GlobalVar.getInstance().getBlockNum(), 1,
-						currMaskBeginTime, currMaskEndTime);				uploadTask = new PostTrialTask();//one of two main inefficiencies
+						currMaskBeginTime, currMaskEndTime);
+				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
 				trialCount++;

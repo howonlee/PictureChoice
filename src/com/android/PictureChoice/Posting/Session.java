@@ -7,26 +7,20 @@ package com.android.PictureChoice.Posting;
  */
 
 public class Session {
-	private final long beginTime;
-	private final long endTime;
 	private final String machineId;
+	private final String serial;
 	
-	public Session(long beginTime, long endTime, String machine){
-		this.beginTime = beginTime;
-		this.endTime = endTime;
+	public Session(String machine, String serial){
 		this.machineId = machine;
-	}
-
-	public long getBeginTime() {
-		return beginTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
+		this.serial = serial;
 	}
 
 	public String getMachineId() {
 		return machineId;
+	}
+	
+	public String getSerial(){
+		return serial;
 	}
 	
 }

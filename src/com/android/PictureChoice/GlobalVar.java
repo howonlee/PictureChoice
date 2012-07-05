@@ -16,7 +16,16 @@ import android.util.LruCache;
  */
 class GlobalVar extends Application {
 	private int blockNum = 0;
+	private int exp_id = -1;
 	private LruCache<String, Bitmap> imageCache;
+	
+	public int getExpId(){
+		return exp_id;
+	}
+	
+	public void setExpId(int expId){
+		exp_id = expId;
+	}
 	
 	public int getBlockNum(){
 		return blockNum;
