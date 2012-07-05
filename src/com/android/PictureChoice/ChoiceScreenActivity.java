@@ -173,18 +173,20 @@ public class ChoiceScreenActivity extends Activity {
 	private void initCategories(){
 		//use ArrayList for categories since you can remove stuff
 		cat1.clear();
-		cat1.add(R.drawable.animal1);
-		cat1.add(R.drawable.animal2);
-		cat1.add(R.drawable.animal3);
-		cat1.add(R.drawable.animal4);
-		cat1.add(R.drawable.animal5);
+		//perhaps
+		cat1.add(R.drawable.animal01);
+		cat1.add(R.drawable.animal02);
+		cat1.add(R.drawable.animal03);
+		cat1.add(R.drawable.animal04);
+		cat1.add(R.drawable.animal05);
+		cat1.add(R.drawable.animal06);
 
 		cat2.clear();
-		cat2.add(R.drawable.noanimal1);
-		cat2.add(R.drawable.noanimal2);
-		cat2.add(R.drawable.noanimal3);
-		cat2.add(R.drawable.noanimal4);
-		cat2.add(R.drawable.noanimal5);
+		cat2.add(R.drawable.noanimal01);
+		cat2.add(R.drawable.noanimal02);
+		cat2.add(R.drawable.noanimal03);
+		cat2.add(R.drawable.noanimal04);
+		cat2.add(R.drawable.noanimal05);
 		
 		Collections.shuffle(cat1);
 		Collections.shuffle(cat2);
@@ -196,11 +198,11 @@ public class ChoiceScreenActivity extends Activity {
 		//category arraylists are shuffled, so just take the next
 		if (category == 0){
 			resId = chooseResId(0, cat1);
-			currPicId = ((resId - R.drawable.animal1) * 4) + 1;
+			currPicId = ((resId - R.drawable.animal01) * 4) + 1;
 			Log.d("currPicId is", Integer.toString(currPicId));
 		} else if (category == 1){
 			resId = chooseResId(1, cat2);
-			currPicId = ((resId - R.drawable.noanimal1)* 4) + 3;
+			currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
 			Log.d("currPicId is", Integer.toString(currPicId));
 		}
 		Log.d("length of arraylists 1 and 2", cat1.size() + " " + cat2.size());
