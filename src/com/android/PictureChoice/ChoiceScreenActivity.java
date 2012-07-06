@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -174,8 +175,6 @@ public class ChoiceScreenActivity extends Activity {
 	private void initCategories(){
 		//use ArrayList for categories since you can remove stuff
 
-		//so, as is pretty obvious, this is a crime against humanity
-		//try using typedarray when I have time
 		cat1.clear();
 		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
 			cat1.add(i);
