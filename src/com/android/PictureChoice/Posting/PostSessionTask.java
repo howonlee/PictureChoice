@@ -13,7 +13,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class PostSessionTask extends AsyncTask<Session, Integer, Integer> {
 

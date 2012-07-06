@@ -10,11 +10,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class PostBlockTask extends AsyncTask<Block, Integer, Long> {
 
