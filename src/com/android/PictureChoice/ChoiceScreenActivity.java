@@ -21,30 +21,33 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class ChoiceScreenActivity extends Activity {
-	private final int numTrials = 5; //number of trials per block
+	private final int numTrials = 10; //number of trials per block
 	private int trialCount = 0;
 	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
-	private final int MIN_TIME = 499; //minimum picture-showing time
+	private final int MIN_TIME = 50; //minimum picture-showing time
 	private final int MAX_TIME = 500; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
 	private Random generator = new Random();
 	
-	//data for posting
+	//data on blocks, for posting
 	private int currPicId = -1;
 	private long currBeginTime;
 	private long currEndTime;
 	private long currMaskBeginTime;
 	private long currMaskEndTime;
-	//no current block number, no currChoice
+	//no current block number, no currChoice: that's in GlobalVar
 
 	//state of the visibility state machine
 	private int visState = 0;
+	//resource id's for both categories of pictures
 	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
 	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
+	//thread handler and asynctask
 	private Handler mHandler = new Handler();
 	private PostTrialTask uploadTask = new PostTrialTask();
 
+	//views
 	ImageView pic, mask;
 	Button choice1, choice2;
 	@Override

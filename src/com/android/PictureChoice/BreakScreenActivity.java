@@ -14,17 +14,15 @@ import com.android.PictureChoice.Posting.PostBlockTask;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
-	final int totalBlocks = 2;
-	int currentBlock;
-	Button toBlock;
-	TextView breakMsg;
+	final int totalBlocks = 5;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.breakscreen);
-        toBlock = (Button) findViewById(R.id.button_to_block);
-        breakMsg = (TextView) findViewById(R.id.break_msg);
 		GlobalVar.getInstance().setBreakBeginTime(System.nanoTime());
+        
+		Button toBlock = (Button) findViewById(R.id.button_to_block);
+        TextView breakMsg = (TextView) findViewById(R.id.break_msg);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		sendBlockPost();
@@ -32,14 +30,13 @@ public class BreakScreenActivity extends Activity {
         		overridePendingTransition(0,0); //remove animation
         	}
         });
-        currentBlock = GlobalVar.getInstance().getBlockNum();
-        if (currentBlock == totalBlocks){
+        if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
         	breakMsg.setText("OK, you're done");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
         			sendBlockPost();
         			moveTaskToBack(true);
-        			//you can't terminate an app in android; this is sad
+        			//you can't terminate an app in android
         		}
         	});
         }

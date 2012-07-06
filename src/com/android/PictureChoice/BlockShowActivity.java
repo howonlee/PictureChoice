@@ -10,13 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class BlockShowActivity extends Activity {
-	Button toChoice;
-	TextView blockNum;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.block);
-		toChoice = (Button) findViewById(R.id.button_to_choice);
+		Button toChoice = (Button) findViewById(R.id.button_to_choice);
 		toChoice.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				startActivity(new Intent("com.android.CHOICESHOW"));
@@ -24,7 +23,7 @@ public class BlockShowActivity extends Activity {
 			}
 		});
 
-		blockNum = (TextView) findViewById(R.id.blockNumView);
+		TextView blockNum = (TextView) findViewById(R.id.blockNumView);
 		int temp = GlobalVar.getInstance().getBlockNum();
 		String tempStr = "" + (temp + 1);
 		blockNum.setText(tempStr);

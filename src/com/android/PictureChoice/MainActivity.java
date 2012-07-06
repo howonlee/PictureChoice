@@ -19,21 +19,19 @@ public class MainActivity extends Activity {
     /** Called when the activity is first created. */
 	
 	final int APP_VERSION = 1;
-	PostSessionTask postTask;
-	Session session;
-	Button toBlock;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        toBlock = (Button) findViewById(R.id.button_to_block);
+        Button toBlock = (Button) findViewById(R.id.button_to_block);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
         });
-        session = new Session(Build.MODEL, Build.SERIAL);
-        postTask = new PostSessionTask();
+        Session session = new Session(Build.MODEL, Build.SERIAL);
+        PostSessionTask postTask = new PostSessionTask();
         postTask.execute(session);
         try {
         	GlobalVar.getInstance().setExpId(postTask.get());

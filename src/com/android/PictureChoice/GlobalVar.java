@@ -10,7 +10,7 @@ import com.android.PictureChoice.Posting.Block;
  * Singleton global variable holder
  * This holds global variables.
  * that is, it holds:
- * 1. block information
+ * 1. information about current block
  * 2. a cache for images
  * I commit this sin to make counting this crud more bearable
  * @author Howon
@@ -76,6 +76,11 @@ class GlobalVar extends Application {
 		};
 	}
 	
+	public Bitmap getBitmapFromMemCache(String key){
+		if (key.equals("0")) { return null; }
+		return imageCache.get(key);
+	}
+	
 	public void addBitmapToMemoryCache(String key, Bitmap bitmap){
 		if (key.equals("0")) { return; }
 		if (getBitmapFromMemCache(key) == null){
@@ -83,22 +88,16 @@ class GlobalVar extends Application {
 		}
 	}
 	
-	public Bitmap getBitmapFromMemCache(String key){
-		if (key.equals("0")) { return null; }
-		return imageCache.get(key);
-	}
-	
-	
-	private static GlobalVar instance;
+	private static GlobalVar instance; //for singleton
 	static {
 		instance = new GlobalVar();
 	}
 	
 	private GlobalVar(){
-		//nada
+		//should be no code here
 	}
 	
-	public static GlobalVar getInstance(){
+	public static GlobalVar getInstance(){//for singleton
 		return GlobalVar.instance;
 	}
 }
