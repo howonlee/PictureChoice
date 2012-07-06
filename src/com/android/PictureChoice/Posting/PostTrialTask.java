@@ -35,7 +35,6 @@ public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("mask_end", Long.toString(choice.getMaskEndTime())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			HttpResponse response = httpclient.execute(httppost);
-			Log.d("an http try", EntityUtils.toString(response.getEntity()));
 		} catch (Exception e){
 			e.printStackTrace();
 		}

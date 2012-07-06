@@ -216,7 +216,6 @@ public class ChoiceScreenActivity extends Activity {
 			pic.setImageBitmap(bitmap);
 		} else {
 			pic.setImageResource(resId);
-			Log.d("We set this wrong!", "");
 		}
 	}
 	
