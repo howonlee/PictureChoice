@@ -64,6 +64,7 @@ public class ChoiceScreenActivity extends Activity {
 		choice1.setAnimation(null);
 		choice2.setAnimation(null);
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
+		GlobalVar.getInstance().setAppFlag(false);
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
@@ -166,6 +167,7 @@ public class ChoiceScreenActivity extends Activity {
 	private void goToBreak(){
 		choice1.setVisibility(View.INVISIBLE);
 		choice2.setVisibility(View.INVISIBLE);
+		GlobalVar.getInstance().setAppFlag(true);
 		GlobalVar.getInstance().setEndTime(System.nanoTime());
 		startActivity(new Intent("com.android.BREAKSHOW"));
 		overridePendingTransition(0,0); //remove animation
@@ -253,5 +255,13 @@ public class ChoiceScreenActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		if (!(GlobalVar.getInstance().getAppFlag())){
+			GlobalVar.getInstance().setInterrupted();
+		}
 	}
 }

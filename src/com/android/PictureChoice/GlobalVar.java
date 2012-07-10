@@ -20,6 +20,8 @@ class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
 	private LruCache<String, Bitmap> imageCache;
+	private boolean appFlag = true;
+	private boolean interrupted = false;
 
 	//block posting data
 	private long time_begin;
@@ -37,6 +39,22 @@ class GlobalVar extends Application {
 	
 	public int getBlockNum(){
 		return blockNum;
+	}
+	
+	public void setAppFlag(boolean app_flag){
+		appFlag = app_flag;
+	}
+	
+	public boolean getAppFlag(){
+		return appFlag;
+	}
+	
+	public void setInterrupted(){
+		interrupted = true; //can't put in value: just say that it's interrupted
+	}
+	
+	public boolean getInterrupted(){
+		return interrupted;
 	}
 	
 	public void setBlockNum(int blockNum){
@@ -62,7 +80,7 @@ class GlobalVar extends Application {
 	
 	public Block getBlock(){
 		return new Block(time_begin, time_end, break_time_begin,
-			break_time_end, false, exp_id, blockNum);
+			break_time_end, interrupted, exp_id, blockNum);
 	}
 	
 	public void initCache(){

@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
         Button toBlock = (Button) findViewById(R.id.button_to_block);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
+        		GlobalVar.getInstance().setAppFlag(true);
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
         });
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
         	//again, cry and let loose the dogs of war
         }
         GlobalVar.getInstance().initCache();
+        GlobalVar.getInstance().setAppFlag(false);
     }
     
 	@Override
@@ -68,5 +70,13 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		if (!(GlobalVar.getInstance().getAppFlag())){
+			GlobalVar.getInstance().setInterrupted();
+		}
 	}
 }

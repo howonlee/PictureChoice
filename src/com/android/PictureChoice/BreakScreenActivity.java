@@ -20,12 +20,14 @@ public class BreakScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.breakscreen);
 		GlobalVar.getInstance().setBreakBeginTime(System.nanoTime());
-        
+		GlobalVar.getInstance().setAppFlag(false);
+		
 		Button toBlock = (Button) findViewById(R.id.button_to_block);
         TextView breakMsg = (TextView) findViewById(R.id.break_msg);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
         		sendBlockPost();
+        		GlobalVar.getInstance().setAppFlag(true);
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         		overridePendingTransition(0,0); //remove animation
         	}
@@ -64,5 +66,13 @@ public class BreakScreenActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		if (!(GlobalVar.getInstance().getAppFlag())){
+			GlobalVar.getInstance().setInterrupted();
+		}
 	}
 }

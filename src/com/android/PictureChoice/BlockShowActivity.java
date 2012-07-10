@@ -18,6 +18,7 @@ public class BlockShowActivity extends Activity {
 		Button toChoice = (Button) findViewById(R.id.button_to_choice);
 		toChoice.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
+				GlobalVar.getInstance().setAppFlag(true);
 				startActivity(new Intent("com.android.CHOICESHOW"));
 				overridePendingTransition(0,0); //remove animation
 			}
@@ -28,6 +29,7 @@ public class BlockShowActivity extends Activity {
 		String tempStr = "" + (temp + 1);
 		blockNum.setText(tempStr);
 		GlobalVar.getInstance().setBlockNum((temp + 1));
+		GlobalVar.getInstance().setAppFlag(false);
 	}
 	
 	@Override
@@ -43,5 +45,13 @@ public class BlockShowActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		if (!(GlobalVar.getInstance().getAppFlag())){
+			GlobalVar.getInstance().setInterrupted();
+		}
 	}
 }
