@@ -2,7 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
+import com.android.PictureChoice.libs.LruCache;
 
 import com.android.PictureChoice.Posting.Block;
 
