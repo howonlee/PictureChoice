@@ -2,7 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.util.LruCache;
+import android.support.v4.util.LruCache;
 
 import com.android.PictureChoice.Posting.Block;
 
@@ -68,12 +68,8 @@ class GlobalVar extends Application {
 	public void initCache(){
 		final int memClass = 16; //call it this for now
 		final int cacheSize = 1024 * 1024 * memClass / 8;
-		imageCache = new LruCache<String, Bitmap>(cacheSize){
-			@Override
-			protected int sizeOf(String key, Bitmap bitmap){
-				return bitmap.getByteCount();
-			}
-		};
+		imageCache = new LruCache<String, Bitmap>(cacheSize);
+		//static LruCache, so we have normal sizes
 	}
 	
 	public Bitmap getBitmapFromMemCache(String key){
