@@ -18,5 +18,6 @@
     <string name="mask_label">Mask</string>
     <string name="temp_label">0</string>
     <string name="ready_label">Ready?</string>
+    <string name="mturk_edit_text">Enter your Mechanical Turk ID here</string>
 
 </resources>

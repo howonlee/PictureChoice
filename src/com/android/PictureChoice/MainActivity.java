@@ -8,8 +8,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.PictureChoice.Posting.MTurkId;
+import com.android.PictureChoice.Posting.PostMTurkIdTask;
 import com.android.PictureChoice.Posting.PostSessionTask;
 import com.android.PictureChoice.Posting.Session;
 import com.android.PictureChoice.Posting.VersionTask;
@@ -27,13 +30,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Button toBlock = (Button) findViewById(R.id.button_to_block);
-        toBlock.setOnClickListener(new OnClickListener(){
-        	public void onClick(View view){
-        		GlobalVar.getInstance().setAppFlag(true);
-        		startActivity(new Intent("com.android.BLOCKSHOW"));
-        	}
-        });
+        
         Session session = new Session(Build.MODEL, Build.SERIAL);
         PostSessionTask postTask = new PostSessionTask();
         postTask.execute(session);
@@ -43,6 +40,19 @@ public class MainActivity extends Activity {
         	e.printStackTrace(); 
         	//should probably explode and cry like a baby here
         }
+        Button toBlock = (Button) findViewById(R.id.button_to_block);
+        final TextView mTurkId = (TextView) findViewById(R.id.mTurkIdText);
+        toBlock.setOnClickListener(new OnClickListener(){
+        	public void onClick(View view){
+        		MTurkId id = new MTurkId(mTurkId.getText().toString(), Integer.toString(GlobalVar.getInstance().getExpId()));
+        		PostMTurkIdTask idTask = new PostMTurkIdTask();
+        		idTask.execute(id);
+        		//wish I had closures
+        		GlobalVar.getInstance().setAppFlag(true);
+        		startActivity(new Intent("com.android.BLOCKSHOW"));
+        	}
+        });
+        
         
         VersionTask versionTask = new VersionTask();
         versionTask.execute(APP_VERSION);

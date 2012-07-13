@@ -14,4 +14,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/block_button_label" />
+	
+	<EditText
+	    android:id="@+id/mTurkIdText"
+	    android:inputType="text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/button_to_block"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:text="@string/mturk_edit_text"
+	    android:ems="10" />
+
 </RelativeLayout>
