@@ -15,7 +15,11 @@ import com.android.PictureChoice.Posting.Session;
 import com.android.PictureChoice.Posting.VersionTask;
 
 public class MainActivity extends Activity {
-    /** Called when the activity is first created. */
+    /** 
+     * MTurk branch
+     * This branch of the program is for Mechanical Turk users only!
+     *  
+     */
 	
 	final int APP_VERSION = 1;
 	

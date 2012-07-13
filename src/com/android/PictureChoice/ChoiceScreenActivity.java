@@ -138,24 +138,24 @@ public class ChoiceScreenActivity extends Activity {
 	private void cycleVisibility(){
 		switch(visState){
 		case 0: 
-			mask.setVisibility(ImageView.INVISIBLE);
-			pic.setVisibility(ImageView.VISIBLE);
-			choice1.setVisibility(ImageView.INVISIBLE);
-			choice2.setVisibility(ImageView.INVISIBLE);
+			mask.setVisibility(View.INVISIBLE);
+			pic.setVisibility(View.VISIBLE);
+			choice1.setVisibility(View.INVISIBLE);
+			choice2.setVisibility(View.INVISIBLE);
 			currBeginTime = System.nanoTime();
 			break;
 		case 1:
-			pic.setVisibility(ImageView.INVISIBLE);
-			mask.setVisibility(ImageView.VISIBLE);
+			pic.setVisibility(View.INVISIBLE);
+			mask.setVisibility(View.VISIBLE);
 			currEndTime = System.nanoTime();
 			currMaskBeginTime = System.nanoTime(); //redundant, yes
 			break;
 		case 2: 
-			mask.setVisibility(ImageView.INVISIBLE);
+			mask.setVisibility(View.INVISIBLE);
 			currMaskEndTime = System.nanoTime();
 			updatePic();
-			choice1.setVisibility(ImageView.VISIBLE);
-			choice2.setVisibility(ImageView.VISIBLE);
+			choice1.setVisibility(View.VISIBLE);
+			choice2.setVisibility(View.VISIBLE);
 			break;
 		}
 		visState++;
