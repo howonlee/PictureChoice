@@ -23,7 +23,6 @@
 	    android:layout_above="@+id/button_to_block"
 	    android:layout_alignParentLeft="true"
 	    android:layout_alignParentRight="true"
-	    android:text="@string/mturk_edit_text"
 	    android:ems="10" />
 
 </RelativeLayout>

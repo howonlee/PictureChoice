@@ -2,10 +2,12 @@
 <resources>
 
     <string name="hello">Welcome to the experimental apparatus.\n
-        Do not press the HOME button for the duration of the experiment.\n
+        Do not press the HOME button on your phone for the duration of the experiment.\n\n
         Press "YES" if there is an animal in the picture.\n
-        (People count as animals.)\n
-        Press "NO" if there is no animal in the picture.</string>
+        (People DO count as animals.)\n
+        Press "NO" if there is no animal in the picture.\n\n
+        IMPORTANT: To get your payment for the HIT,\n
+        Enter your Amazon Mechanical Turk ID in the box below EXACTLY.</string>
     <string name="app_name">PictureChoice</string>
     <string name="block_title">Block #:</string>
     <string name="break_title">Break screen</string>
@@ -18,6 +20,5 @@
     <string name="mask_label">Mask</string>
     <string name="temp_label">0</string>
     <string name="ready_label">Ready?</string>
-    <string name="mturk_edit_text">Enter your Mechanical Turk ID here</string>
 
 </resources>
