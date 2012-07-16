@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
         doSessionTask();
         doVersionTask();        
         GlobalVar.getInstance().initCache();
+		GlobalVar.getInstance().initCategories();
         GlobalVar.getInstance().setAppFlag(false);
     }
     

@@ -57,7 +57,6 @@ public class ChoiceScreenActivity extends Activity {
 		mask = (ImageView) findViewById(R.id.mask);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		GlobalVar.getInstance().initCategories();
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		choice1.setAnimation(null);
