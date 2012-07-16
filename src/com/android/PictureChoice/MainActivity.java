@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.PictureChoice.Posting.PostMTurkIdTask;
 import com.android.PictureChoice.Posting.PostSessionTask;
 import com.android.PictureChoice.Posting.Session;
 import com.android.PictureChoice.Posting.VersionTask;
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
         
         doSessionTask();
         doVersionTask();        
+        doMturkTask();
         GlobalVar.getInstance().initCache();
 		GlobalVar.getInstance().initCategories();
         GlobalVar.getInstance().setAppFlag(false);
@@ -64,6 +66,12 @@ public class MainActivity extends Activity {
         	e.printStackTrace();
         	//again, cry and let loose the dogs of war
         }
+    }
+    
+    private void doMTurkTask(){
+    	MTurkId 
+    	PostMTurkIdTask mturkId = new PostMTurkIdTask();
+    	mturkId.
     }
     
 	@Override
