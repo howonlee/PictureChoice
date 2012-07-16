@@ -3,7 +3,6 @@ package com.android.PictureChoice.Posting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -31,7 +30,7 @@ public class PostBlockTask extends AsyncTask<Block, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("exp_id", Integer.toString(block.getExpId())));
 			nameValPairs.add(new BasicNameValuePair("block_num", Integer.toString(block.getBlockNum())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
-			HttpResponse response = httpclient.execute(httppost);
+			httpclient.execute(httppost);
 		} catch (Exception e){
 			e.printStackTrace();
 		}

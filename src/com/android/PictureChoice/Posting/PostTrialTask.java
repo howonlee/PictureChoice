@@ -3,7 +3,6 @@ package com.android.PictureChoice.Posting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -32,7 +31,7 @@ public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("mask_end", Long.toString(choice.getMaskEndTime())));
 			nameValPairs.add(new BasicNameValuePair("pic_length", Integer.toString(choice.getPicLength())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
-			HttpResponse response = httpclient.execute(httppost);
+			httpclient.execute(httppost);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
