@@ -33,7 +33,8 @@ public class BreakScreenActivity extends Activity {
         	}
         });
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
-        	breakMsg.setText("OK, you're done");
+        	breakMsg.setText("OK, you're done. \n The code is n5kw1aq");
+        	toBlock.setText(R.string.final_label);
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
         			sendBlockPost();
