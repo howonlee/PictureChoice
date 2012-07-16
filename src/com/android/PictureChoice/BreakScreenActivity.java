@@ -14,7 +14,7 @@ import com.android.PictureChoice.Posting.PostBlockTask;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
-	final int totalBlocks = 5;
+	static final int totalBlocks = 5;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -52,6 +52,9 @@ public class BreakScreenActivity extends Activity {
 		blockTask.execute(block);
 	}
 	
+	public static int getTotalBlocks(){
+		return totalBlocks;
+	}
 
 	@Override
 	public void onBackPressed(){

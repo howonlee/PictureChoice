@@ -27,7 +27,7 @@ public class BlockShowActivity extends Activity {
 		TextView blockNum = (TextView) findViewById(R.id.blockNumView);
 		int temp = GlobalVar.getInstance().getBlockNum();
 		String tempStr = "" + (temp + 1);
-		blockNum.setText(tempStr);
+		blockNum.setText(tempStr + " of " + BreakScreenActivity.getTotalBlocks() + " blocks");
 		GlobalVar.getInstance().setBlockNum((temp + 1));
 		GlobalVar.getInstance().setAppFlag(false);
 	}
