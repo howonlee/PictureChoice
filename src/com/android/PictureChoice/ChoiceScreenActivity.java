@@ -21,7 +21,7 @@ import com.android.PictureChoice.Posting.PostTrialTask;
 import com.android.PictureChoice.Posting.TrialChoice;
 
 public class ChoiceScreenActivity extends Activity {
-	private final int numTrials = 10; //number of trials per block
+	private final int numTrials = 25; //number of trials per block
 	private int trialCount = 0;
 	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
@@ -29,6 +29,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MAX_TIME = 500; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
 	private Random generator = new Random();
+	public int currPicLength;
 	
 	//data on blocks, for posting
 	private int currPicId = -1;
@@ -59,7 +60,7 @@ public class ChoiceScreenActivity extends Activity {
 			public void onClick(View view){
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
 						GlobalVar.getInstance().getBlockNum(), 0,
-						currMaskBeginTime, currMaskEndTime);
+						currMaskBeginTime, currMaskEndTime, currPicLength);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
@@ -75,7 +76,7 @@ public class ChoiceScreenActivity extends Activity {
 			public void onClick(View view){
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
 						GlobalVar.getInstance().getBlockNum(), 1,
-						currMaskBeginTime, currMaskEndTime);
+						currMaskBeginTime, currMaskEndTime, currPicLength);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
@@ -116,8 +117,9 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					int picLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
-					Thread.sleep(picLength);//astoundingly bad
+					currPicLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
+					Log.d("picLength", Integer.toString(currPicLength));
+					Thread.sleep(currPicLength);//astoundingly bad
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}

@@ -13,5 +13,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/block_button_label" />
+        android:text="@string/main_button_label" />
 </RelativeLayout>

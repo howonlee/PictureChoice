@@ -14,7 +14,7 @@ import com.android.PictureChoice.Posting.PostBlockTask;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
-	static final int totalBlocks = 5;
+	static final int totalBlocks = 2;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -33,6 +33,7 @@ public class BreakScreenActivity extends Activity {
         	}
         });
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
+        	toBlock.setText("Press to exit the experiment");
         	breakMsg.setText("OK, you're done");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
