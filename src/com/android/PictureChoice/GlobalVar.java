@@ -1,7 +1,12 @@
 package com.android.PictureChoice;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.android.PictureChoice.libs.LruCache;
 
 import com.android.PictureChoice.Posting.Block;
@@ -12,6 +17,7 @@ import com.android.PictureChoice.Posting.Block;
  * that is, it holds:
  * 1. information about current block
  * 2. a cache for images
+ * 3. the list of images which are to be used
  * I commit this sin to make counting this crud more bearable
  * @author Howon
  *
@@ -19,6 +25,8 @@ import com.android.PictureChoice.Posting.Block;
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
+	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
+	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
 	private LruCache<String, Bitmap> imageCache;
 	private boolean appFlag = true;
 	private boolean interrupted = false;
@@ -100,6 +108,42 @@ class GlobalVar extends Application {
 		if (getBitmapFromMemCache(key) == null){
 			imageCache.put(key, bitmap);
 		}
+	}
+	
+	public void initCategories(){
+		cat1.clear();
+		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
+			cat1.add(i);
+		}
+
+		cat2.clear();
+		for (int i = R.drawable.noanimal01; i <= R.drawable.noanimal54; i++){
+			cat2.add(i);
+		}
+
+		Log.w("initCats", "start");
+		Collections.shuffle(cat1);
+		Collections.shuffle(cat2);
+	}
+	
+	public Integer chooseResId(int category, ArrayList<Integer> catList){
+		Integer resId = 0;
+		if (!catList.isEmpty()){
+			resId = catList.remove(0);
+		} else {
+			Log.d("initCategories", "repeating");
+			initCategories();
+			return chooseResId(category, catList);
+		}
+		return resId;
+	}
+	
+	public ArrayList<Integer> getCat1(){
+		return cat1;
+	}
+	
+	public ArrayList<Integer> getCat2(){
+		return cat2;
 	}
 	
 	private static GlobalVar instance; //for singleton

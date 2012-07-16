@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,8 +41,6 @@ public class ChoiceScreenActivity extends Activity {
 	//state of the visibility state machine
 	private int visState = 0;
 	//resource id's for both categories of pictures
-	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
-	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
 	//thread handler and asynctask
 	private Handler mHandler = new Handler();
 	private PostTrialTask uploadTask = new PostTrialTask();
@@ -58,7 +57,7 @@ public class ChoiceScreenActivity extends Activity {
 		mask = (ImageView) findViewById(R.id.mask);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		initCategories();
+		GlobalVar.getInstance().initCategories();
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		choice1.setAnimation(null);
@@ -173,31 +172,17 @@ public class ChoiceScreenActivity extends Activity {
 		overridePendingTransition(0,0); //remove animation
 	}
 
-	private void initCategories(){
-		//use ArrayList for categories since you can remove stuff
-
-		cat1.clear();
-		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
-			cat1.add(i);
-		}
-
-		cat2.clear();
-		for (int i = R.drawable.noanimal01; i <= R.drawable.noanimal54; i++){
-			cat2.add(i);
-		}
-		
-		Collections.shuffle(cat1);
-		Collections.shuffle(cat2);
-	}
-
 	private void updatePic(){
+		ArrayList<Integer> cat1 = GlobalVar.getInstance().getCat1();
+		ArrayList<Integer> cat2 = GlobalVar.getInstance().getCat2();
+		
 		category = generator.nextInt(2);//range 0 to 1
 		Integer resId = 0;
 		if (category == 0){
-			resId = chooseResId(0, cat1);
+			resId = GlobalVar.getInstance().chooseResId(0, cat1);
 			currPicId = ((resId - R.drawable.animal01) * 4) + 1;
 		} else if (category == 1){
-			resId = chooseResId(1, cat2);
+			resId = GlobalVar.getInstance().chooseResId(1, cat2);
 			currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
 		}
 		//now that we've chosen resId...
@@ -222,24 +207,13 @@ public class ChoiceScreenActivity extends Activity {
 		if (!category.isEmpty()){
 			storeInCache(category.get(0));
 		} else {
-			initCategories();
+			GlobalVar.getInstance().initCategories();
 		}
 	}
 	
 	private void storeInCache(int resId){
 		String id = String.valueOf(resId);
 		GlobalVar.getInstance().addBitmapToMemoryCache(id, BitmapFactory.decodeResource(getResources(), resId));
-	}
-	
-	private Integer chooseResId(int category, ArrayList<Integer> catList){
-		Integer resId = 0;
-		if (!catList.isEmpty()){
-			resId = catList.remove(0);
-		} else {
-			initCategories();
-			return chooseResId(category, catList);
-		}
-		return resId;
 	}
 
 	@Override
