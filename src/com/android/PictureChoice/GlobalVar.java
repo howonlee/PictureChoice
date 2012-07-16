@@ -114,7 +114,7 @@ class GlobalVar extends Application {
 		cat1.clear();
 		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
 			cat1.add(i);
-		}
+		}//change this for increases in the number of animals
 
 		cat2.clear();
 		for (int i = R.drawable.noanimal01; i <= R.drawable.noanimal54; i++){

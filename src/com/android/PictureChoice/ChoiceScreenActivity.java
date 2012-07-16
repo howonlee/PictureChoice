@@ -52,15 +52,7 @@ public class ChoiceScreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choice);
-		//find all the views
-		pic = (ImageView) findViewById(R.id.picture);
-		mask = (ImageView) findViewById(R.id.mask);
-		choice1 = (Button) findViewById(R.id.choice1);
-		choice2 = (Button) findViewById(R.id.choice2);
-		pic.setAnimation(null);
-		mask.setAnimation(null);
-		choice1.setAnimation(null);
-		choice2.setAnimation(null);
+		findViews();
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		GlobalVar.getInstance().setAppFlag(false);
 		choice1.setOnClickListener(new OnClickListener(){
@@ -97,6 +89,20 @@ public class ChoiceScreenActivity extends Activity {
 		});
 		updatePic();
 		doTrial();
+	}
+
+	/**
+	 * find all the views and set options for them
+	 */
+	private void findViews(){
+		pic = (ImageView) findViewById(R.id.picture);
+		mask = (ImageView) findViewById(R.id.mask);
+		choice1 = (Button) findViewById(R.id.choice1);
+		choice2 = (Button) findViewById(R.id.choice2);
+		pic.setAnimation(null);
+		mask.setAnimation(null);
+		choice1.setAnimation(null);
+		choice2.setAnimation(null);
 	}
 	
 	private void doTrial(){
