@@ -30,7 +30,15 @@ public class MainActivity extends Activity {
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
         });
-        Session session = new Session(Build.MODEL, Build.SERIAL);
+        
+        doSessionTask();
+        doVersionTask();        
+        GlobalVar.getInstance().initCache();
+        GlobalVar.getInstance().setAppFlag(false);
+    }
+    
+    private void doSessionTask(){
+    	Session session = new Session(Build.MODEL, Build.SERIAL);
         PostSessionTask postTask = new PostSessionTask();
         postTask.execute(session);
         try {
@@ -39,7 +47,9 @@ public class MainActivity extends Activity {
         	e.printStackTrace(); 
         	//should probably explode and cry like a baby here
         }
-        
+    }
+    
+    private void doVersionTask(){
         VersionTask versionTask = new VersionTask();
         versionTask.execute(APP_VERSION);
         try {
@@ -53,8 +63,6 @@ public class MainActivity extends Activity {
         	e.printStackTrace();
         	//again, cry and let loose the dogs of war
         }
-        GlobalVar.getInstance().initCache();
-        GlobalVar.getInstance().setAppFlag(false);
     }
     
 	@Override
