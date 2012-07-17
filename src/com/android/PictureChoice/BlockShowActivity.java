@@ -33,6 +33,7 @@ public class BlockShowActivity extends Activity {
 		blockNum.setText(tempStr + " of " + BreakScreenActivity.getTotalBlocks() + " blocks");
 		GlobalVar.getInstance().setBlockNum((temp + 1));
 		GlobalVar.getInstance().setAppFlag(false);
+		GlobalVar.getInstance().clearMemory();
 	}
 	
 	@Override

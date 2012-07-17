@@ -47,5 +47,14 @@
         android:contentDescription="@string/mask_label"
         android:src="@drawable/checkerboard"
         android:visibility="invisible" />
+    
+    <ImageView
+        android:id="@+id/picture2"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/pic_label"
+        android:src="@drawable/ic_launcher"
+        android:visibility="invisible" />
 
 </FrameLayout>

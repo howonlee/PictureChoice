@@ -92,7 +92,7 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCache(){
-		final int memClass = 16; //call it this for now
+		final int memClass = 32; //call it this for now
 		final int cacheSize = 1024 * 1024 * memClass / 8;
 		imageCache = new LruCache<String, Bitmap>(cacheSize);
 		//static LruCache, so we have normal sizes
@@ -116,14 +116,13 @@ class GlobalVar extends Application {
 			cat1.add(i);
 		}//change this for increases in the number of animals
 
-		cat2.clear();
-		for (int i = R.drawable.noanimal01; i <= R.drawable.noanimal54; i++){
-			cat2.add(i);
-		}
-
-		Log.w("initCats", "start");
 		Collections.shuffle(cat1);
-		Collections.shuffle(cat2);
+		int gap = (R.drawable.noanimal01 - R.drawable.animal01);
+		cat2.clear();
+		for (int i = 0; i < cat1.size(); i++){
+			cat2.add((cat1.get(i) + gap));
+		}
+		Log.w("initCats", "start");
 	}
 	
 	public Integer chooseResId(int category, ArrayList<Integer> catList){
@@ -158,4 +157,10 @@ class GlobalVar extends Application {
 	public static GlobalVar getInstance(){//for singleton
 		return GlobalVar.instance;
 	}
+	
+	public void clearMemory(){
+		imageCache.evictAll();
+		System.gc();
+	}
+	
 }

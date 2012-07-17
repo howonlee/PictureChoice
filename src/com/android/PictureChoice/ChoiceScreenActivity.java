@@ -46,7 +46,7 @@ public class ChoiceScreenActivity extends Activity {
 	private PostTrialTask uploadTask = new PostTrialTask();
 
 	//views
-	ImageView pic, mask;
+	ImageView pic, mask, pic2;
 	Button choice1, choice2;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -101,10 +101,12 @@ public class ChoiceScreenActivity extends Activity {
 	private void findViews(){
 		pic = (ImageView) findViewById(R.id.picture);
 		mask = (ImageView) findViewById(R.id.mask);
+		pic2 = (ImageView) findViewById(R.id.picture2);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
 		pic.setAnimation(null);
 		mask.setAnimation(null);
+		pic2.setAnimation(null);
 		choice1.setAnimation(null);
 		choice2.setAnimation(null);
 	}
@@ -122,13 +124,19 @@ public class ChoiceScreenActivity extends Activity {
 				try {
 					currPicLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
 					Log.d("picLength", Integer.toString(currPicLength));
-					Thread.sleep(currPicLength);//astoundingly bad
+					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
 				mHandler.post(cycleVis);
 				try {
 					Thread.sleep(MASK_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+				mHandler.post(cycleVis);
+				try {
+					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
@@ -162,13 +170,17 @@ public class ChoiceScreenActivity extends Activity {
 		case 2: 
 			mask.setVisibility(ImageView.INVISIBLE);
 			currMaskEndTime = System.nanoTime();
+			pic2.setVisibility(ImageView.VISIBLE);
+			break;
+		case 3:
+			pic2.setVisibility(ImageView.INVISIBLE);
 			updatePic();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
 		}
 		visState++;
-		if (visState >= 3) {
+		if (visState >= 4) {
 			visState = 0;
 		}
 	}
@@ -186,18 +198,15 @@ public class ChoiceScreenActivity extends Activity {
 		ArrayList<Integer> cat1 = GlobalVar.getInstance().getCat1();
 		ArrayList<Integer> cat2 = GlobalVar.getInstance().getCat2();
 		
-		category = generator.nextInt(2);//range 0 to 1
-		Integer resId = 0;
-		if (category == 0){
-			resId = GlobalVar.getInstance().chooseResId(0, cat1);
-			currPicId = ((resId - R.drawable.animal01) * 4) + 1;
-		} else if (category == 1){
-			resId = GlobalVar.getInstance().chooseResId(1, cat2);
-			currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
-		}
-		//now that we've chosen resId...
-		if (resId != 0){
+		//category = generator.nextInt(2);//range 0 to 1
+		Integer resId = GlobalVar.getInstance().chooseResId(0, cat1);
+		currPicId = ((resId - R.drawable.animal01) * 4) + 1;
+		Integer resId2 = GlobalVar.getInstance().chooseResId(1, cat2);
+		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
+			//set currPicId only once here
+		if (resId != 0 && resId2 != 0){
 			updateView(resId);
+			updateView2(resId2);
 			storeInCache(cat1);
 			storeInCache(cat2);
 		}
@@ -210,6 +219,16 @@ public class ChoiceScreenActivity extends Activity {
 			pic.setImageBitmap(bitmap);
 		} else {
 			pic.setImageResource(resId);
+		}
+	}
+
+	private void updateView2(int resId2){
+		final String imageKey = String.valueOf(resId2);
+		final Bitmap bitmap = GlobalVar.getInstance().getBitmapFromMemCache(imageKey);
+		if (bitmap != null){
+			pic2.setImageBitmap(bitmap);
+		} else {
+			pic2.setImageResource(resId2);
 		}
 	}
 	
@@ -248,4 +267,5 @@ public class ChoiceScreenActivity extends Activity {
 			GlobalVar.getInstance().setInterrupted();
 		}
 	}
+	
 }
