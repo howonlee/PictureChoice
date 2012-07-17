@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.PictureChoice.Posting.Block;
+import com.android.PictureChoice.Posting.ExpEnd;
 import com.android.PictureChoice.Posting.PostBlockTask;
+import com.android.PictureChoice.Posting.PostExpEndTask;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
@@ -35,6 +37,7 @@ public class BreakScreenActivity extends Activity {
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
         	toBlock.setText("Press to exit the experiment");
         	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is 23FejJ4");
+        	sendEndPost();
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
         			sendBlockPost();
@@ -51,6 +54,13 @@ public class BreakScreenActivity extends Activity {
 		Block block = GlobalVar.getInstance().getBlock();
 		PostBlockTask blockTask = new PostBlockTask();
 		blockTask.execute(block);
+	}
+	
+	private void sendEndPost(){
+		String expId = Integer.toString(GlobalVar.getInstance().getExpId());
+		ExpEnd thisExpEnd = new ExpEnd(expId);
+		PostExpEndTask expEnd = new PostExpEndTask();
+		expEnd.execute(thisExpEnd);
 	}
 	
 	public static int getTotalBlocks(){
