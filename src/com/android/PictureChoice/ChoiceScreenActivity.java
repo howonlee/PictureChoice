@@ -55,44 +55,31 @@ public class ChoiceScreenActivity extends Activity {
 		findViews();
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		GlobalVar.getInstance().setAppFlag(false);
-		choice1.setOnClickListener(new OnClickListener(){
-			public void onClick(View view){
-				int expId = GlobalVar.getInstance().getExpId();
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
-						GlobalVar.getInstance().getBlockNum(), 0,
-						currMaskBeginTime, currMaskEndTime, currPicLength,
-						expId);
-				uploadTask = new PostTrialTask();//one of two main inefficiencies
-				uploadTask.execute(choice);
-				System.gc();
-				trialCount++;
-				if (trialCount == numTrials){
-					goToBreak();
-				} else {
-					doTrial();
-				}
-			}
-		});
-		choice2.setOnClickListener(new OnClickListener(){
-			public void onClick(View view){
-				int expId = GlobalVar.getInstance().getExpId();
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
-						GlobalVar.getInstance().getBlockNum(), 1,
-						currMaskBeginTime, currMaskEndTime, currPicLength,
-						expId);
-				uploadTask = new PostTrialTask();//one of two main inefficiencies
-				uploadTask.execute(choice);
-				System.gc();
-				trialCount++;
-				if (trialCount == numTrials){
-					goToBreak();
-				} else {
-					doTrial();
-				}
-			}
-		});
+		setButtonOnClickListener(choice1, 0);
+		setButtonOnClickListener(choice2, 1);
 		updatePic();
 		doTrial();
+	}
+	
+	private void setButtonOnClickListener(Button button, final int choiceMade){
+		button.setOnClickListener(new OnClickListener(){
+			public void onClick(View view){
+				int expId = GlobalVar.getInstance().getExpId();
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
+						GlobalVar.getInstance().getBlockNum(), choiceMade,
+						currMaskBeginTime, currMaskEndTime, currPicLength,
+						expId);
+				uploadTask = new PostTrialTask();//one of two main inefficiencies
+				uploadTask.execute(choice);
+				System.gc();
+				trialCount++;
+				if (trialCount == numTrials){
+					goToBreak();
+				} else {
+					doTrial();
+				}
+			}
+		});
 	}
 
 	/**
