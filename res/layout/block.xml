@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#8c1515"
     android:orientation="vertical"
     android:keepScreenOn="true" >
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ddcf99"
         android:textSize="40dp"
         android:text="@string/block_title" />
 
@@ -23,6 +25,7 @@
 	    android:id="@+id/blockNumView"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+        android:textColor="#ddcf99"
 	    android:layout_centerInParent="true"
 	    android:text="@string/temp_label"
 	    android:textSize="50dp" />

@@ -2,6 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class BlockShowActivity extends Activity {
-
+	final int SANDSTONE = 0xffeee6cb;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.block);
 		Button toChoice = (Button) findViewById(R.id.button_to_choice);
+        toChoice.getBackground().setColorFilter(SANDSTONE, PorterDuff.Mode.MULTIPLY);
 		toChoice.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				GlobalVar.getInstance().setAppFlag(true);

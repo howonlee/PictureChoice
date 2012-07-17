@@ -2,6 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.android.PictureChoice.Posting.PostExpEndTask;
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
 	static final int totalBlocks = 2;
+	final int SANDSTONE = 0xffeee6cb;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class BreakScreenActivity extends Activity {
 		GlobalVar.getInstance().setAppFlag(false);
 		
 		Button toBlock = (Button) findViewById(R.id.button_to_block);
+        toBlock.getBackground().setColorFilter(SANDSTONE, PorterDuff.Mode.MULTIPLY);
         TextView breakMsg = (TextView) findViewById(R.id.break_msg);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){

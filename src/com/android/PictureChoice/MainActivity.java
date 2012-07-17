@@ -2,6 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,7 +20,7 @@ import com.android.PictureChoice.Posting.VersionTask;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
-	
+	final int SANDSTONE = 0xffeee6cb;
 	final int APP_VERSION = 1;
 	EditText mTurkText;
 	
@@ -28,8 +29,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         Button toBlock = (Button) findViewById(R.id.button_to_block);
-        //setting background color...
         mTurkText = (EditText) findViewById(R.id.mTurkText);
+        //setting background color...
+        toBlock.getBackground().setColorFilter(SANDSTONE, PorterDuff.Mode.MULTIPLY);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){        		   
                 doMTurkTask();
