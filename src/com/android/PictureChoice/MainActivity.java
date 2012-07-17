@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         Button toBlock = (Button) findViewById(R.id.button_to_block);
+        //setting background color...
         mTurkText = (EditText) findViewById(R.id.mTurkText);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){        		   

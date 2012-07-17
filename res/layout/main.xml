@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#8c1515"
     android:keepScreenOn="true" >
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ddcf99"
         android:text="@string/hello" />
 
     <Button
@@ -17,6 +19,7 @@
         android:text="@string/main_button_label" />
 
     <EditText
+        android:inputType="text"
         android:id="@+id/mTurkText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

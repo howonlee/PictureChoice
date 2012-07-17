@@ -16,24 +16,22 @@ import android.os.AsyncTask;
 
 public class PostExpEndTask extends AsyncTask<ExpEnd, Integer, Integer> {
 
-	private String urlString = "http://www.stanford.edu/group/pdplab/cgi-bin/mturkid.php";
+	private String urlString = "http://www.stanford.edu/group/pdplab/cgi-bin/expend.php";
 	@Override
 	protected Integer doInBackground(ExpEnd... params) {
 		ExpEnd id = params[0];
-		Integer toReturn = null;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(urlString);
 		try {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
 			nameValPairs.add(new BasicNameValuePair("exp_id", id.getExpId()));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
-			HttpResponse response = httpclient.execute(httppost);
+			httpclient.execute(httppost);
 			//Log.d("an http try", EntityUtils.toString(response.getEntity()));
 				//this log consumes the content, hilariously
-			toReturn = Integer.valueOf(EntityUtils.toString(response.getEntity()));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-		return toReturn;
+		return null;
 	}
 }

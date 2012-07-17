@@ -57,9 +57,11 @@ public class ChoiceScreenActivity extends Activity {
 		GlobalVar.getInstance().setAppFlag(false);
 		choice1.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
+				int expId = GlobalVar.getInstance().getExpId();
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
 						GlobalVar.getInstance().getBlockNum(), 0,
-						currMaskBeginTime, currMaskEndTime, currPicLength);
+						currMaskBeginTime, currMaskEndTime, currPicLength,
+						expId);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
@@ -73,9 +75,11 @@ public class ChoiceScreenActivity extends Activity {
 		});
 		choice2.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
+				int expId = GlobalVar.getInstance().getExpId();
 				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
 						GlobalVar.getInstance().getBlockNum(), 1,
-						currMaskBeginTime, currMaskEndTime, currPicLength);
+						currMaskBeginTime, currMaskEndTime, currPicLength,
+						expId);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
 				System.gc();
