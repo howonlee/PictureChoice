@@ -25,7 +25,7 @@ public class ChoiceScreenActivity extends Activity {
 	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
 	private final int MIN_TIME = 50; //minimum picture-showing time
-	private final int MAX_TIME = 500; //maximum picture-showing time
+	private final int MAX_TIME = 300; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
 	private Random generator = new Random();
 	public int currPicLength;

@@ -8,16 +8,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
-	<Button 
+
+    <Button
         android:id="@+id/button_to_block"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/main_button_label" />
-	
-	<EditText
-	    android:id="@+id/mTurkId"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_above="@id/button_to_block"/>
+
+    <EditText
+        android:id="@+id/mTurkText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_to_block"
+        />
+
 </RelativeLayout>

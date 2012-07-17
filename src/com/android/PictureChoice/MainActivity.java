@@ -8,8 +8,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.PictureChoice.Posting.MTurkId;
 import com.android.PictureChoice.Posting.PostMTurkIdTask;
 import com.android.PictureChoice.Posting.PostSessionTask;
 import com.android.PictureChoice.Posting.Session;
@@ -19,22 +21,24 @@ public class MainActivity extends Activity {
     /** Called when the activity is first created. */
 	
 	final int APP_VERSION = 1;
+	EditText mTurkText;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         Button toBlock = (Button) findViewById(R.id.button_to_block);
+        mTurkText = (EditText) findViewById(R.id.mTurkText);
         toBlock.setOnClickListener(new OnClickListener(){
-        	public void onClick(View view){
+        	public void onClick(View view){        		   
+                doMTurkTask();
         		GlobalVar.getInstance().setAppFlag(true);
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
         });
         
         doSessionTask();
-        doVersionTask();        
-        doMturkTask();
+        doVersionTask();     
         GlobalVar.getInstance().initCache();
 		GlobalVar.getInstance().initCategories();
         GlobalVar.getInstance().setAppFlag(false);
@@ -69,9 +73,9 @@ public class MainActivity extends Activity {
     }
     
     private void doMTurkTask(){
-    	MTurkId 
+    	MTurkId turk = new MTurkId(mTurkText.getText().toString(), Integer.toString(GlobalVar.getInstance().getExpId()));
     	PostMTurkIdTask mturkId = new PostMTurkIdTask();
-    	mturkId.
+    	mturkId.execute(turk);
     }
     
 	@Override

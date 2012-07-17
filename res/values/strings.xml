@@ -4,7 +4,7 @@
     <string name="hello"> Welcome to the experiment. Do not press the HOME button for the duration of the experiment.\n\n
         You will see a sequence of 50 pictures, broken into two blocks. At the end of each picture, there will be a checkerboard mask. Press "YES" if there is an animal in the picture (People count as animals). Press "NO" if there is no animal in the picture.\n\n
         After you press the "YES" or "NO" button, the next picture will be displayed.\n\n
-        Put your Mechanical Turk ID in the textbox below.</string>
+        Enter your Amazon Turk id below.</string>
     <string name="app_name">PictureChoice</string>
     <string name="block_title">Block #:</string>
     <string name="break_title">Break screen</string>
@@ -12,7 +12,7 @@
     <string name="choice1_label">Yes</string>
     <string name="choice2_label">No</string>
     <string name="break_msg">Take a break</string>
-    <string name="main_button_label">Press to start experiment</string>
+    <string name="main_button_label">Press to start game</string>
     <string name="block_button_label">Press to start the block</string>
     <string name="break_button_label">Press to go to next block</string>
     <string name="pic_label">Experimental Picture</string>
