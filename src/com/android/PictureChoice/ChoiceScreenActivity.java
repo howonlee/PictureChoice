@@ -28,14 +28,18 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MAX_TIME = 300; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
 	private Random generator = new Random();
-	public int currPicLength;
 	
 	//data on blocks, for posting
+	public int currPicLength;
 	private int currPicId = -1;
 	private long currBeginTime;
 	private long currEndTime;
+	private long currBeginTime2;
+	private long currEndTime2;
 	private long currMaskBeginTime;
 	private long currMaskEndTime;
+	private long currPicClickTime = 0;//unused right now
+	private long currClickTime;
 	//no current block number, no currChoice: that's in GlobalVar
 
 	//state of the visibility state machine
@@ -65,9 +69,12 @@ public class ChoiceScreenActivity extends Activity {
 		button.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				int expId = GlobalVar.getInstance().getExpId();
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime, currEndTime, 
-						GlobalVar.getInstance().getBlockNum(), choiceMade,
-						currMaskBeginTime, currMaskEndTime, currPicLength,
+				currClickTime = System.nanoTime();
+				TrialChoice choice = new TrialChoice(currPicId, currBeginTime,
+						currEndTime, currBeginTime2, currEndTime2, 
+						GlobalVar.getInstance().getBlockNum(),
+						choiceMade, currMaskBeginTime, currMaskEndTime,
+						currPicClickTime, currClickTime, currPicLength,
 						expId);
 				uploadTask = new PostTrialTask();//one of two main inefficiencies
 				uploadTask.execute(choice);
@@ -158,9 +165,11 @@ public class ChoiceScreenActivity extends Activity {
 			mask.setVisibility(ImageView.INVISIBLE);
 			currMaskEndTime = System.nanoTime();
 			pic2.setVisibility(ImageView.VISIBLE);
+			currBeginTime2 = System.nanoTime();
 			break;
 		case 3:
 			pic2.setVisibility(ImageView.INVISIBLE);
+			currEndTime2 = System.nanoTime();
 			updatePic();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
@@ -194,6 +203,8 @@ public class ChoiceScreenActivity extends Activity {
 		if (resId != 0 && resId2 != 0){
 			updateView(resId);
 			updateView2(resId2);
+			Log.d("pic1", Integer.toString(resId));
+			Log.d("pic2", Integer.toString(resId2));
 			storeInCache(cat1);
 			storeInCache(cat2);
 		}

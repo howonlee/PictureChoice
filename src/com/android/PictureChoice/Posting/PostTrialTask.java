@@ -25,10 +25,14 @@ public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 			nameValPairs.add(new BasicNameValuePair("pic_id", Integer.toString(choice.getPicId())));
 			nameValPairs.add(new BasicNameValuePair("time_begin", Long.toString(choice.getBeginTime())));
 			nameValPairs.add(new BasicNameValuePair("time_end", Long.toString(choice.getEndTime())));
+			nameValPairs.add(new BasicNameValuePair("time2_begin", Long.toString(choice.getBeginTime2())));
+			nameValPairs.add(new BasicNameValuePair("time2_end", Long.toString(choice.getEndTime2())));
 			nameValPairs.add(new BasicNameValuePair("block_num", Integer.toString(choice.getBlockNum())));
 			nameValPairs.add(new BasicNameValuePair("choice_made", Integer.toString(choice.getChoiceMade())));
 			nameValPairs.add(new BasicNameValuePair("mask_begin", Long.toString(choice.getMaskBeginTime())));
 			nameValPairs.add(new BasicNameValuePair("mask_end", Long.toString(choice.getMaskEndTime())));
+			nameValPairs.add(new BasicNameValuePair("time_pic_click", Long.toString(choice.getPicClickTime())));
+			nameValPairs.add(new BasicNameValuePair("time_click", Long.toString(choice.getClickTime())));
 			nameValPairs.add(new BasicNameValuePair("pic_length", Integer.toString(choice.getPicLength())));
 			nameValPairs.add(new BasicNameValuePair("exp_id", Integer.toString(choice.getExpId())));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
