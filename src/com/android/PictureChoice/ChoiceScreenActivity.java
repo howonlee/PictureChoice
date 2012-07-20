@@ -27,6 +27,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int MIN_TIME = 50; //minimum picture-showing time
 	private final int MAX_TIME = 300; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
+	private final int SECOND_PIC_TIME = 300;
 	private Random generator = new Random();
 	
 	//data on blocks, for posting
@@ -51,7 +52,7 @@ public class ChoiceScreenActivity extends Activity {
 
 	//views
 	ImageView pic, mask, pic2;
-	Button choice1, choice2;
+	Button choice1, choice2, picButton;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -98,6 +99,13 @@ public class ChoiceScreenActivity extends Activity {
 		pic2 = (ImageView) findViewById(R.id.picture2);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
+		picButton = (Button) findViewById(R.id.pic_button);
+		picButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				cycleVisibility();				
+			}
+		});
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		pic2.setAnimation(null);
@@ -130,7 +138,7 @@ public class ChoiceScreenActivity extends Activity {
 				}
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(currPicLength);
+					Thread.sleep(SECOND_PIC_TIME);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}

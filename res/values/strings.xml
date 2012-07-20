@@ -16,6 +16,7 @@
     <string name="block_button_label">Press to start the block</string>
     <string name="break_button_label">Press to go to next block</string>
     <string name="pic_label">Experimental Picture</string>
+    <string name="pic_button_label">Press to go on</string>
     <string name="mask_label">Mask</string>
     <string name="temp_label">0</string>
     <string name="ready_label">Ready?</string>

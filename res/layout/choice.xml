@@ -29,6 +29,13 @@
 			android:layout_alignParentRight="true"
             android:text="@string/choice2_label"
             android:visibility="invisible" />
+        <Button
+        	android:id="@+id/pic_button"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:text="@string/pic_button_label"
+	        android:layout_alignParentBottom="true"
+    	    android:visibility="visible" />
     </RelativeLayout>
 
     <ImageView
@@ -39,6 +46,7 @@
         android:contentDescription="@string/pic_label"
         android:src="@drawable/ic_launcher"
         android:visibility="visible" />
+    
 
     <ImageView
         android:id="@+id/mask"
