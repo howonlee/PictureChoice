@@ -22,12 +22,13 @@ import com.android.PictureChoice.Posting.TrialChoice;
 public class ChoiceScreenActivity extends Activity {
 	private final int numTrials = 25; //number of trials per block
 	private int trialCount = 0;
-	private int category = 0; //0 for category 1, 1 for cat 2
+	//private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
 	private final int MIN_TIME = 50; //minimum picture-showing time
 	private final int MAX_TIME = 300; //maximum picture-showing time
 	private final int MASK_TIME = 500; //mask-showing time
 	private final int SECOND_PIC_TIME = 300;
+	private final int THREAD_SLEEP_TIME = 50000; //if they're looking at it for 50 seconds, well...
 	private Random generator = new Random();
 	
 	//data on blocks, for posting
@@ -39,7 +40,7 @@ public class ChoiceScreenActivity extends Activity {
 	private long currEndTime2;
 	private long currMaskBeginTime;
 	private long currMaskEndTime;
-	private long currPicClickTime = 0;//unused right now
+	private long currPicClickTime;
 	private long currClickTime;
 	//no current block number, no currChoice: that's in GlobalVar
 
@@ -48,6 +49,7 @@ public class ChoiceScreenActivity extends Activity {
 	//resource id's for both categories of pictures
 	//thread handler and asynctask
 	private Handler mHandler = new Handler();
+	private Thread mThread;
 	private PostTrialTask uploadTask = new PostTrialTask();
 
 	//views
@@ -101,9 +103,10 @@ public class ChoiceScreenActivity extends Activity {
 		choice2 = (Button) findViewById(R.id.choice2);
 		picButton = (Button) findViewById(R.id.pic_button);
 		picButton.setOnClickListener(new OnClickListener() {
-			
 			public void onClick(View v) {
-				cycleVisibility();				
+				cycleVisibility();
+				mThread.interrupt(); //thread interruption: is very hacky, yes
+				currPicClickTime = System.nanoTime();
 			}
 		});
 		pic.setAnimation(null);
@@ -126,11 +129,14 @@ public class ChoiceScreenActivity extends Activity {
 				try {
 					currPicLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
 					Log.d("picLength", Integer.toString(currPicLength));
-					Thread.sleep(currPicLength);
+					Thread.sleep(THREAD_SLEEP_TIME);
 				} catch (InterruptedException e){
-					e.printStackTrace();
+					//e.printStackTrace();
+					//do nothing, go to next sleepiness
+					//this is hackish, I should figure out the right way
 				}
-				mHandler.post(cycleVis);
+				//mHandler.post(cycleVis);
+				//the button takes care of this
 				try {
 					Thread.sleep(MASK_TIME);
 				} catch (InterruptedException e){
@@ -146,7 +152,8 @@ public class ChoiceScreenActivity extends Activity {
 
 			}
 		};
-		new Thread(threadRunnable).start();
+		mThread = new Thread(threadRunnable);
+		mThread.start();
 	}
 
 	/*
@@ -159,12 +166,14 @@ public class ChoiceScreenActivity extends Activity {
 		case 0: 
 			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
+			picButton.setVisibility(ImageView.VISIBLE);
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
 			currBeginTime = System.nanoTime();
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
+			picButton.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
 			currEndTime = System.nanoTime();
 			currMaskBeginTime = System.nanoTime(); //redundant, yes
