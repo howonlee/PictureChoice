@@ -1,6 +1,7 @@
 package com.android.PictureChoice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import android.app.Activity;
@@ -24,8 +25,10 @@ public class ChoiceScreenActivity extends Activity {
 	private int trialCount = 0;
 	private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
-	private final int MIN_TIME = 50; //minimum picture-showing time
-	private final int MAX_TIME = 300; //maximum picture-showing time
+	//private final int MIN_TIME = 50; //minimum picture-showing time
+	//private final int MAX_TIME = 300; //maximum picture-showing time
+		//now, we are contrabanissed for this array thing
+	private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
 	private final int MASK_TIME = 500; //mask-showing time
 	private Random generator = new Random();
 	
@@ -116,7 +119,7 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					currPicLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
+					currPicLength = getNextPicLength();
 					Log.d("picLength", Integer.toString(currPicLength));
 					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
@@ -139,6 +142,16 @@ public class ChoiceScreenActivity extends Activity {
 			}
 		};
 		new Thread(threadRunnable).start();
+	}
+	
+	private int getNextPicLength(){
+		if (possibleTimes.isEmpty()){
+			for (int i = 50; i < 300; i += 50){
+				possibleTimes.add(i);
+			}
+			Collections.shuffle(possibleTimes);
+		}
+		return possibleTimes.remove(0);		
 	}
 
 	/*
