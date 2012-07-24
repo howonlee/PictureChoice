@@ -23,14 +23,14 @@ import com.android.PictureChoice.Posting.TrialChoice;
 public class ChoiceScreenActivity extends Activity {
 	private final int numTrials = 25; //number of trials per block
 	private int trialCount = 0;
-	private int category = 0; //0 for category 1, 1 for cat 2
+	//private int category = 0; //0 for category 1, 1 for cat 2
 	//all time units in milliseconds
 	//private final int MIN_TIME = 50; //minimum picture-showing time
 	//private final int MAX_TIME = 300; //maximum picture-showing time
 		//now, we are contrabanissed for this array thing
 	private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
 	private final int MASK_TIME = 500; //mask-showing time
-	private Random generator = new Random();
+	//private Random generator = new Random();
 	
 	//data on blocks, for posting
 	public int currPicLength;
