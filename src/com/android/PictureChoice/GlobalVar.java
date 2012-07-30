@@ -112,12 +112,12 @@ class GlobalVar extends Application {
 	
 	public void initCategories(){
 		cat1.clear();
-		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
+		for (int i = R.drawable.acfig001_1; i <= R.drawable.afig036_1; i++){
 			cat1.add(i);
 		}//change this for increases in the number of animals
 
 		Collections.shuffle(cat1);
-		int gap = (R.drawable.noanimal01 - R.drawable.animal01);
+		int gap = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
 		cat2.clear();
 		for (int i = 0; i < cat1.size(); i++){
 			cat2.add((cat1.get(i) + gap));

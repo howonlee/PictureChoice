@@ -27,8 +27,10 @@ public class ChoiceScreenActivity extends Activity {
 	//private final int MIN_TIME = 50; //minimum picture-showing time
 	//private final int MAX_TIME = 300; //maximum picture-showing time
 		//now, we are contrabanissed for this array thing
-	private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
-	private final int MASK_TIME = 500; //mask-showing time
+	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
+	private final int FIRST_TIME = 200;
+	private final int SECOND_TIME = 1000;
+	private final int MASK_TIME = 1000; //mask-showing time
 	//private Random generator = new Random();
 	
 	//data on blocks, for posting
@@ -118,7 +120,7 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					currPicLength = getNextPicLength();
+					currPicLength = FIRST_TIME;
 					Log.d("picLength", Integer.toString(currPicLength));
 					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
@@ -132,6 +134,7 @@ public class ChoiceScreenActivity extends Activity {
 				}
 				mHandler.post(cycleVis);
 				try {
+					currPicLength = SECOND_TIME;
 					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
 					e.printStackTrace();
@@ -143,15 +146,15 @@ public class ChoiceScreenActivity extends Activity {
 		new Thread(threadRunnable).start();
 	}
 	
-	private int getNextPicLength(){
+	/*private int getNextPicLength(){
 		if (possibleTimes.isEmpty()){
 			for (int i = 50; i < 300; i += 50){
 				possibleTimes.add(i);
 			}
 			Collections.shuffle(possibleTimes);
 		}
-		return possibleTimes.remove(0);		
-	}
+		return possibleTimes.remove(0);
+	}*/
 
 	/*
 	 * cycleVisibility()
@@ -208,7 +211,7 @@ public class ChoiceScreenActivity extends Activity {
 		
 		//category = generator.nextInt(2);//range 0 to 1
 		Integer resId = GlobalVar.getInstance().chooseResId(0, cat1);
-		currPicId = ((resId - R.drawable.animal01) * 4) + 1;
+		currPicId = ((resId - R.drawable.acfig001_1) * 4) + 1;
 		Integer resId2 = GlobalVar.getInstance().chooseResId(1, cat2);
 		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
 			//set currPicId only once here
