@@ -1,7 +1,6 @@
 package com.android.PictureChoice;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +27,7 @@ public class ChoiceScreenActivity extends Activity {
 	//private final int MAX_TIME = 300; //maximum picture-showing time
 		//now, we are contrabanissed for this array thing
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
+	private final int FIXATION_TIME = 500;
 	private final int FIRST_TIME = 500;
 	private final int SECOND_TIME = 1000;
 	private final int MASK_TIME = 1000; //mask-showing time
@@ -121,7 +121,7 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(500);
+					Thread.sleep(FIXATION_TIME);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
