@@ -211,7 +211,7 @@ public class ChoiceScreenActivity extends Activity {
 		
 		//category = generator.nextInt(2);//range 0 to 1
 		Integer resId = GlobalVar.getInstance().chooseResId(0, cat1);
-		currPicId = ((resId - R.drawable.acfig001_1) * 4) + 1;
+		currPicId = ((resId - R.drawable.acfig001_1) * 4) + 217;
 		Integer resId2 = GlobalVar.getInstance().chooseResId(1, cat2);
 		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
 			//set currPicId only once here
