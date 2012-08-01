@@ -25,10 +25,14 @@ import com.android.PictureChoice.Posting.Block;
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
-	private ArrayList<Integer> changeFirst = new ArrayList<Integer>();
-	private ArrayList<Integer> changeSecond = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeFirst = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeSecond = new ArrayList<Integer>();
+	private ArrayList<Integer> changeFirstSixes = new ArrayList<Integer>();
+	private ArrayList<Integer> changeSecondSixes = new ArrayList<Integer>();
+	private ArrayList<Integer> changeFirstOthers = new ArrayList<Integer>();
+	private ArrayList<Integer> changeSecondOthers = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeFirstSixes = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeSecondSixes = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeFirstOthers = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeSecondOthers = new ArrayList<Integer>();
 	private LruCache<String, Bitmap> imageCache;
 	private boolean appFlag = true;
 	private boolean interrupted = false;
@@ -113,33 +117,45 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCategories(){
-		changeFirst.clear();
+		changeFirstSixes.clear();
 		for (int i = R.drawable.acfig001_1; i <= R.drawable.acfig036_1; i++){
-			changeFirst.add(i);
+			changeFirstSixes.add(i);
 		}//change this for increases in the number of animals
+		changeFirstOthers.clear();
 		for (int i = R.drawable.ascfig001_301; i <= R.drawable.ascfig035_401; i++){
-			changeFirst.add(i);
+			changeFirstOthers.add(i);
 		}
-		Collections.shuffle(changeFirst);
+		Collections.shuffle(changeFirstSixes);
+		Collections.shuffle(changeFirstOthers);
 		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1); //the gap works because everything is evenly matched
-		changeSecond.clear();
-		for (int i = 0; i < changeFirst.size(); i++){
-			changeSecond.add((changeFirst.get(i) + gap1));
+		changeSecondSixes.clear();
+		for (int i = 0; i < changeFirstSixes.size(); i++){
+			changeSecondSixes.add((changeFirstSixes.get(i) + gap1));
+		}
+		changeSecondOthers.clear();
+		for (int i = 0; i < changeSecondOthers.size(); i++){
+			changeSecondOthers.add((changeFirstSixes.get(i) + gap1));
 		}
 		
-		noChangeFirst.clear();
+		noChangeFirstSixes.clear();
 		for (int i = R.drawable.afig001_1; i <= R.drawable.afig036_1; i++){
-			noChangeFirst.add(i);
+			noChangeFirstSixes.add(i);
 		}
+		noChangeFirstOthers.clear();
 		for (int i = R.drawable.asfig001_301; i <= R.drawable.asfig035_401; i++){
-			noChangeFirst.add(i);
+			noChangeFirstOthers.add(i);
 		}
 
-		Collections.shuffle(noChangeFirst);
+		Collections.shuffle(noChangeFirstSixes);
+		Collections.shuffle(noChangeFirstOthers);
 		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
-		noChangeSecond.clear();
-		for (int i = 0; i < noChangeFirst.size(); i++){
-			noChangeSecond.add((noChangeFirst.get(i) + gap2));
+		noChangeSecondSixes.clear();
+		for (int i = 0; i < noChangeFirstSixes.size(); i++){
+			noChangeSecondSixes.add((noChangeFirstSixes.get(i) + gap2));
+		}
+		noChangeSecondOthers.clear();
+		for (int i = 0; i < noChangeFirstOthers.size(); i++){
+			noChangeSecondOthers.add((noChangeFirstOthers.get(i) + gap2));
 		}
 		Log.w("initCats", "start");
 	}
@@ -156,20 +172,36 @@ class GlobalVar extends Application {
 		return resId;
 	}
 	
-	public ArrayList<Integer> getChangeFirst(){
-		return changeFirst;
+	public ArrayList<Integer> getChangeFirstSixes(){
+		return changeFirstSixes;
 	}
 	
-	public ArrayList<Integer> getChangeSecond(){
-		return changeSecond;
+	public ArrayList<Integer> getChangeSecondSixes(){
+		return changeSecondSixes;
 	}
 	
-	public ArrayList<Integer> getNoChangeFirst(){
-		return noChangeFirst;
+	public ArrayList<Integer> getNoChangeFirstSixes(){
+		return noChangeFirstSixes;
 	}
 	
-	public ArrayList<Integer> getNoChangeSecond(){
-		return noChangeSecond;
+	public ArrayList<Integer> getNoChangeSecondSixes(){
+		return noChangeSecondSixes;
+	}
+
+	public ArrayList<Integer> getChangeFirstOthers(){
+		return changeFirstOthers;
+	}
+	
+	public ArrayList<Integer> getChangeSecondOthers(){
+		return changeSecondOthers;
+	}
+	
+	public ArrayList<Integer> getNoChangeFirstOthers(){
+		return noChangeFirstOthers;
+	}
+	
+	public ArrayList<Integer> getNoChangeSecondOthers(){
+		return noChangeSecondOthers;
 	}
 	
 	private static GlobalVar instance; //for singleton

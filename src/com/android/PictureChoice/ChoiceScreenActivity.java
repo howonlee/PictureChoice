@@ -21,6 +21,8 @@ import com.android.PictureChoice.Posting.TrialChoice;
 
 public class ChoiceScreenActivity extends Activity {
 	private final int numTrials = 50;
+	private final int numSixes = 18;
+	private final int numOthers = 7;
 	private int trialCount = 0;
 	private int changeIndicator = 0; //change or no change
 	//all time units in milliseconds
@@ -62,8 +64,8 @@ public class ChoiceScreenActivity extends Activity {
 		findViews();
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		GlobalVar.getInstance().setAppFlag(false);
-		setButtonOnClickListener(choice1, 0);
-		setButtonOnClickListener(choice2, 1);
+		setButtonOnClickListener(choice1, 1);
+		setButtonOnClickListener(choice2, -1);
 		updatePic();
 		doTrial();
 	}
@@ -217,33 +219,45 @@ public class ChoiceScreenActivity extends Activity {
 	}
 
 	private void updatePic(){
-		ArrayList<Integer> catChangeFirst = GlobalVar.getInstance().getChangeFirst();
-		ArrayList<Integer> catChangeSecond = GlobalVar.getInstance().getChangeSecond();
-		ArrayList<Integer> catNoChangeFirst = GlobalVar.getInstance().getNoChangeFirst();
-		ArrayList<Integer> catNoChangeSecond = GlobalVar.getInstance().getNoChangeSecond();
+		ArrayList<Integer> catChangeFirstSixes = GlobalVar.getInstance().getChangeFirstSixes();
+		ArrayList<Integer> catChangeSecondSixes = GlobalVar.getInstance().getChangeSecondSixes();
+		ArrayList<Integer> catNoChangeFirstSixes = GlobalVar.getInstance().getNoChangeFirstSixes();
+		ArrayList<Integer> catNoChangeSecondSixes = GlobalVar.getInstance().getNoChangeSecondSixes();
+		ArrayList<Integer> catChangeFirstOthers = GlobalVar.getInstance().getChangeFirstOthers();
+		ArrayList<Integer> catChangeSecondOthers = GlobalVar.getInstance().getChangeSecondOthers();
+		ArrayList<Integer> catNoChangeFirstOthers = GlobalVar.getInstance().getNoChangeFirstOthers();
+		ArrayList<Integer> catNoChangeSecondOthers = GlobalVar.getInstance().getNoChangeSecondOthers();
 		
 		changeIndicator = getChangeNoChange();
-		Integer resId, resId2;
-		if (changeIndicator == 1){
-			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirst);
-			currPicId = getResources().getResourceEntryName(resId);
-			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecond);
-		} else {
-			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirst);
-			currPicId = getResources().getResourceEntryName(resId);
-			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecond);
+		Integer resId = 0, resId2 = 0;
+		switch (changeIndicator){
+		case 0:
+			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirstSixes);
+			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecondSixes);
+			break;
+		case 1:
+			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirstSixes);
+			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecondSixes);
+			break;
+		case 2:
+			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirstOthers);
+			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecondOthers);
+			break;
+		case 3:
+			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirstOthers);
+			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecondOthers);
+			break;
 		}
-		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
-			//set currPicId only once here
+		currPicId = getResources().getResourceEntryName(resId);
 		if (resId != 0 && resId2 != 0){
 			updateView(resId);
 			updateView2(resId2);
 			Log.d("pic1", Integer.toString(resId));
 			Log.d("pic2", Integer.toString(resId2));
-			storeInCache(catChangeFirst);
-			storeInCache(catChangeSecond);
-			storeInCache(catNoChangeFirst);
-			storeInCache(catNoChangeSecond);
+			storeInCache(catChangeFirstSixes);
+			storeInCache(catChangeFirstOthers);
+			storeInCache(catNoChangeFirstSixes);
+			storeInCache(catNoChangeFirstOthers);
 		}
 	}
 	
@@ -282,9 +296,13 @@ public class ChoiceScreenActivity extends Activity {
 	
 	private int getChangeNoChange(){
 		if (changeNoChange.isEmpty()){
-			for (int i = 0; i < (numTrials / 2); i++){
+			for (int i = 0; i < numSixes; i++){
 				changeNoChange.add(0);
 				changeNoChange.add(1);
+			}
+			for (int i = 0; i < numOthers; i++){
+				changeNoChange.add(2);
+				changeNoChange.add(3);
 			}
 			Collections.shuffle(changeNoChange);
 		}
