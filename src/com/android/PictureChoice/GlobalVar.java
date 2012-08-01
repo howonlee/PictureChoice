@@ -117,47 +117,25 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCategories(){
-		changeFirstSixes.clear();
-		for (int i = R.drawable.acfig001_1; i <= R.drawable.acfig036_1; i++){
-			changeFirstSixes.add(i);
-		}//change this for increases in the number of animals
-		changeFirstOthers.clear();
-		for (int i = R.drawable.ascfig001_301; i <= R.drawable.ascfig035_401; i++){
-			changeFirstOthers.add(i);
-		}
-		Collections.shuffle(changeFirstSixes);
-		Collections.shuffle(changeFirstOthers);
-		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1); //the gap works because everything is evenly matched
-		changeSecondSixes.clear();
-		for (int i = 0; i < changeFirstSixes.size(); i++){
-			changeSecondSixes.add((changeFirstSixes.get(i) + gap1));
-		}
-		changeSecondOthers.clear();
-		for (int i = 0; i < changeSecondOthers.size(); i++){
-			changeSecondOthers.add((changeFirstSixes.get(i) + gap1));
-		}
-		
-		noChangeFirstSixes.clear();
-		for (int i = R.drawable.afig001_1; i <= R.drawable.afig036_1; i++){
-			noChangeFirstSixes.add(i);
-		}
-		noChangeFirstOthers.clear();
-		for (int i = R.drawable.asfig001_301; i <= R.drawable.asfig035_401; i++){
-			noChangeFirstOthers.add(i);
-		}
-
-		Collections.shuffle(noChangeFirstSixes);
-		Collections.shuffle(noChangeFirstOthers);
+		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
 		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
-		noChangeSecondSixes.clear();
-		for (int i = 0; i < noChangeFirstSixes.size(); i++){
-			noChangeSecondSixes.add((noChangeFirstSixes.get(i) + gap2));
-		}
-		noChangeSecondOthers.clear();
-		for (int i = 0; i < noChangeFirstOthers.size(); i++){
-			noChangeSecondOthers.add((noChangeFirstOthers.get(i) + gap2));
-		}
+		setCats(changeFirstSixes, changeSecondSixes, R.drawable.acfig001_1, R.drawable.acfig036_1, gap1);
+		setCats(changeFirstOthers, changeSecondOthers, R.drawable.ascfig001_301, R.drawable.ascfig035_401, gap1);
+		setCats(noChangeFirstSixes, noChangeSecondSixes, R.drawable.afig001_1, R.drawable.afig036_1, gap2);
+		setCats(noChangeFirstOthers, noChangeSecondOthers, R.drawable.asfig001_301, R.drawable.asfig035_401, gap2);		
 		Log.w("initCats", "start");
+	}
+	
+	private void setCats(ArrayList<Integer> cat1, ArrayList<Integer> cat2, int first, int last, int gap){
+		cat1.clear();
+		for (int i = first; i <= last; i++){
+			cat1.add(i);
+		}//change this for increases in the number of animals
+		Collections.shuffle(cat1);
+		cat2.clear();
+		for (int i = 0; i < cat1.size(); i++){
+			cat2.add((cat1.get(i) + gap));
+		}
 	}
 	
 	public Integer chooseResId(int category, ArrayList<Integer> catList){

@@ -305,6 +305,7 @@ public class ChoiceScreenActivity extends Activity {
 				changeNoChange.add(3);
 			}
 			Collections.shuffle(changeNoChange);
+			Log.w("changeNoChange", "initialized");
 		}
 		return changeNoChange.remove(0);
 	}
