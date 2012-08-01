@@ -20,7 +20,7 @@ import com.android.PictureChoice.Posting.PostTrialTask;
 import com.android.PictureChoice.Posting.TrialChoice;
 
 public class ChoiceScreenActivity extends Activity {
-	private final int numTrials = 50; //number of trials per block
+	private final int numTrials = 50;
 	private int trialCount = 0;
 	private int changeIndicator = 0; //change or no change
 	//all time units in milliseconds
@@ -32,7 +32,6 @@ public class ChoiceScreenActivity extends Activity {
 	private final int FIRST_TIME = 500;
 	private final int SECOND_TIME = 1000;
 	private final int MASK_TIME = 1000; //mask-showing time
-	//private Random generator = new Random();
 	
 	//data on blocks, for posting
 	public int currPicLength;
@@ -43,13 +42,12 @@ public class ChoiceScreenActivity extends Activity {
 	private long currEndTime2;
 	private long currMaskBeginTime;
 	private long currMaskEndTime;
-	private long currPicClickTime = 0;//unused right now
+	private long currPicClickTime = 0;
 	private long currClickTime;
 	//no current block number, no currChoice: that's in GlobalVar
 
 	//state of the visibility state machine
 	private int visState = 0;
-	//resource id's for both categories of pictures
 	//thread handler and asynctask
 	private Handler mHandler = new Handler();
 	private PostTrialTask uploadTask = new PostTrialTask();
@@ -228,11 +226,11 @@ public class ChoiceScreenActivity extends Activity {
 		Integer resId, resId2;
 		if (changeIndicator == 1){
 			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirst);
-			currPicId = getResources().getResourceName(resId);
+			currPicId = getResources().getResourceEntryName(resId);
 			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecond);
 		} else {
 			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirst);
-			currPicId = getResources().getResourceName(resId);
+			currPicId = getResources().getResourceEntryName(resId);
 			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecond);
 		}
 		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
