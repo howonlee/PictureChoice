@@ -6,7 +6,7 @@ package com.android.PictureChoice.Posting;
  * @author Howon
  */
 public class TrialChoice {
-	private final int picId;
+	private final String picId;
 	private final long beginTime;
 	private final long endTime;
 	private final long beginTime2;
@@ -20,7 +20,7 @@ public class TrialChoice {
 	private final int picLength;
 	private final int expId;
 	
-	public TrialChoice(int picId, long beginTime, long endTime,
+	public TrialChoice(String picId, long beginTime, long endTime,
 			long beginTime2, long endTime2,
 			int blockNumber, int choiceMade,
 			long maskBeginTime, long maskEndTime,
@@ -44,7 +44,7 @@ public class TrialChoice {
 	public int getPicLength(){
 		return picLength;
 	}
-	public int getPicId(){
+	public String getPicId(){
 		return picId;
 	}
 	public long getBeginTime(){

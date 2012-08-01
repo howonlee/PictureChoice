@@ -22,7 +22,7 @@ public class PostTrialTask extends AsyncTask<TrialChoice, Integer, Long> {
 		HttpPost httppost = new HttpPost(urlString);
 		try {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
-			nameValPairs.add(new BasicNameValuePair("pic_id", Integer.toString(choice.getPicId())));
+			nameValPairs.add(new BasicNameValuePair("pic_id", choice.getPicId()));
 			nameValPairs.add(new BasicNameValuePair("time_begin", Long.toString(choice.getBeginTime())));
 			nameValPairs.add(new BasicNameValuePair("time_end", Long.toString(choice.getEndTime())));
 			nameValPairs.add(new BasicNameValuePair("time2_begin", Long.toString(choice.getBeginTime2())));

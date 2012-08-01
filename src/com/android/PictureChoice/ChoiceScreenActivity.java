@@ -1,6 +1,7 @@
 package com.android.PictureChoice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,14 +20,14 @@ import com.android.PictureChoice.Posting.PostTrialTask;
 import com.android.PictureChoice.Posting.TrialChoice;
 
 public class ChoiceScreenActivity extends Activity {
-	private final int numTrials = 25; //number of trials per block
+	private final int numTrials = 50; //number of trials per block
 	private int trialCount = 0;
-	//private int category = 0; //0 for category 1, 1 for cat 2
+	private int changeIndicator = 0; //change or no change
 	//all time units in milliseconds
 	//private final int MIN_TIME = 50; //minimum picture-showing time
 	//private final int MAX_TIME = 300; //maximum picture-showing time
-		//now, we are contrabanissed for this array thing
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
+	private ArrayList<Integer> changeNoChange = new ArrayList<Integer>();
 	private final int FIXATION_TIME = 500;
 	private final int FIRST_TIME = 500;
 	private final int SECOND_TIME = 1000;
@@ -35,7 +36,7 @@ public class ChoiceScreenActivity extends Activity {
 	
 	//data on blocks, for posting
 	public int currPicLength;
-	private int currPicId = -1;
+	private String currPicId = "invalid";
 	private long currBeginTime;
 	private long currEndTime;
 	private long currBeginTime2;
@@ -218,13 +219,22 @@ public class ChoiceScreenActivity extends Activity {
 	}
 
 	private void updatePic(){
-		ArrayList<Integer> cat1 = GlobalVar.getInstance().getCat1();
-		ArrayList<Integer> cat2 = GlobalVar.getInstance().getCat2();
+		ArrayList<Integer> catChangeFirst = GlobalVar.getInstance().getChangeFirst();
+		ArrayList<Integer> catChangeSecond = GlobalVar.getInstance().getChangeSecond();
+		ArrayList<Integer> catNoChangeFirst = GlobalVar.getInstance().getNoChangeFirst();
+		ArrayList<Integer> catNoChangeSecond = GlobalVar.getInstance().getNoChangeSecond();
 		
-		//category = generator.nextInt(2);//range 0 to 1
-		Integer resId = GlobalVar.getInstance().chooseResId(0, cat1);
-		currPicId = ((resId - R.drawable.acfig001_1) * 4) + 217;
-		Integer resId2 = GlobalVar.getInstance().chooseResId(1, cat2);
+		changeIndicator = getChangeNoChange();
+		Integer resId, resId2;
+		if (changeIndicator == 1){
+			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirst);
+			currPicId = getResources().getResourceName(resId);
+			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecond);
+		} else {
+			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirst);
+			currPicId = getResources().getResourceName(resId);
+			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecond);
+		}
 		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
 			//set currPicId only once here
 		if (resId != 0 && resId2 != 0){
@@ -232,8 +242,10 @@ public class ChoiceScreenActivity extends Activity {
 			updateView2(resId2);
 			Log.d("pic1", Integer.toString(resId));
 			Log.d("pic2", Integer.toString(resId2));
-			storeInCache(cat1);
-			storeInCache(cat2);
+			storeInCache(catChangeFirst);
+			storeInCache(catChangeSecond);
+			storeInCache(catNoChangeFirst);
+			storeInCache(catNoChangeSecond);
 		}
 	}
 	
@@ -268,6 +280,17 @@ public class ChoiceScreenActivity extends Activity {
 	private void storeInCache(int resId){
 		String id = String.valueOf(resId);
 		GlobalVar.getInstance().addBitmapToMemoryCache(id, BitmapFactory.decodeResource(getResources(), resId));
+	}
+	
+	private int getChangeNoChange(){
+		if (changeNoChange.isEmpty()){
+			for (int i = 0; i < (numTrials / 2); i++){
+				changeNoChange.add(0);
+				changeNoChange.add(1);
+			}
+			Collections.shuffle(changeNoChange);
+		}
+		return changeNoChange.remove(0);
 	}
 
 	@Override

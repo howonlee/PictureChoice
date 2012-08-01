@@ -25,8 +25,10 @@ import com.android.PictureChoice.Posting.Block;
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
-	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
-	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
+	private ArrayList<Integer> changeFirst = new ArrayList<Integer>();
+	private ArrayList<Integer> changeSecond = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeFirst = new ArrayList<Integer>();
+	private ArrayList<Integer> noChangeSecond = new ArrayList<Integer>();
 	private LruCache<String, Bitmap> imageCache;
 	private boolean appFlag = true;
 	private boolean interrupted = false;
@@ -111,16 +113,33 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCategories(){
-		cat1.clear();
-		for (int i = R.drawable.acfig001_1; i <= R.drawable.afig036_1; i++){
-			cat1.add(i);
+		changeFirst.clear();
+		for (int i = R.drawable.acfig001_1; i <= R.drawable.acfig036_1; i++){
+			changeFirst.add(i);
 		}//change this for increases in the number of animals
+		for (int i = R.drawable.ascfig001_301; i <= R.drawable.ascfig035_401; i++){
+			changeFirst.add(i);
+		}
+		Collections.shuffle(changeFirst);
+		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1); //the gap works because everything is evenly matched
+		changeSecond.clear();
+		for (int i = 0; i < changeFirst.size(); i++){
+			changeSecond.add((changeFirst.get(i) + gap1));
+		}
+		
+		noChangeFirst.clear();
+		for (int i = R.drawable.afig001_1; i <= R.drawable.afig036_1; i++){
+			noChangeFirst.add(i);
+		}
+		for (int i = R.drawable.asfig001_301; i <= R.drawable.asfig035_401; i++){
+			noChangeFirst.add(i);
+		}
 
-		Collections.shuffle(cat1);
-		int gap = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
-		cat2.clear();
-		for (int i = 0; i < cat1.size(); i++){
-			cat2.add((cat1.get(i) + gap));
+		Collections.shuffle(noChangeFirst);
+		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
+		noChangeSecond.clear();
+		for (int i = 0; i < noChangeFirst.size(); i++){
+			noChangeSecond.add((noChangeFirst.get(i) + gap2));
 		}
 		Log.w("initCats", "start");
 	}
@@ -137,12 +156,20 @@ class GlobalVar extends Application {
 		return resId;
 	}
 	
-	public ArrayList<Integer> getCat1(){
-		return cat1;
+	public ArrayList<Integer> getChangeFirst(){
+		return changeFirst;
 	}
 	
-	public ArrayList<Integer> getCat2(){
-		return cat2;
+	public ArrayList<Integer> getChangeSecond(){
+		return changeSecond;
+	}
+	
+	public ArrayList<Integer> getNoChangeFirst(){
+		return noChangeFirst;
+	}
+	
+	public ArrayList<Integer> getNoChangeSecond(){
+		return noChangeSecond;
 	}
 	
 	private static GlobalVar instance; //for singleton
