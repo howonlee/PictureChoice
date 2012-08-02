@@ -1,7 +1,7 @@
 package com.android.PictureChoice;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,41 +21,42 @@ import com.android.PictureChoice.Posting.PostTrialTask;
 import com.android.PictureChoice.Posting.TrialChoice;
 
 public class ChoiceScreenActivity extends Activity {
-	private final int numTrials = 25; //number of trials per block
+	private final int numTrials = 50;
+	private final int numSixes = 18;
+	private final int numOthers = 7;
 	private int trialCount = 0;
-	//private int category = 0; //0 for category 1, 1 for cat 2
-	//all time units in milliseconds
-	private final int MIN_TIME = 50; //minimum picture-showing time
-	private final int MAX_TIME = 300; //maximum picture-showing time
-	private final int MASK_TIME = 500; //mask-showing time
-	private final int SECOND_PIC_TIME = 300;
-	private final int THREAD_SLEEP_TIME = 50000; //if they're looking at it for 50 seconds, well...
-	private Random generator = new Random();
+	//private final int MIN_TIME = 50; //minimum picture-showing time
+	//private final int MAX_TIME = 300; //maximum picture-showing time
+	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
+	private ArrayList<Pair<Integer, Integer>> picQueue = new ArrayList<Pair<Integer, Integer>>();
+	private final int FIXATION_TIME = 500;
+	private final int FIRST_TIME = 500;
+	private final int SECOND_TIME = 1000;
+	private final int MASK_TIME = 1000; //mask-showing time
 	
 	//data on blocks, for posting
 	public int currPicLength;
-	private int currPicId = -1;
+	private String currPicId = "invalid";
 	private long currBeginTime;
 	private long currEndTime;
 	private long currBeginTime2;
 	private long currEndTime2;
 	private long currMaskBeginTime;
 	private long currMaskEndTime;
-	private long currPicClickTime;
+	private long currPicClickTime = 0;
 	private long currClickTime;
 	//no current block number, no currChoice: that's in GlobalVar
 
 	//state of the visibility state machine
 	private int visState = 0;
-	//resource id's for both categories of pictures
 	//thread handler and asynctask
 	private Handler mHandler = new Handler();
 	private Thread mThread;
 	private PostTrialTask uploadTask = new PostTrialTask();
 
 	//views
-	ImageView pic, mask, pic2;
-	Button choice1, choice2, picButton;
+	ImageView pic, mask, pic2, fixation;
+	Button choice1, choice2;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -62,8 +64,9 @@ public class ChoiceScreenActivity extends Activity {
 		findViews();
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		GlobalVar.getInstance().setAppFlag(false);
-		setButtonOnClickListener(choice1, 0);
-		setButtonOnClickListener(choice2, 1);
+		initPicQueue();
+		setButtonOnClickListener(choice1, 1);
+		setButtonOnClickListener(choice2, -1);
 		updatePic();
 		doTrial();
 	}
@@ -99,16 +102,17 @@ public class ChoiceScreenActivity extends Activity {
 		pic = (ImageView) findViewById(R.id.picture);
 		mask = (ImageView) findViewById(R.id.mask);
 		pic2 = (ImageView) findViewById(R.id.picture2);
+		fixation = (ImageView) findViewById(R.id.fixation);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		picButton = (Button) findViewById(R.id.pic_button);
+		/*picButton = (Button) findViewById(R.id.pic_button);
 		picButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				cycleVisibility();
 				mThread.interrupt(); //thread interruption: is very hacky, yes
 				currPicClickTime = System.nanoTime();
 			}
-		});
+		});*/
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		pic2.setAnimation(null);
@@ -127,16 +131,22 @@ public class ChoiceScreenActivity extends Activity {
 				//mask waits
 				mHandler.post(cycleVis);
 				try {
-					currPicLength = MIN_TIME + generator.nextInt((MAX_TIME - MIN_TIME));
+					Thread.sleep(FIXATION_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+				mHandler.post(cycleVis);
+				try {
+					currPicLength = FIRST_TIME;
 					Log.d("picLength", Integer.toString(currPicLength));
-					Thread.sleep(THREAD_SLEEP_TIME);
+					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
 					//e.printStackTrace();
 					//do nothing, go to next sleepiness
 					//this is hackish, I should figure out the right way
 				}
-				//mHandler.post(cycleVis);
-				//the button takes care of this
+				mHandler.post(cycleVis);
+				//the button takes care of the above
 				try {
 					Thread.sleep(MASK_TIME);
 				} catch (InterruptedException e){
@@ -144,7 +154,7 @@ public class ChoiceScreenActivity extends Activity {
 				}
 				mHandler.post(cycleVis);
 				try {
-					Thread.sleep(SECOND_PIC_TIME);
+					Thread.sleep(SECOND_TIME);
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}
@@ -155,6 +165,16 @@ public class ChoiceScreenActivity extends Activity {
 		mThread = new Thread(threadRunnable);
 		mThread.start();
 	}
+	
+	/*private int getNextPicLength(){
+		if (possibleTimes.isEmpty()){
+			for (int i = 50; i < 300; i += 50){
+				possibleTimes.add(i);
+			}
+			Collections.shuffle(possibleTimes);
+		}
+		return possibleTimes.remove(0);
+	}*/
 
 	/*
 	 * cycleVisibility()
@@ -163,37 +183,43 @@ public class ChoiceScreenActivity extends Activity {
 	 */
 	private void cycleVisibility(){
 		switch(visState){
-		case 0: 
-			mask.setVisibility(ImageView.INVISIBLE);
-			pic.setVisibility(ImageView.VISIBLE);
-			picButton.setVisibility(ImageView.VISIBLE);
+		case 0:
+			fixation.setVisibility(ImageView.VISIBLE);
+			GlobalVar.getInstance().clearMemory();
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
+			break;
+		case 1: 
+			fixation.setVisibility(ImageView.INVISIBLE);
+			mask.setVisibility(ImageView.INVISIBLE);
+			pic.setVisibility(ImageView.VISIBLE);
 			currBeginTime = System.nanoTime();
 			break;
-		case 1:
+		case 2:
 			pic.setVisibility(ImageView.INVISIBLE);
-			picButton.setVisibility(ImageView.INVISIBLE);
+			//picButton.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
 			currEndTime = System.nanoTime();
 			currMaskBeginTime = System.nanoTime(); //redundant, yes
 			break;
-		case 2: 
+		case 3: 
 			mask.setVisibility(ImageView.INVISIBLE);
 			currMaskEndTime = System.nanoTime();
 			pic2.setVisibility(ImageView.VISIBLE);
 			currBeginTime2 = System.nanoTime();
 			break;
-		case 3:
+		case 4:
 			pic2.setVisibility(ImageView.INVISIBLE);
 			currEndTime2 = System.nanoTime();
-			updatePic();
+			if (trialCount != numTrials){
+				updatePic();
+			}
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
 		}
 		visState++;
-		if (visState >= 4) {
+		if (visState >= 5) {
 			visState = 0;
 		}
 	}
@@ -208,23 +234,47 @@ public class ChoiceScreenActivity extends Activity {
 	}
 
 	private void updatePic(){
-		ArrayList<Integer> cat1 = GlobalVar.getInstance().getCat1();
-		ArrayList<Integer> cat2 = GlobalVar.getInstance().getCat2();
-		
-		//category = generator.nextInt(2);//range 0 to 1
-		Integer resId = GlobalVar.getInstance().chooseResId(0, cat1);
-		currPicId = ((resId - R.drawable.animal01) * 4) + 1;
-		Integer resId2 = GlobalVar.getInstance().chooseResId(1, cat2);
-		//currPicId = ((resId - R.drawable.noanimal01)* 4) + 3;
-			//set currPicId only once here
+		ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = GlobalVar.getInstance().getPicIds();
+		Integer resId = 0, resId2 = 0;
+		Pair<Integer, Integer> picPair = new Pair<Integer, Integer>(0,0);
+		logCategory(picQueue);
+		if (!picQueue.isEmpty()){
+			picPair = picQueue.remove(0); 
+		}
+		resId = picPair.first;
+		resId2 = picPair.second;
 		if (resId != 0 && resId2 != 0){
+			currPicId = getResources().getResourceEntryName(resId);
 			updateView(resId);
 			updateView2(resId2);
 			Log.d("pic1", Integer.toString(resId));
 			Log.d("pic2", Integer.toString(resId2));
-			storeInCache(cat1);
-			storeInCache(cat2);
+			for (int i = 0; i < picIds.size(); i++){
+				storeInCache(picIds.get(i));
+			}
 		}
+	}
+	
+	private void initPicQueue(){
+		ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = GlobalVar.getInstance().getPicIds();
+		for (int i = 0; i < numSixes; i++){
+			picQueue.add(picIds.get(0).remove(0));
+			picQueue.add(picIds.get(2).remove(0));
+		}
+		for (int i = 0; i < numOthers; i++){
+			picQueue.add(picIds.get(1).remove(0));
+			picQueue.add(picIds.get(3).remove(0));
+		}
+		Collections.shuffle(picQueue);
+	}
+	
+	private void logCategory(ArrayList<Pair<Integer, Integer>> category){
+		ArrayList<String> resources = new ArrayList<String>();
+		for (int i = 0; i < category.size(); i++){
+			resources.add(getResources().getResourceEntryName(category.get(i).first));
+			resources.add(getResources().getResourceEntryName(category.get(i).second));
+		}
+		Log.w("logCategory", resources.toString());
 	}
 	
 	private void updateView(int resId){
@@ -247,9 +297,9 @@ public class ChoiceScreenActivity extends Activity {
 		}
 	}
 	
-	private void storeInCache(ArrayList<Integer> category){
+	private void storeInCache(ArrayList<Pair<Integer, Integer>> category){
 		if (!category.isEmpty()){
-			storeInCache(category.get(0));
+			storeInCache(category.get(0).first);
 		} else {
 			GlobalVar.getInstance().initCategories();
 		}

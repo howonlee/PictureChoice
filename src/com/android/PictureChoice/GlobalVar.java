@@ -6,10 +6,10 @@ import java.util.Collections;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.util.Log;
-
-import com.android.PictureChoice.libs.LruCache;
+import android.util.Pair;
 
 import com.android.PictureChoice.Posting.Block;
+import com.android.PictureChoice.libs.LruCache;
 
 /**
  * Singleton global variable holder
@@ -25,8 +25,11 @@ import com.android.PictureChoice.Posting.Block;
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
-	private ArrayList<Integer> cat1 = new ArrayList<Integer>();
-	private ArrayList<Integer> cat2 = new ArrayList<Integer>();
+	private ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = new ArrayList<ArrayList<Pair<Integer, Integer>>>();
+	ArrayList<Pair<Integer, Integer>> changeSixes = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> changeOthers = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> noChangeSixes = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> noChangeOthers = new ArrayList<Pair<Integer, Integer>>();
 	private LruCache<String, Bitmap> imageCache;
 	private boolean appFlag = true;
 	private boolean interrupted = false;
@@ -111,38 +114,38 @@ class GlobalVar extends Application {
 	}
 	
 	public void initCategories(){
-		cat1.clear();
-		for (int i = R.drawable.animal01; i <= R.drawable.animal54; i++){
-			cat1.add(i);
-		}//change this for increases in the number of animals
-
-		Collections.shuffle(cat1);
-		int gap = (R.drawable.noanimal01 - R.drawable.animal01);
-		cat2.clear();
-		for (int i = 0; i < cat1.size(); i++){
-			cat2.add((cat1.get(i) + gap));
-		}
+		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
+		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
+		setCats(changeSixes, R.drawable.acfig001_1, R.drawable.acfig036_1, gap1);
+		setCats(changeOthers, R.drawable.ascfig001_301, R.drawable.ascfig035_401, gap1);
+		setCats(noChangeSixes, R.drawable.afig001_1, R.drawable.afig036_1, gap2);
+		setCats(noChangeOthers, R.drawable.asfig001_301, R.drawable.asfig035_401, gap2);
+		picIds.add(changeSixes);
+		picIds.add(changeOthers);
+		picIds.add(noChangeSixes);
+		picIds.add(noChangeOthers);
+		
 		Log.w("initCats", "start");
+	}
+	
+	private void setCats(ArrayList<Pair<Integer, Integer>> cat, int first, int last, int gap){
+		for (int i = first; i <= last; i++){
+			Pair<Integer, Integer> picPair = new Pair<Integer, Integer>(i, i+gap);
+			cat.add(picPair);
+		}
+		Collections.shuffle(cat);
 	}
 	
 	public Integer chooseResId(int category, ArrayList<Integer> catList){
 		Integer resId = 0;
-		if (!catList.isEmpty()){
+		if (!catList.isEmpty()){ 
 			resId = catList.remove(0);
-		} else {
-			Log.d("initCategories", "repeating");
-			initCategories();
-			return chooseResId(category, catList);
 		}
 		return resId;
 	}
 	
-	public ArrayList<Integer> getCat1(){
-		return cat1;
-	}
-	
-	public ArrayList<Integer> getCat2(){
-		return cat2;
+	public ArrayList<ArrayList<Pair<Integer, Integer>>> getPicIds(){
+		return picIds;
 	}
 	
 	private static GlobalVar instance; //for singleton

@@ -35,9 +35,17 @@
         	android:layout_height="wrap_content"
         	android:text="@string/pic_button_label"
 	        android:layout_alignParentBottom="true"
-    	    android:visibility="visible" />
+    	    android:visibility="invisible" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/fixation"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/pic_label"
+        android:src="@drawable/fixation"
+        android:visibility="visible" />
     <ImageView
         android:id="@+id/picture"
         android:layout_gravity="center"
@@ -45,8 +53,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/pic_label"
         android:src="@drawable/ic_launcher"
-        android:visibility="visible" />
-    
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/mask"
