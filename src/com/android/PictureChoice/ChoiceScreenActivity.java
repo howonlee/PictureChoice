@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,12 +25,11 @@ public class ChoiceScreenActivity extends Activity {
 	private final int numSixes = 18;
 	private final int numOthers = 7;
 	private int trialCount = 0;
-	private int changeIndicator = 0; //change or no change
 	//all time units in milliseconds
 	//private final int MIN_TIME = 50; //minimum picture-showing time
 	//private final int MAX_TIME = 300; //maximum picture-showing time
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
-	private ArrayList<Integer> changeNoChange = new ArrayList<Integer>();
+	private ArrayList<Pair<Integer, Integer>> picQueue = new ArrayList<Pair<Integer, Integer>>();
 	private final int FIXATION_TIME = 500;
 	private final int FIRST_TIME = 500;
 	private final int SECOND_TIME = 1000;
@@ -64,6 +64,7 @@ public class ChoiceScreenActivity extends Activity {
 		findViews();
 		GlobalVar.getInstance().setBeginTime(System.nanoTime());
 		GlobalVar.getInstance().setAppFlag(false);
+		initPicQueue();
 		setButtonOnClickListener(choice1, 1);
 		setButtonOnClickListener(choice2, -1);
 		updatePic();
@@ -198,7 +199,9 @@ public class ChoiceScreenActivity extends Activity {
 		case 4:
 			pic2.setVisibility(ImageView.INVISIBLE);
 			currEndTime2 = System.nanoTime();
-			updatePic();
+			if (trialCount != numTrials){
+				updatePic();
+			}
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
@@ -219,56 +222,45 @@ public class ChoiceScreenActivity extends Activity {
 	}
 
 	private void updatePic(){
-		ArrayList<Integer> catChangeFirstSixes = GlobalVar.getInstance().getChangeFirstSixes();
-		ArrayList<Integer> catChangeSecondSixes = GlobalVar.getInstance().getChangeSecondSixes();
-		ArrayList<Integer> catNoChangeFirstSixes = GlobalVar.getInstance().getNoChangeFirstSixes();
-		ArrayList<Integer> catNoChangeSecondSixes = GlobalVar.getInstance().getNoChangeSecondSixes();
-		ArrayList<Integer> catChangeFirstOthers = GlobalVar.getInstance().getChangeFirstOthers();
-		ArrayList<Integer> catChangeSecondOthers = GlobalVar.getInstance().getChangeSecondOthers();
-		ArrayList<Integer> catNoChangeFirstOthers = GlobalVar.getInstance().getNoChangeFirstOthers();
-		ArrayList<Integer> catNoChangeSecondOthers = GlobalVar.getInstance().getNoChangeSecondOthers();
-		
-		changeIndicator = getChangeNoChange();
+		ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = GlobalVar.getInstance().getPicIds();
 		Integer resId = 0, resId2 = 0;
-		logCategory(catChangeFirstSixes);
-		logCategory(catNoChangeFirstSixes);
-		logCategory(catChangeFirstOthers);
-		logCategory(catNoChangeFirstOthers);
-		switch (changeIndicator){
-		case 0:
-			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirstSixes);
-			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecondSixes);
-			break;
-		case 1:
-			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirstSixes);
-			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecondSixes);
-			break;
-		case 2:
-			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirstOthers);
-			resId2 = GlobalVar.getInstance().chooseResId(0, catChangeSecondOthers);
-			break;
-		case 3:
-			resId = GlobalVar.getInstance().chooseResId(1, catNoChangeFirstOthers);
-			resId2 = GlobalVar.getInstance().chooseResId(1, catNoChangeSecondOthers);
-			break;
+		Pair<Integer, Integer> picPair = new Pair<Integer, Integer>(0,0);
+		logCategory(picQueue);
+		if (!picQueue.isEmpty()){
+			picPair = picQueue.remove(0); 
 		}
-		currPicId = getResources().getResourceEntryName(resId);
+		resId = picPair.first;
+		resId2 = picPair.second;
 		if (resId != 0 && resId2 != 0){
+			currPicId = getResources().getResourceEntryName(resId);
 			updateView(resId);
 			updateView2(resId2);
 			Log.d("pic1", Integer.toString(resId));
 			Log.d("pic2", Integer.toString(resId2));
-			storeInCache(catChangeFirstSixes);
-			storeInCache(catChangeFirstOthers);
-			storeInCache(catNoChangeFirstSixes);
-			storeInCache(catNoChangeFirstOthers);
+			for (int i = 0; i < picIds.size(); i++){
+				storeInCache(picIds.get(i));
+			}
 		}
 	}
 	
-	private void logCategory(ArrayList<Integer> category){
+	private void initPicQueue(){
+		ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = GlobalVar.getInstance().getPicIds();
+		for (int i = 0; i < numSixes; i++){
+			picQueue.add(picIds.get(0).remove(0));
+			picQueue.add(picIds.get(2).remove(0));
+		}
+		for (int i = 0; i < numOthers; i++){
+			picQueue.add(picIds.get(1).remove(0));
+			picQueue.add(picIds.get(3).remove(0));
+		}
+		Collections.shuffle(picQueue);
+	}
+	
+	private void logCategory(ArrayList<Pair<Integer, Integer>> category){
 		ArrayList<String> resources = new ArrayList<String>();
 		for (int i = 0; i < category.size(); i++){
-			resources.add(getResources().getResourceEntryName(category.get(i)));
+			resources.add(getResources().getResourceEntryName(category.get(i).first));
+			resources.add(getResources().getResourceEntryName(category.get(i).second));
 		}
 		Log.w("logCategory", resources.toString());
 	}
@@ -293,9 +285,9 @@ public class ChoiceScreenActivity extends Activity {
 		}
 	}
 	
-	private void storeInCache(ArrayList<Integer> category){
+	private void storeInCache(ArrayList<Pair<Integer, Integer>> category){
 		if (!category.isEmpty()){
-			storeInCache(category.get(0));
+			storeInCache(category.get(0).first);
 		} else {
 			GlobalVar.getInstance().initCategories();
 		}
@@ -304,22 +296,6 @@ public class ChoiceScreenActivity extends Activity {
 	private void storeInCache(int resId){
 		String id = String.valueOf(resId);
 		GlobalVar.getInstance().addBitmapToMemoryCache(id, BitmapFactory.decodeResource(getResources(), resId));
-	}
-	
-	private int getChangeNoChange(){
-		if (changeNoChange.isEmpty()){
-			for (int i = 0; i < numSixes; i++){
-				changeNoChange.add(0);
-				changeNoChange.add(1);
-			}
-			for (int i = 0; i < numOthers; i++){
-				changeNoChange.add(2);
-				changeNoChange.add(3);
-			}
-			Collections.shuffle(changeNoChange);
-			Log.w("changeNoChange", "initialized");
-		}
-		return changeNoChange.remove(0);
 	}
 
 	@Override

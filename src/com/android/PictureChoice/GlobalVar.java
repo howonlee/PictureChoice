@@ -6,10 +6,10 @@ import java.util.Collections;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.util.Log;
-
-import com.android.PictureChoice.libs.LruCache;
+import android.util.Pair;
 
 import com.android.PictureChoice.Posting.Block;
+import com.android.PictureChoice.libs.LruCache;
 
 /**
  * Singleton global variable holder
@@ -25,14 +25,11 @@ import com.android.PictureChoice.Posting.Block;
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
-	private ArrayList<Integer> changeFirstSixes = new ArrayList<Integer>();
-	private ArrayList<Integer> changeSecondSixes = new ArrayList<Integer>();
-	private ArrayList<Integer> changeFirstOthers = new ArrayList<Integer>();
-	private ArrayList<Integer> changeSecondOthers = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeFirstSixes = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeSecondSixes = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeFirstOthers = new ArrayList<Integer>();
-	private ArrayList<Integer> noChangeSecondOthers = new ArrayList<Integer>();
+	private ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = new ArrayList<ArrayList<Pair<Integer, Integer>>>();
+	ArrayList<Pair<Integer, Integer>> changeSixes = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> changeOthers = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> noChangeSixes = new ArrayList<Pair<Integer, Integer>>();
+	ArrayList<Pair<Integer, Integer>> noChangeOthers = new ArrayList<Pair<Integer, Integer>>();
 	private LruCache<String, Bitmap> imageCache;
 	private boolean appFlag = true;
 	private boolean interrupted = false;
@@ -119,67 +116,36 @@ class GlobalVar extends Application {
 	public void initCategories(){
 		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
 		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
-		setCats(changeFirstSixes, changeSecondSixes, R.drawable.acfig001_1, R.drawable.acfig036_1, gap1);
-		setCats(changeFirstOthers, changeSecondOthers, R.drawable.ascfig001_301, R.drawable.ascfig035_401, gap1);
-		setCats(noChangeFirstSixes, noChangeSecondSixes, R.drawable.afig001_1, R.drawable.afig036_1, gap2);
-		setCats(noChangeFirstOthers, noChangeSecondOthers, R.drawable.asfig001_301, R.drawable.asfig035_401, gap2);		
+		setCats(changeSixes, R.drawable.acfig001_1, R.drawable.acfig036_1, gap1);
+		setCats(changeOthers, R.drawable.ascfig001_301, R.drawable.ascfig035_401, gap1);
+		setCats(noChangeSixes, R.drawable.afig001_1, R.drawable.afig036_1, gap2);
+		setCats(noChangeOthers, R.drawable.asfig001_301, R.drawable.asfig035_401, gap2);
+		picIds.add(changeSixes);
+		picIds.add(changeOthers);
+		picIds.add(noChangeSixes);
+		picIds.add(noChangeOthers);
+		
 		Log.w("initCats", "start");
 	}
 	
-	private void setCats(ArrayList<Integer> cat1, ArrayList<Integer> cat2, int first, int last, int gap){
-		cat1.clear();
+	private void setCats(ArrayList<Pair<Integer, Integer>> cat, int first, int last, int gap){
 		for (int i = first; i <= last; i++){
-			cat1.add(i);
-		}//change this for increases in the number of animals
-		Collections.shuffle(cat1);
-		cat2.clear();
-		for (int i = 0; i < cat1.size(); i++){
-			cat2.add((cat1.get(i) + gap));
+			Pair<Integer, Integer> picPair = new Pair<Integer, Integer>(i, i+gap);
+			cat.add(picPair);
 		}
+		Collections.shuffle(cat);
 	}
 	
 	public Integer chooseResId(int category, ArrayList<Integer> catList){
 		Integer resId = 0;
-		if (!catList.isEmpty()){
+		if (!catList.isEmpty()){ 
 			resId = catList.remove(0);
-		} /*else {
-			Log.d("initCategories", "repeating");
-			initCategories();
-			return chooseResId(category, catList);
-		}*/
+		}
 		return resId;
 	}
 	
-	public ArrayList<Integer> getChangeFirstSixes(){
-		return changeFirstSixes;
-	}
-	
-	public ArrayList<Integer> getChangeSecondSixes(){
-		return changeSecondSixes;
-	}
-	
-	public ArrayList<Integer> getNoChangeFirstSixes(){
-		return noChangeFirstSixes;
-	}
-	
-	public ArrayList<Integer> getNoChangeSecondSixes(){
-		return noChangeSecondSixes;
-	}
-
-	public ArrayList<Integer> getChangeFirstOthers(){
-		return changeFirstOthers;
-	}
-	
-	public ArrayList<Integer> getChangeSecondOthers(){
-		return changeSecondOthers;
-	}
-	
-	public ArrayList<Integer> getNoChangeFirstOthers(){
-		return noChangeFirstOthers;
-	}
-	
-	public ArrayList<Integer> getNoChangeSecondOthers(){
-		return noChangeSecondOthers;
+	public ArrayList<ArrayList<Pair<Integer, Integer>>> getPicIds(){
+		return picIds;
 	}
 	
 	private static GlobalVar instance; //for singleton
