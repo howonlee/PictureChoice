@@ -71,5 +71,13 @@
         android:contentDescription="@string/pic_label"
         android:src="@drawable/ic_launcher"
         android:visibility="invisible" />
+    <TextView
+	    android:id="@+id/feedbackView"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:text="@string/temp_label"
+	    android:textSize="50dp"
+	    android:visibility="invisible" />
 
 </FrameLayout>

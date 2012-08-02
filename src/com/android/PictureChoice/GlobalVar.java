@@ -1,7 +1,6 @@
 package com.android.PictureChoice;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.app.Application;
 import android.graphics.Bitmap;
@@ -124,7 +123,6 @@ class GlobalVar extends Application {
 		picIds.add(changeOthers);
 		picIds.add(noChangeSixes);
 		picIds.add(noChangeOthers);
-		
 		Log.w("initCats", "start");
 	}
 	
@@ -133,7 +131,7 @@ class GlobalVar extends Application {
 			Pair<Integer, Integer> picPair = new Pair<Integer, Integer>(i, i+gap);
 			cat.add(picPair);
 		}
-		Collections.shuffle(cat);
+		//Collections.shuffle(cat);
 	}
 	
 	public Integer chooseResId(int category, ArrayList<Integer> catList){

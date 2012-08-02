@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.PictureChoice.Posting.PostTrialTask;
 import com.android.PictureChoice.Posting.TrialChoice;
@@ -33,10 +34,13 @@ public class ChoiceScreenActivity extends Activity {
 	private final int FIRST_TIME = 500;
 	private final int SECOND_TIME = 1000;
 	private final int MASK_TIME = 1000; //mask-showing time
+	private final int BUTTON_TIME = 50000; //amount of time for button pressing
+	private final int FEEDBACK_TIME = 1000;
 	
 	//data on blocks, for posting
 	public int currPicLength;
 	private String currPicId = "invalid";
+	private int currChoiceMade = 0;
 	private long currBeginTime;
 	private long currEndTime;
 	private long currBeginTime2;
@@ -57,6 +61,7 @@ public class ChoiceScreenActivity extends Activity {
 	//views
 	ImageView pic, mask, pic2, fixation;
 	Button choice1, choice2;
+	TextView feedback;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -74,16 +79,8 @@ public class ChoiceScreenActivity extends Activity {
 	private void setButtonOnClickListener(Button button, final int choiceMade){
 		button.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
-				int expId = GlobalVar.getInstance().getExpId();
+				currChoiceMade = choiceMade;
 				currClickTime = System.nanoTime();
-				TrialChoice choice = new TrialChoice(currPicId, currBeginTime,
-						currEndTime, currBeginTime2, currEndTime2, 
-						GlobalVar.getInstance().getBlockNum(),
-						choiceMade, currMaskBeginTime, currMaskEndTime,
-						currPicClickTime, currClickTime, currPicLength,
-						expId);
-				uploadTask = new PostTrialTask();//one of two main inefficiencies
-				uploadTask.execute(choice);
 				System.gc();
 				trialCount++;
 				if (trialCount == numTrials){
@@ -103,6 +100,7 @@ public class ChoiceScreenActivity extends Activity {
 		mask = (ImageView) findViewById(R.id.mask);
 		pic2 = (ImageView) findViewById(R.id.picture2);
 		fixation = (ImageView) findViewById(R.id.fixation);
+		feedback = (TextView) findViewById(R.id.feedbackView);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
 		/*picButton = (Button) findViewById(R.id.pic_button);
@@ -186,10 +184,9 @@ public class ChoiceScreenActivity extends Activity {
 		case 0:
 			fixation.setVisibility(ImageView.VISIBLE);
 			GlobalVar.getInstance().clearMemory();
-			choice1.setVisibility(ImageView.INVISIBLE);
-			choice2.setVisibility(ImageView.INVISIBLE);
 			break;
 		case 1: 
+			feedback.setVisibility(ImageView.INVISIBLE);
 			fixation.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
@@ -211,15 +208,22 @@ public class ChoiceScreenActivity extends Activity {
 		case 4:
 			pic2.setVisibility(ImageView.INVISIBLE);
 			currEndTime2 = System.nanoTime();
-			if (trialCount != numTrials){
-				updatePic();
-			}
+
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
+		case 5:
+			feedback.setVisibility(ImageView.VISIBLE);
+			choice1.setVisibility(ImageView.INVISIBLE);
+			choice2.setVisibility(ImageView.INVISIBLE);
+			postData();
+			if (trialCount != numTrials){
+				updatePic();
+			}
+			break;
 		}
 		visState++;
-		if (visState >= 5) {
+		if (visState >= 6) {
 			visState = 0;
 		}
 	}
@@ -308,6 +312,18 @@ public class ChoiceScreenActivity extends Activity {
 	private void storeInCache(int resId){
 		String id = String.valueOf(resId);
 		GlobalVar.getInstance().addBitmapToMemoryCache(id, BitmapFactory.decodeResource(getResources(), resId));
+	}
+	
+	private void postData(){
+		int expId = GlobalVar.getInstance().getExpId();
+		TrialChoice choice = new TrialChoice(currPicId, currBeginTime,
+				currEndTime, currBeginTime2, currEndTime2, 
+				GlobalVar.getInstance().getBlockNum(),
+				currChoiceMade, currMaskBeginTime, currMaskEndTime,
+				currPicClickTime, currClickTime, currPicLength,
+				expId);
+		uploadTask = new PostTrialTask();//one of two main inefficiencies
+		uploadTask.execute(choice);
 	}
 
 	@Override
