@@ -82,12 +82,8 @@ public class ChoiceScreenActivity extends Activity {
 				currChoiceMade = choiceMade;
 				currClickTime = System.nanoTime();
 				System.gc();
-				trialCount++;
-				if (trialCount == numTrials){
-					goToBreak();
-				} else {
-					doTrial();
-				}
+				cycleVisibility();
+				mThread.interrupt();
 			}
 		});
 	}
@@ -157,6 +153,18 @@ public class ChoiceScreenActivity extends Activity {
 					e.printStackTrace();
 				}
 				mHandler.post(cycleVis);
+				try {
+					Thread.sleep(BUTTON_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();//we expect this exception.
+				}
+				//no posting; the button handles that
+				try {
+					Thread.sleep(FEEDBACK_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}
+				mHandler.post(cycleVis);
 
 			}
 		};
@@ -213,12 +221,17 @@ public class ChoiceScreenActivity extends Activity {
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
 		case 5:
+			setFeedback(currChoiceMade, currPicId);
 			feedback.setVisibility(ImageView.VISIBLE);
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
 			postData();
-			if (trialCount != numTrials){
+			trialCount++;
+			if (trialCount == numTrials){
+				goToBreak();
+			} else {
 				updatePic();
+				doTrial();
 			}
 			break;
 		}
@@ -324,6 +337,21 @@ public class ChoiceScreenActivity extends Activity {
 				expId);
 		uploadTask = new PostTrialTask();//one of two main inefficiencies
 		uploadTask.execute(choice);
+	}
+	
+	private void setFeedback(int currChoice, String currPicId){
+		//right
+		String feedbackString = "";
+		Log.w("setFeedback", Integer.toString(currChoice));
+		Log.w("setFeedback", currPicId);
+		if (currChoice == 1 && currPicId.contains("c")){
+			feedbackString = "Correct!";
+		} else if (currChoice == -1 && !(currPicId.contains("c"))){
+			feedbackString = "Correct!";
+		} else {
+			feedbackString = "Incorrect!";
+		}
+		feedback.setText(feedbackString);
 	}
 
 	@Override
