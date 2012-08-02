@@ -131,7 +131,7 @@ class GlobalVar extends Application {
 		for (int i = first; i <= last; i++){
 			cat1.add(i);
 		}//change this for increases in the number of animals
-		Collections.shuffle(cat1);
+		//Collections.shuffle(cat1);
 		cat2.clear();
 		for (int i = 0; i < cat1.size(); i++){
 			cat2.add((cat1.get(i) + gap));
@@ -142,11 +142,11 @@ class GlobalVar extends Application {
 		Integer resId = 0;
 		if (!catList.isEmpty()){
 			resId = catList.remove(0);
-		} else {
+		} /*else {
 			Log.d("initCategories", "repeating");
 			initCategories();
 			return chooseResId(category, catList);
-		}
+		}*/
 		return resId;
 	}
 	

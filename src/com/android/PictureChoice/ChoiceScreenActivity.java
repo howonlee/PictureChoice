@@ -230,6 +230,10 @@ public class ChoiceScreenActivity extends Activity {
 		
 		changeIndicator = getChangeNoChange();
 		Integer resId = 0, resId2 = 0;
+		logCategory(catChangeFirstSixes);
+		logCategory(catNoChangeFirstSixes);
+		logCategory(catChangeFirstOthers);
+		logCategory(catNoChangeFirstOthers);
 		switch (changeIndicator){
 		case 0:
 			resId = GlobalVar.getInstance().chooseResId(0, catChangeFirstSixes);
@@ -259,6 +263,14 @@ public class ChoiceScreenActivity extends Activity {
 			storeInCache(catNoChangeFirstSixes);
 			storeInCache(catNoChangeFirstOthers);
 		}
+	}
+	
+	private void logCategory(ArrayList<Integer> category){
+		ArrayList<String> resources = new ArrayList<String>();
+		for (int i = 0; i < category.size(); i++){
+			resources.add(getResources().getResourceEntryName(category.get(i)));
+		}
+		Log.w("logCategory", resources.toString());
 	}
 	
 	private void updateView(int resId){
