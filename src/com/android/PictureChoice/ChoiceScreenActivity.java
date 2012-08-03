@@ -35,7 +35,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int SECOND_TIME = 1000;
 	private final int MASK_TIME = 1000; //mask-showing time
 	private final int BUTTON_TIME = Integer.MAX_VALUE; //amount of time for button pressing
-	private final int FEEDBACK_TIME = 1000;
+	private final int FEEDBACK_TIME = 500; //this doesn't seem to be actual time
 	
 	//data on blocks, for posting
 	public int currPicLength;
