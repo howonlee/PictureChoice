@@ -135,12 +135,9 @@ public class ChoiceScreenActivity extends Activity {
 					Log.d("picLength", Integer.toString(currPicLength));
 					Thread.sleep(currPicLength);
 				} catch (InterruptedException e){
-					//e.printStackTrace();
-					//do nothing, go to next sleepiness
-					//this is hackish, I should figure out the right way
+					e.printStackTrace();
 				}
 				mHandler.post(cycleVis);
-				//the button takes care of the above
 				try {
 					Thread.sleep(MASK_TIME);
 				} catch (InterruptedException e){
@@ -216,7 +213,6 @@ public class ChoiceScreenActivity extends Activity {
 		case 4:
 			pic2.setVisibility(ImageView.INVISIBLE);
 			currEndTime2 = System.nanoTime();
-
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			break;
@@ -226,6 +222,8 @@ public class ChoiceScreenActivity extends Activity {
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
 			postData();
+			break;
+		case 6:
 			trialCount++;
 			if (trialCount == numTrials){
 				goToBreak();
@@ -236,7 +234,7 @@ public class ChoiceScreenActivity extends Activity {
 			break;
 		}
 		visState++;
-		if (visState >= 6) {
+		if (visState >= 7) {
 			visState = 0;
 		}
 	}
