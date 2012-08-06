@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello"> Welcome to the experiment. Do not press the HOME button for the duration of the experiment.\n\n
-        \n\n
-        After you press the "YES" or "NO" button, the next pair of pictures will be displayed.\n\n
-        Enter your Amazon Turk id below.</string>
+    <string name="hello">Welcome to the experiment. Do not press the HOME button for the duration of the experiment.\nThis is a change detection task. You will see two images presented one after another.\nIn each image, there will be several colored squares scattered over the entire image.\nSometimes one of the squares will change in color from the 1st image to the 2nd image.\nPress the YES button if there is such a change, and press the NO button if there is no change.\nYou will receive feedback on whether your judgement is correct or incorrect.\nAfter the feedback, the next trial will start.\nEnter your Amazon Turk id below.</string>
     <string name="app_name">PictureChoice</string>
     <string name="block_title">Block #:</string>
     <string name="break_title">Break screen</string>
