@@ -25,7 +25,7 @@ public class ChoiceScreenActivity extends Activity {
 	private final int numTrials = 50;
 	private final int numSixes = 18;
 	private final int numOthers = 7;
-	private int trialCount = 0;
+	private int trialCount = 0; 
 	//private final int MIN_TIME = 50; //minimum picture-showing time
 	//private final int MAX_TIME = 300; //maximum picture-showing time
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
