@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/pic_label"
         android:src="@drawable/fixation"
-        android:visibility="visible" />
+        android:visibility="invisible" />
     <ImageView
         android:id="@+id/picture"
         android:layout_gravity="center"
