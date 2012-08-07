@@ -24,6 +24,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/picture2"
+            android:background="@drawable/custom_button"
             android:text="@string/choice1_label"
             android:visibility="invisible" />
 
@@ -33,6 +34,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/picture2"
+            android:background="@drawable/custom_button"
             android:text="@string/choice2_label"
             android:visibility="invisible" />
     </RelativeLayout>
@@ -61,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/picture"
+            android:background="@drawable/custom_button"
             android:text="@string/pic_button_label"
             android:visibility="invisible" />
     </RelativeLayout>

@@ -8,22 +8,23 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ddcf99"
-        android:text="@string/hello" />
+        android:text="@string/hello"
+        android:textSize="4.75pt"
+        android:textColor="#ddcf99" />
 
     <Button
         android:id="@+id/button_to_block"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/main_button_label" />
+        android:text="@string/main_button_label"
+        android:background="@drawable/custom_button" />
 
     <EditText
-        android:inputType="text"
         android:id="@+id/mTurkText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_to_block"
-        />
+        android:inputType="text" />
 
 </RelativeLayout>

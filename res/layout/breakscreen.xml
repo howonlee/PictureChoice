@@ -18,5 +18,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_button"
         android:text="@string/break_button_label" />
 </RelativeLayout>
