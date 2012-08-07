@@ -31,10 +31,10 @@ public class ChoiceScreenActivity extends Activity {
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
 	private ArrayList<Pair<Integer, Integer>> picQueue = new ArrayList<Pair<Integer, Integer>>();
 	//private final int FIXATION_TIME = 500;
-	private final int FIRST_TIME = 2000;
-	private final int SECOND_TIME = 2000;
+	private final int FIRST_TIME = 500;
+	private final int SECOND_TIME = 1000;
 	private final int MASK_TIME = 1000; //mask-showing time
-	//private final int BUTTON_TIME = Integer.MAX_VALUE; //amount of time for button pressing
+	private final int BUTTON_TIME = Integer.MAX_VALUE; //amount of time for button pressing
 	private final int FEEDBACK_TIME = 500; //this doesn't seem to be actual time
 	
 	//data on blocks, for posting
@@ -60,7 +60,7 @@ public class ChoiceScreenActivity extends Activity {
 
 	//views
 	ImageView pic, mask, pic2; //fixation;
-	Button choice1, choice2, picButton;
+	Button choice1, choice2;
 	TextView feedback;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -82,6 +82,7 @@ public class ChoiceScreenActivity extends Activity {
 				currChoiceMade = choiceMade;
 				currClickTime = System.nanoTime();
 				System.gc();
+				cycleVisibility();
 				mThread.interrupt();
 			}
 		});
@@ -98,13 +99,14 @@ public class ChoiceScreenActivity extends Activity {
 		feedback = (TextView) findViewById(R.id.feedbackView);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		picButton = (Button) findViewById(R.id.pic_button);
+		/*picButton = (Button) findViewById(R.id.pic_button);
 		picButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				cycleVisibility();
 				mThread.interrupt(); //thread interruption: is very hacky, yes
 				currPicClickTime = System.nanoTime();
 			}
-		});
+		});*/
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		pic2.setAnimation(null);
@@ -120,33 +122,47 @@ public class ChoiceScreenActivity extends Activity {
 		};
 		Runnable threadRunnable = new Runnable(){
 			public void run(){
+				//mask waits
+				/*mHandler.post(cycleVis);
+				try {
+					Thread.sleep(FIXATION_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();
+				}*/
 				mHandler.post(cycleVis);
 				try {
 					currPicLength = FIRST_TIME;
 					Log.d("picLength", Integer.toString(currPicLength));
 					Thread.sleep(currPicLength);
-					mHandler.post(cycleVis);
 				} catch (InterruptedException e){
-					mHandler.post(cycleVis);
+					e.printStackTrace();
 				}
+				mHandler.post(cycleVis);
 				try {
 					Thread.sleep(MASK_TIME);
-					mHandler.post(cycleVis);
 				} catch (InterruptedException e){
-					mHandler.post(cycleVis);
+					e.printStackTrace();
 				}
+				mHandler.post(cycleVis);
 				try {
 					Thread.sleep(SECOND_TIME);
-					mHandler.post(cycleVis);
 				} catch (InterruptedException e){
-					mHandler.post(cycleVis);
+					e.printStackTrace();
 				}
+				mHandler.post(cycleVis);
+				try {
+					Thread.sleep(BUTTON_TIME);
+				} catch (InterruptedException e){
+					e.printStackTrace();//we expect this exception.
+				}
+				//no posting; the button handles that
 				try {
 					Thread.sleep(FEEDBACK_TIME);
-					mHandler.post(cycleVis);
 				} catch (InterruptedException e){
-					mHandler.post(cycleVis);
+					e.printStackTrace();
 				}
+				mHandler.post(cycleVis);
+
 			}
 		};
 		mThread = new Thread(threadRunnable);
@@ -170,16 +186,19 @@ public class ChoiceScreenActivity extends Activity {
 	 */
 	private void cycleVisibility(){
 		switch(visState){
+		/*case 0:
+			fixation.setVisibility(ImageView.VISIBLE);
+			break;*/
 		case 0: 
 			feedback.setVisibility(ImageView.INVISIBLE);
+			//fixation.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
-			picButton.setVisibility(ImageView.VISIBLE);
 			currBeginTime = System.nanoTime();
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
-			picButton.setVisibility(ImageView.INVISIBLE);
+			//picButton.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
 			currEndTime = System.nanoTime();
 			currMaskBeginTime = System.nanoTime(); //redundant, yes
@@ -189,20 +208,22 @@ public class ChoiceScreenActivity extends Activity {
 			currMaskEndTime = System.nanoTime();
 			pic2.setVisibility(ImageView.VISIBLE);
 			currBeginTime2 = System.nanoTime();
+			break;
+		case 3:
+			pic2.setVisibility(ImageView.INVISIBLE);
+			currEndTime2 = System.nanoTime();
 			choice1.setVisibility(ImageView.VISIBLE);
 			choice2.setVisibility(ImageView.VISIBLE);
 			GlobalVar.getInstance().clearMemory();
 			break;
-		case 3:
-			currEndTime2 = System.nanoTime();
+		case 4:
 			setFeedback(currChoiceMade, currPicId);
 			feedback.setVisibility(ImageView.VISIBLE);
-			pic2.setVisibility(ImageView.INVISIBLE);
 			choice1.setVisibility(ImageView.INVISIBLE);
 			choice2.setVisibility(ImageView.INVISIBLE);
 			postData();
 			break;
-		case 4:
+		case 5:
 			trialCount++;
 			if (trialCount == numTrials){
 				goToBreak();
@@ -213,7 +234,7 @@ public class ChoiceScreenActivity extends Activity {
 			break;
 		}
 		visState++;
-		if (visState >= 5) {
+		if (visState >= 6) {
 			visState = 0;
 		}
 	}
