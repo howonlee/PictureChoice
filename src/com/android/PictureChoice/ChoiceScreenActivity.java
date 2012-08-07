@@ -31,10 +31,10 @@ public class ChoiceScreenActivity extends Activity {
 	//private ArrayList<Integer> possibleTimes = new ArrayList<Integer>();
 	private ArrayList<Pair<Integer, Integer>> picQueue = new ArrayList<Pair<Integer, Integer>>();
 	//private final int FIXATION_TIME = 500;
-	private final int FIRST_TIME = 4000;
-	private final int SECOND_TIME = 4000;
+	private final int FIRST_TIME = 2000;
+	private final int SECOND_TIME = 2000;
 	private final int MASK_TIME = 1000; //mask-showing time
-	private final int BUTTON_TIME = Integer.MAX_VALUE; //amount of time for button pressing
+	//private final int BUTTON_TIME = Integer.MAX_VALUE; //amount of time for button pressing
 	private final int FEEDBACK_TIME = 500; //this doesn't seem to be actual time
 	
 	//data on blocks, for posting
