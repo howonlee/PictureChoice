@@ -60,7 +60,7 @@ public class ChoiceScreenActivity extends Activity {
 
 	//views
 	ImageView pic, mask, pic2; //fixation;
-	Button choice1, choice2, picButton;
+	Button choice1, choice2, picButton1, picButton2;
 	TextView feedback;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -98,13 +98,16 @@ public class ChoiceScreenActivity extends Activity {
 		feedback = (TextView) findViewById(R.id.feedbackView);
 		choice1 = (Button) findViewById(R.id.choice1);
 		choice2 = (Button) findViewById(R.id.choice2);
-		picButton = (Button) findViewById(R.id.pic_button);
-		picButton.setOnClickListener(new OnClickListener() {
+		picButton1 = (Button) findViewById(R.id.pic_button1);
+		picButton2 = (Button) findViewById(R.id.pic_button2);
+		OnClickListener picClickListener = new OnClickListener(){
 			public void onClick(View v) {
 				mThread.interrupt(); //thread interruption: is very hacky, yes
 				currPicClickTime = System.nanoTime();
 			}
-		});
+		};
+		picButton1.setOnClickListener(picClickListener);
+		picButton2.setOnClickListener(picClickListener);
 		pic.setAnimation(null);
 		mask.setAnimation(null);
 		pic2.setAnimation(null);
@@ -175,12 +178,14 @@ public class ChoiceScreenActivity extends Activity {
 			feedback.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
-			picButton.setVisibility(ImageView.VISIBLE);
+			picButton1.setVisibility(ImageView.VISIBLE);
+			picButton2.setVisibility(ImageView.VISIBLE);
 			currBeginTime = System.nanoTime();
 			break;
 		case 1:
 			pic.setVisibility(ImageView.INVISIBLE);
-			picButton.setVisibility(ImageView.INVISIBLE);
+			picButton1.setVisibility(ImageView.INVISIBLE);
+			picButton2.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.VISIBLE);
 			currEndTime = System.nanoTime();
 			currMaskBeginTime = System.nanoTime(); //redundant, yes

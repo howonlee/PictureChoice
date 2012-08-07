@@ -43,7 +43,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
+		<ImageView
             android:id="@+id/picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,18 +51,21 @@
             android:contentDescription="@string/pic_label"
             android:src="@drawable/ic_launcher"
             android:visibility="invisible" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
         <Button
-            android:id="@+id/pic_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/picture"
+            android:id="@+id/pic_button1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/picture"
+            android:background="@drawable/custom_button"
+            android:text="@string/pic_button_label"
+            android:visibility="invisible" />
+        <Button
+            android:id="@+id/pic_button2"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/picture"
             android:background="@drawable/custom_button"
             android:text="@string/pic_button_label"
             android:visibility="invisible" />
