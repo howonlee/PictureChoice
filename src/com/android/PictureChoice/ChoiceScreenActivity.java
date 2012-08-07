@@ -171,6 +171,7 @@ public class ChoiceScreenActivity extends Activity {
 	private void cycleVisibility(){
 		switch(visState){
 		case 0: 
+			currChoiceMade = 0;
 			feedback.setVisibility(ImageView.INVISIBLE);
 			mask.setVisibility(ImageView.INVISIBLE);
 			pic.setVisibility(ImageView.VISIBLE);
@@ -325,6 +326,8 @@ public class ChoiceScreenActivity extends Activity {
 			feedbackString = "Correct!";
 		} else if (currChoice == -1 && !(currPicId.contains("c"))){
 			feedbackString = "Correct!";
+		} else if (currChoice == 0){
+			feedbackString = "Too late!";
 		} else {
 			feedbackString = "Incorrect!";
 		}
