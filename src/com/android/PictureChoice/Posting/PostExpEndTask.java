@@ -23,6 +23,7 @@ public class PostExpEndTask extends AsyncTask<ExpEnd, Integer, Integer> {
 		try {
 			List<NameValuePair> nameValPairs = new ArrayList<NameValuePair>(1);
 			nameValPairs.add(new BasicNameValuePair("exp_id", id.getExpId()));
+			nameValPairs.add(new BasicNameValuePair("exp_code", id.getExpCode()));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValPairs));
 			httpclient.execute(httppost);
 			//Log.d("an http try", EntityUtils.toString(response.getEntity()));

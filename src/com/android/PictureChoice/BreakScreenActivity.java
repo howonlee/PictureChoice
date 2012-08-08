@@ -19,6 +19,7 @@ public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
 	static final int totalBlocks = 2;
 	final int SANDSTONE = 0xffeee6cb;
+	String expCode = "";
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class BreakScreenActivity extends Activity {
         });
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
         	toBlock.setText("Press to exit the experiment");
+        	expCode = getExpCode();
         	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is 23FejJ4");
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
@@ -61,9 +63,13 @@ public class BreakScreenActivity extends Activity {
 	
 	private void sendEndPost(){
 		String expId = Integer.toString(GlobalVar.getInstance().getExpId());
-		ExpEnd thisExpEnd = new ExpEnd(expId);
+		ExpEnd thisExpEnd = new ExpEnd(expId, expCode);
 		PostExpEndTask expEnd = new PostExpEndTask();
 		expEnd.execute(thisExpEnd);
+	}
+	
+	private String getExpCode(){
+		return Long.toHexString(Double.doubleToLongBits(Math.random()));
 	}
 	
 	public static int getTotalBlocks(){
