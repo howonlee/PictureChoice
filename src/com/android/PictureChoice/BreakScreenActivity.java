@@ -41,7 +41,7 @@ public class BreakScreenActivity extends Activity {
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
         	toBlock.setText("Press to exit the experiment");
         	expCode = getExpCode();
-        	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is 23FejJ4");
+        	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is ".concat(expCode));
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
         			sendBlockPost();
@@ -69,7 +69,7 @@ public class BreakScreenActivity extends Activity {
 	}
 	
 	private String getExpCode(){
-		return Long.toHexString(Double.doubleToLongBits(Math.random()));
+		return Long.toHexString(Double.doubleToLongBits(Math.random())).substring(0, 6);
 	}
 	
 	public static int getTotalBlocks(){
