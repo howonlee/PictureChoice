@@ -51,24 +51,6 @@
             android:contentDescription="@string/pic_label"
             android:src="@drawable/ic_launcher"
             android:visibility="invisible" />
-        <Button
-            android:id="@+id/pic_button1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/picture"
-            android:background="@drawable/custom_button"
-            android:text="@string/pic_button_label"
-            android:visibility="invisible" />
-        <Button
-            android:id="@+id/pic_button2"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/picture"
-            android:background="@drawable/custom_button"
-            android:text="@string/pic_button_label"
-            android:visibility="invisible" />
     </RelativeLayout>
 
     <RelativeLayout
