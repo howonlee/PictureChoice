@@ -25,6 +25,7 @@ Note the numTrials, numSixes and numOthers constants in the ChoiceScreenActivity
 - The number of trials in a block
 - The number of trials with six squares in a block
 - The number of other trials (ones with 4 squares) in a block
+
 After changing those, you must change the initCategories() method in the GlobalVar class. Each of the R.drawable.####'s are integers, which basically point to a memory location where your picture is.
 So what initCategories() currently does is to fill up four categories of pictures, which are labeled appropriately, with the right pictures.
 To put more pictures in a block, fill up the categories with more pictures, then change the constants in ChoiceScreenActivity.
