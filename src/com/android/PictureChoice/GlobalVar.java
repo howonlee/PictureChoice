@@ -24,6 +24,7 @@ import com.android.PictureChoice.libs.LruCache;
  */
 class GlobalVar extends Application {
 	private int exp_id = -1;
+	static final int totalBlocks = 2;
 	private int blockNum = 0;
 	private ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = new ArrayList<ArrayList<Pair<Integer, Integer>>>();
 	ArrayList<Pair<Integer, Integer>> changeSixes = new ArrayList<Pair<Integer, Integer>>();
@@ -50,6 +51,14 @@ class GlobalVar extends Application {
 	
 	public int getBlockNum(){
 		return blockNum;
+	}
+	
+	public static int getTotalBlocks(){
+		return totalBlocks;
+	}
+	
+	public boolean isAtEnd(){
+		return blockNum == totalBlocks;
 	}
 	
 	public void setAppFlag(boolean app_flag){

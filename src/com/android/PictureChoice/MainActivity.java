@@ -2,6 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class MainActivity extends Activity {
 	final int APP_VERSION = 1;
 	EditText mTurkText;
 	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,21 @@ public class MainActivity extends Activity {
         	}
         });
         
+        loadSavedCode();
         doSessionTask();
         doVersionTask();     
         GlobalVar.getInstance().initCache();
 		GlobalVar.getInstance().initCategories();
         GlobalVar.getInstance().setAppFlag(false);
+    }
+
+    private void loadSavedCode(){
+    	SharedPreferences prefs = getSharedPreferences("codePref", MODE_PRIVATE);
+    	String savedCode = prefs.getString("code", "nocode");
+    	if (!savedCode.equals("nocode")){
+    		GlobalVar.getInstance().setBlockNum(GlobalVar.getTotalBlocks());
+    		startActivity(new Intent("com.android.BREAKSHOW"));
+    	}
     }
     
     private void doSessionTask(){

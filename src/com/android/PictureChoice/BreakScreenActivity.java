@@ -2,6 +2,7 @@ package com.android.PictureChoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,8 +17,7 @@ import com.android.PictureChoice.Posting.PostBlockTask;
 import com.android.PictureChoice.Posting.PostExpEndTask;
 
 public class BreakScreenActivity extends Activity {
-	//maybe move this to the globals?
-	static final int totalBlocks = 2;
+
 	final int SANDSTONE = 0xffeee6cb;
 	String expCode = "";
 	@Override
@@ -38,7 +38,7 @@ public class BreakScreenActivity extends Activity {
         		overridePendingTransition(0,0); //remove animation
         	}
         });
-        if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
+        if (GlobalVar.getInstance().isAtEnd()){
         	toBlock.setText("Press to exit the experiment");
         	expCode = getExpCode();
         	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is ".concat(expCode));
@@ -52,6 +52,8 @@ public class BreakScreenActivity extends Activity {
         	});
         }
 	}
+	
+	
 	
 	private void sendBlockPost(){
 		GlobalVar.getInstance().setBreakEndTime(System.nanoTime());
@@ -69,11 +71,13 @@ public class BreakScreenActivity extends Activity {
 	}
 	
 	private String getExpCode(){
+		SharedPreferences prefs = getSharedPreferences("codePref", MODE_PRIVATE);
+		String savedCode = prefs.getString("code", "nocode");
+		if (!savedCode.equals("nocode")){
+			return savedCode;
+		} else {
 		return Long.toHexString(Double.doubleToLongBits(Math.random())).substring(0, 6);
-	}
-	
-	public static int getTotalBlocks(){
-		return totalBlocks;
+		}
 	}
 
 	@Override
