@@ -42,10 +42,10 @@ public class BreakScreenActivity extends Activity {
         	toBlock.setText("Press to exit the experiment");
         	expCode = getExpCode();
         	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is ".concat(expCode));
+        	sendEndPost();
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
         			sendBlockPost();
-                	sendEndPost();
         			moveTaskToBack(true);
         			//you can't terminate an app in android
         		}
