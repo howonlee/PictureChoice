@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     	SharedPreferences prefs = getSharedPreferences("codePref", MODE_PRIVATE);
     	String savedCode = prefs.getString("code", "nocode");
     	if (!savedCode.equals("nocode")){
-    		GlobalVar.getInstance().setBlockNum(GlobalVar.getTotalBlocks());
+    		GlobalVar.getInstance().setBlockNum(GlobalVar.getTotalBlocks() - 1);
     		startActivity(new Intent("com.android.BREAKSHOW"));
     	}
     }
