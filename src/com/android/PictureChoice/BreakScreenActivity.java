@@ -20,6 +20,7 @@ public class BreakScreenActivity extends Activity {
 
 	final int SANDSTONE = 0xffeee6cb;
 	String expCode = "";
+	SharedPreferences prefs;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class BreakScreenActivity extends Activity {
         if (GlobalVar.getInstance().isAtEnd()){
         	toBlock.setText("Press to exit the experiment");
         	expCode = getExpCode();
+        	saveExpCode(expCode);
         	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is ".concat(expCode));
         	sendEndPost();
         	toBlock.setOnClickListener(new OnClickListener(){
@@ -52,8 +54,6 @@ public class BreakScreenActivity extends Activity {
         	});
         }
 	}
-	
-	
 	
 	private void sendBlockPost(){
 		GlobalVar.getInstance().setBreakEndTime(System.nanoTime());
@@ -78,6 +78,13 @@ public class BreakScreenActivity extends Activity {
 		} else {
 		return Long.toHexString(Double.doubleToLongBits(Math.random())).substring(0, 6);
 		}
+	}
+	
+	private void saveExpCode(String expCode){
+		prefs = getSharedPreferences("codePref", MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("code", expCode);
+		editor.commit();
 	}
 
 	@Override
