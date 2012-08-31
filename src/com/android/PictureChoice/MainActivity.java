@@ -32,7 +32,8 @@ public class MainActivity extends Activity {
         toBlock.getBackground().setColorFilter(SANDSTONE, PorterDuff.Mode.MULTIPLY);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){        		   
-                setName();
+                //how to include?
+        		setName();
         		GlobalVar.getInstance().setAppFlag(true);
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
