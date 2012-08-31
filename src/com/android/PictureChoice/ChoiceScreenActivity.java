@@ -18,8 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.PictureChoice.Posting.PostTrialTask;
-import com.android.PictureChoice.Posting.TrialChoice;
+import com.android.PictureChoice.Posting.AsyncPostTask;
+import com.android.PictureChoice.Posting.PostableData;
 
 public class ChoiceScreenActivity extends Activity {
 	private final int numTrials = 50;
@@ -56,7 +56,6 @@ public class ChoiceScreenActivity extends Activity {
 	//thread handler and asynctask
 	private Handler mHandler = new Handler();
 	private Thread mThread;
-	private PostTrialTask uploadTask = new PostTrialTask();
 
 	//views
 	ImageView pic, mask, pic2; //fixation;
@@ -312,13 +311,21 @@ public class ChoiceScreenActivity extends Activity {
 	
 	private void postData(){
 		int expId = GlobalVar.getInstance().getExpId();
-		TrialChoice choice = new TrialChoice(currPicId, currBeginTime,
-				currEndTime, currBeginTime2, currEndTime2, 
-				GlobalVar.getInstance().getBlockNum(),
-				currChoiceMade, currMaskBeginTime, currMaskEndTime,
-				currPicClickTime, currClickTime, currPicLength,
-				expId);
-		uploadTask = new PostTrialTask();//one of two main inefficiencies
+		PostableData choice = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobiletrialscript.php");
+		choice.add("pic_id", currPicId);
+		choice.add("time_begin", currBeginTime);
+		choice.add("time_end", currEndTime);
+		choice.add("time2_begin", currBeginTime2);
+		choice.add("time2_end", currEndTime2);
+		choice.add("block_num", GlobalVar.getInstance().getBlockNum());
+		choice.add("choice_made", currChoiceMade);
+		choice.add("mask_begin", currMaskBeginTime);
+		choice.add("mask_end", currMaskEndTime);
+		choice.add("time_pic_click", currPicClickTime);
+		choice.add("time_click", currClickTime);
+		choice.add("pic_length", currPicLength);
+		choice.add("exp_id", expId);
+		AsyncPostTask uploadTask = new AsyncPostTask();//one of two main inefficiencies
 		uploadTask.execute(choice);
 	}
 	
@@ -329,12 +336,14 @@ public class ChoiceScreenActivity extends Activity {
 		Log.w("setFeedback", currPicId);
 		if (currChoice == 1 && currPicId.contains("c")){
 			feedbackString = "Correct!";
+			GlobalVar.getInstance().incrementNumCorrect();
 		} else if (currChoice == -1 && !(currPicId.contains("c"))){
 			feedbackString = "Correct!";
+			GlobalVar.getInstance().incrementNumCorrect();
 		} else if (currChoice == 0){
 			feedbackString = "Too late!";
 		} else {
-			feedbackString = "Incorrect!";
+			feedbackString = "Wrong!";
 		}
 		feedback.setText(feedbackString);
 	}

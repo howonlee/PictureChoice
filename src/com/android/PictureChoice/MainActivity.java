@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.PictureChoice.Posting.MTurkId;
-import com.android.PictureChoice.Posting.PostMTurkIdTask;
 import com.android.PictureChoice.Posting.PostSessionTask;
 import com.android.PictureChoice.Posting.Session;
 import com.android.PictureChoice.Posting.VersionTask;
@@ -45,6 +43,11 @@ public class MainActivity extends Activity {
         GlobalVar.getInstance().initCache();
 		GlobalVar.getInstance().initCategories();
         GlobalVar.getInstance().setAppFlag(false);
+    }
+    
+    private void setName(){
+    	String name = mTurkText.getText().toString();
+    	GlobalVar.getInstance().setName(name);
     }
     
     private void doSessionTask(){

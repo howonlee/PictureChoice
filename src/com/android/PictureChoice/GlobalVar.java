@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 
-import com.android.PictureChoice.Posting.Block;
+import com.android.PictureChoice.Posting.PostableData;
 import com.android.PictureChoice.libs.LruCache;
 
 /**
@@ -19,12 +19,15 @@ import com.android.PictureChoice.libs.LruCache;
  * 2. a cache for images
  * 3. the list of images which are to be used
  * I commit this sin to make counting this crud more bearable
+ * (this may honestly be better implemented as a big ol' hashmap, tbh)
  * @author Howon
  *
  */
 class GlobalVar extends Application {
 	private int exp_id = -1;
 	private int blockNum = 0;
+	private int numCorrect = 0;
+	private String name = "";
 	private ArrayList<ArrayList<Pair<Integer, Integer>>> picIds = new ArrayList<ArrayList<Pair<Integer, Integer>>>();
 	ArrayList<Pair<Integer, Integer>> changeSixes = new ArrayList<Pair<Integer, Integer>>();
 	ArrayList<Pair<Integer, Integer>> changeOthers = new ArrayList<Pair<Integer, Integer>>();
@@ -54,6 +57,22 @@ class GlobalVar extends Application {
 	
 	public void setAppFlag(boolean app_flag){
 		appFlag = app_flag;
+	}
+	
+	public void incrementNumCorrect(){
+		numCorrect++;
+	}
+	
+	public int getNumCorrect(){
+		return numCorrect;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	public boolean getAppFlag(){
@@ -89,9 +108,18 @@ class GlobalVar extends Application {
 		break_time_end = breakEndTime;
 	}
 	
-	public Block getBlock(){
-		return new Block(time_begin, time_end, break_time_begin,
-			break_time_end, interrupted, exp_id, blockNum);
+	public PostableData getBlock(){
+		PostableData toReturn = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobileblockscript.php");
+		toReturn.add("time_begin", time_begin);
+		toReturn.add("time_end", time_end);
+		toReturn.add("break_time_begin", break_time_begin);
+		toReturn.add("break_time_end", break_time_end);
+		toReturn.add("interrupted", interrupted);
+		toReturn.add("exp_id", exp_id);
+		toReturn.add("blockNum", blockNum);
+		toReturn.add("name", name);
+		toReturn.add("numcorrect", numCorrect);
+		return toReturn;
 	}
 	
 	public void initCache(){

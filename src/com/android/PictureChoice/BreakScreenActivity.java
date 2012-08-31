@@ -10,16 +10,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.PictureChoice.Posting.Block;
-import com.android.PictureChoice.Posting.ExpEnd;
-import com.android.PictureChoice.Posting.PostBlockTask;
-import com.android.PictureChoice.Posting.PostExpEndTask;
+import com.android.PictureChoice.Posting.AsyncPostTask;
+import com.android.PictureChoice.Posting.PostableData;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
 	static final int totalBlocks = 2;
 	final int SANDSTONE = 0xffeee6cb;
-	String expCode = "";
+	//String expCode = "";
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -40,8 +38,11 @@ public class BreakScreenActivity extends Activity {
         });
         if (GlobalVar.getInstance().getBlockNum() == totalBlocks){
         	toBlock.setText("Press to exit the experiment");
-        	expCode = getExpCode();
-        	breakMsg.setText("OK, you're done. \n\n The code for the Mechanical Turk HIT is ".concat(expCode));
+        	//expCode = getExpCode();
+        	breakMsg.setText("OK, you're done.\n\nYour score is:"
+        			.concat(Integer.toString(GlobalVar.getInstance().getNumCorrect()))
+        			.concat("\n\nPlease press the exit button and inform the experimenter."));
+        	//you got my javascript dot notation into my java!
         	sendEndPost();
         	toBlock.setOnClickListener(new OnClickListener(){
         		public void onClick(View view){
@@ -56,18 +57,22 @@ public class BreakScreenActivity extends Activity {
 	private void sendBlockPost(){
 		GlobalVar.getInstance().setBreakEndTime(System.nanoTime());
 		//hopefully, this is a valid block object
-		Block block = GlobalVar.getInstance().getBlock();
-		PostBlockTask blockTask = new PostBlockTask();
+		PostableData block = GlobalVar.getInstance().getBlock();
+		AsyncPostTask blockTask = new AsyncPostTask();
 		blockTask.execute(block);
 	}
 	
 	private void sendEndPost(){
 		String expId = Integer.toString(GlobalVar.getInstance().getExpId());
-		ExpEnd thisExpEnd = new ExpEnd(expId, expCode);
-		PostExpEndTask expEnd = new PostExpEndTask();
-		expEnd.execute(thisExpEnd);
+		PostableData endTask = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/expend.php");
+		endTask.add("exp_id", expId);
+		//endTask.add("exp_code", data)
+		//no expcode; this post will not work currently
+		AsyncPostTask expEnd = new AsyncPostTask();
+		expEnd.execute(endTask);
 	}
 	
+	//unused
 	private String getExpCode(){
 		return Long.toHexString(Double.doubleToLongBits(Math.random())).substring(0, 6);
 	}

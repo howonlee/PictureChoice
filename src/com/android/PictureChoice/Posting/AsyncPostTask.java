@@ -8,7 +8,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
-	private String urlString = "http://www.stanford.edu/group/pdplab/cgi-bin/mobileblockscript.php";
 	@Override
 	protected Long doInBackground(PostableData... params) {
 		PostableData data = params[0];
