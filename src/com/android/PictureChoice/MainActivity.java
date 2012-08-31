@@ -94,11 +94,13 @@ public class MainActivity extends Activity {
 		return true; //so no keys will work
 	}
 	
+	//don't need this functionality right now
+	/*
 	@Override
 	public void onPause(){
 		super.onPause();
 		if (!(GlobalVar.getInstance().getAppFlag())){
 			GlobalVar.getInstance().setInterrupted();
 		}
-	}
+	}*/
 }

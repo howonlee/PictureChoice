@@ -364,12 +364,4 @@ public class ChoiceScreenActivity extends Activity {
 		return true; //so no keys will work
 	}
 	
-	@Override
-	public void onPause(){
-		super.onPause();
-		if (!(GlobalVar.getInstance().getAppFlag())){
-			GlobalVar.getInstance().setInterrupted();
-		}
-	}
-	
 }

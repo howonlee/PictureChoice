@@ -96,12 +96,4 @@ public class BreakScreenActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		return true; //so no keys will work
 	}
-	
-	@Override
-	public void onPause(){
-		super.onPause();
-		if (!(GlobalVar.getInstance().getAppFlag())){
-			GlobalVar.getInstance().setInterrupted();
-		}
-	}
 }

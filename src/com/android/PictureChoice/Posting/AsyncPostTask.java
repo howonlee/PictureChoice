@@ -12,16 +12,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
-	private static final int READ_BLOCK_SIZE = 100;
+
 	@Override
 	protected Long doInBackground(PostableData... params) {
 		PostableData data = params[0];
 
 		//store in android fs
 		String str = data.getNameValPairs().toString();
-		String filename = data.getFileName();
+		String filename = "/pdpdata/".concat(data.getFileName()).replaceAll("[^A-Za-z0-9 \t\n.]", ""); //regex away anything not a valid letter, num or underscore
 		try {
-			FileOutputStream fOut = new FileOutputStream("./data/".concat(filename), true);
+			FileOutputStream fOut = new FileOutputStream(filename, true);
 			OutputStreamWriter osw = new OutputStreamWriter(fOut);
 			osw.write(str);
 			osw.flush();
