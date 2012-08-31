@@ -109,7 +109,8 @@ class GlobalVar extends Application {
 	}
 	
 	public PostableData getBlock(){
-		PostableData toReturn = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobileblockscript.php");
+		PostableData toReturn = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobileblockscript.php",
+												name.concat("_block.txt"));
 		toReturn.add("time_begin", time_begin);
 		toReturn.add("time_end", time_end);
 		toReturn.add("break_time_begin", break_time_begin);

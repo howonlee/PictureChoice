@@ -8,11 +8,17 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class PostableData {
 		private final String urlString;
+		private final String filename;
 		private List<NameValuePair> nameValPairs;
 		
-		public PostableData(String urlString){
+		public PostableData(String urlString, String filename){
 			this.urlString = urlString;
+			this.filename = filename;
 			nameValPairs = new ArrayList<NameValuePair>(1);
+		}
+		
+		public String getFileName(){
+			return filename;
 		}
 		
 		public String getUrlString(){
