@@ -116,10 +116,10 @@ class GlobalVar extends Application {
 	public void initCategories(){
 		int gap1 = (R.drawable.bcfig001_2 - R.drawable.acfig001_1);
 		int gap2 = (R.drawable.bfig001_2 - R.drawable.afig001_1);
-		setCats(changeSixes, R.drawable.acfig001_1, R.drawable.acfig036_1, gap1);
-		setCats(changeOthers, R.drawable.ascfig001_301, R.drawable.ascfig035_401, gap1);
-		setCats(noChangeSixes, R.drawable.afig001_1, R.drawable.afig036_1, gap2);
-		setCats(noChangeOthers, R.drawable.asfig001_301, R.drawable.asfig035_401, gap2);
+		setCats(changeSixes, R.drawable.acfig001_1, R.drawable.acfig108_1, gap1);
+		setCats(changeOthers, R.drawable.ascfig001_301, R.drawable.ascfig036_401, gap1);
+		setCats(noChangeSixes, R.drawable.afig001_1, R.drawable.afig108_1, gap2);
+		setCats(noChangeOthers, R.drawable.asfig001_301, R.drawable.asfig036_401, gap2);
 		picIds.add(changeSixes);
 		picIds.add(changeOthers);
 		picIds.add(noChangeSixes);

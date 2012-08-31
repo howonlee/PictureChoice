@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
         toBlock.getBackground().setColorFilter(SANDSTONE, PorterDuff.Mode.MULTIPLY);
         toBlock.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){        		   
-                doMTurkTask();
+                setName();
         		GlobalVar.getInstance().setAppFlag(true);
         		startActivity(new Intent("com.android.BLOCKSHOW"));
         	}
@@ -73,12 +73,6 @@ public class MainActivity extends Activity {
         	e.printStackTrace();
         	//again, cry and let loose the dogs of war
         }
-    }
-    
-    private void doMTurkTask(){
-    	MTurkId turk = new MTurkId(mTurkText.getText().toString(), Integer.toString(GlobalVar.getInstance().getExpId()));
-    	PostMTurkIdTask mturkId = new PostMTurkIdTask();
-    	mturkId.execute(turk);
     }
     
 	@Override
