@@ -79,7 +79,6 @@ public class ChoiceScreenActivity extends Activity {
 		button.setOnClickListener(new OnClickListener(){
 			public void onClick(View view){
 				currChoiceMade = choiceMade;
-				currClickTime = System.nanoTime();
 				System.gc();
 				mThread.interrupt();
 			}
@@ -200,6 +199,7 @@ public class ChoiceScreenActivity extends Activity {
 			break;
 		case 3:
 			currEndTime2 = System.nanoTime();
+			currClickTime = System.nanoTime();
 			setFeedback(currChoiceMade, currPicId);
 			feedback.setVisibility(ImageView.VISIBLE);
 			pic2.setVisibility(ImageView.INVISIBLE);
