@@ -65,7 +65,8 @@ public class BreakScreenActivity extends Activity {
 	private void sendEndPost(){
 		String expId = Integer.toString(GlobalVar.getInstance().getExpId());
 		PostableData endTask = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/expend.php",
-												GlobalVar.getInstance().getName().concat("_expend.txt"));
+												GlobalVar.getInstance().getName().concat("_expend.txt"),
+												this.getApplicationContext());
 		endTask.add("exp_id", expId);
 		//endTask.add("exp_code", data)
 		//no expcode; this post will not work currently

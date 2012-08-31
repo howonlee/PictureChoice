@@ -9,6 +9,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
@@ -19,12 +20,11 @@ public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
 
 		//store in android fs
 		String str = data.getNameValPairs().toString();
-		String filename = "/pdpdata/".concat(data.getFileName()).replaceAll("[^A-Za-z0-9 \t\n.]", ""); //regex away anything not a valid letter, num or underscore
+		String filename = data.getFileName().replaceAll("[^A-Za-z0-9 \t\n.]", ""); //regex away anything not a valid letter, num or underscore
 		try {
-			FileOutputStream fOut = new FileOutputStream(filename, true);
+			FileOutputStream fOut = data.getContext().openFileOutput(filename, Context.MODE_APPEND);
 			OutputStreamWriter osw = new OutputStreamWriter(fOut);
 			osw.write(str);
-			osw.flush();
 			osw.close();
 		} catch (IOException ioe){
 			ioe.printStackTrace();

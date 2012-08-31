@@ -6,15 +6,23 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.Context;
+
 public class PostableData {
 		private final String urlString;
 		private final String filename;
+		private Context context;
 		private List<NameValuePair> nameValPairs;
 		
-		public PostableData(String urlString, String filename){
+		public PostableData(String urlString, String filename, Context c){
 			this.urlString = urlString;
 			this.filename = filename;
+			this.context = c;
 			nameValPairs = new ArrayList<NameValuePair>(1);
+		}
+		
+		public Context getContext(){
+			return context;
 		}
 		
 		public String getFileName(){

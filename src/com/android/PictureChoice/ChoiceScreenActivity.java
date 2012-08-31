@@ -312,7 +312,8 @@ public class ChoiceScreenActivity extends Activity {
 	private void postData(){
 		int expId = GlobalVar.getInstance().getExpId();
 		PostableData choice = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobiletrialscript.php",
-												GlobalVar.getInstance().getName().concat("_trials.txt"));
+												GlobalVar.getInstance().getName().concat("_trials.txt"),
+												this.getApplicationContext());
 		choice.add("pic_id", currPicId);
 		choice.add("time_begin", currBeginTime);
 		choice.add("time_end", currEndTime);
