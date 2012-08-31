@@ -1,5 +1,6 @@
 package com.android.PictureChoice.Posting;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -9,8 +10,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 
 public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
 
@@ -19,10 +20,14 @@ public class AsyncPostTask extends AsyncTask<PostableData, Integer, Long> {
 		PostableData data = params[0];
 
 		//store in android fs
+		File sdCard = Environment.getExternalStorageDirectory();
+		File dir = new File(sdCard.getAbsolutePath() + "/expdata");
+		dir.mkdirs();
 		String str = data.getNameValPairs().toString();
-		String filename = data.getFileName().replaceAll("[^A-Za-z0-9 \t\n.]", ""); //regex away anything not a valid letter, num or underscore
+		String filename = data.getFileName().replaceAll("[^A-Za-z0-9 \t\n._]", ""); //regex away anything not a valid letter, num or underscore
 		try {
-			FileOutputStream fOut = data.getContext().openFileOutput(filename, Context.MODE_APPEND);
+			File file = new File(dir, filename);
+			FileOutputStream fOut = new FileOutputStream(file, true);
 			OutputStreamWriter osw = new OutputStreamWriter(fOut);
 			osw.write(str);
 			osw.close();

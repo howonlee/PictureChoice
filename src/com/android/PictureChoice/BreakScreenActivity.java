@@ -15,7 +15,7 @@ import com.android.PictureChoice.Posting.PostableData;
 
 public class BreakScreenActivity extends Activity {
 	//maybe move this to the globals?
-	static final int totalBlocks = 2;
+	static final int totalBlocks = 6;
 	final int SANDSTONE = 0xffeee6cb;
 	//String expCode = "";
 	@Override

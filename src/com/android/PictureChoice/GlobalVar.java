@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
@@ -111,7 +112,7 @@ class GlobalVar extends Application {
 	public PostableData getBlock(){
 		PostableData toReturn = new PostableData("http://www.stanford.edu/group/pdplab/cgi-bin/mobileblockscript.php",
 												name.concat("_block.txt"),
-												this.getApplicationContext());
+												this);
 		toReturn.add("time_begin", time_begin);
 		toReturn.add("time_end", time_end);
 		toReturn.add("break_time_begin", break_time_begin);
